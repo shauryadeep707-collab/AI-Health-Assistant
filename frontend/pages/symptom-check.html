@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symptom Check – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Your messages are saved on this device and emergency checks are running locally.
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper" style="padding-top: 1rem; padding-bottom: 1rem;">
+    <div class="container">
+      <div class="chat-container card" style="padding: 0; overflow: hidden;">
+        <!-- Chat Header -->
+        <div class="p-4 flex justify-between items-center" style="border-bottom: 1px solid var(--gray-200); background: var(--gray-50);">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--gray-800);">🩺 Conversational Health Triage</h3>
+            <span id="chat-progress" class="text-xs text-muted">Getting started</span>
+          </div>
+          <div>
+            <span class="text-xs" style="color: var(--primary); font-weight: 600;">🔒 Safe &amp; Confidential</span>
+          </div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div id="chat-messages" class="chat-messages">
+          <!-- Dynamically populated bubbles -->
+        </div>
+
+        <!-- Quick Reply Chips -->
+        <div id="quick-replies" class="quick-replies"></div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+          <input 
+            type="text" 
+            id="chat-input" 
+            class="chat-input" 
+            placeholder="Type your symptoms here (English, Hindi, or Hinglish)..." 
+            autocomplete="off"
+          >
+          <button type="button" id="mic-btn" class="btn btn-secondary btn-icon" title="Voice Input (Speech-to-Text)">
+            🎙️
+          </button>
+          <button type="button" id="chat-send" class="chat-send-btn" title="Send message">
+            ➤
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ <strong>Emergency Warning:</strong> If you or someone you are checking on is experiencing severe chest pain, extreme shortness of breath, seizure, or unconsciousness, immediately call <strong>112</strong> or <strong>108</strong>.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/redflags.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+  <script src="/js/chat.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Chat.init();
+    });
+  </script>
+</body>
+</html>
