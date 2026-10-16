@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Registering an account requires internet connectivity.
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <ul id="nav-links" class="navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/pages/login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container" style="max-width: 600px;">
+      <div class="card">
+        <h2 class="text-center mb-2">Create an Account</h2>
+        <p class="text-center text-sm text-muted mb-6">Select your role to get started</p>
+
+        <!-- Role Selector Tabs -->
+        <div class="tabs" style="justify-content: center;">
+          <button id="tab-patient" class="tab-btn active" onclick="switchRole('patient')">I am a Patient</button>
+          <button id="tab-doctor" class="tab-btn" onclick="switchRole('doctor')">I am a Doctor</button>
+        </div>
+
+        <form id="register-form">
+          <input type="hidden" id="role" value="patient">
+
+          <div class="form-group">
+            <label class="form-label" for="name">Full Name</label>
+            <input type="text" id="name" class="form-input" required placeholder="e.g. Rahul Sharma">
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address</label>
+              <input type="email" id="email" class="form-input" required placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input type="tel" id="phone" class="form-input" placeholder="+91 98765 43210">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password (min 6 chars)</label>
+            <input type="password" id="password" class="form-input" required minlength="6" placeholder="••••••••">
+          </div>
+
+          <!-- Patient Specific Fields -->
+          <div id="patient-fields">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="age">Age</label>
+                <input type="number" id="age" class="form-input" min="1" max="120" placeholder="28">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gender">Gender</label>
+                <select id="gender" class="form-select">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="chronic_conditions">Known Chronic Conditions (Optional)</label>
+              <input type="text" id="chronic_conditions" class="form-input" placeholder="e.g. Hypertension, Asthma, Diabetes (or None)">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="allergies">Known Allergies (Optional)</label>
+              <input type="text" id="allergies" class="form-input" placeholder="e.g. Penicillin, Peanuts (or None)">
+            </div>
+          </div>
+
+          <!-- Doctor Specific Fields -->
+          <div id="doctor-fields" style="display: none;">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="specialization">Specialization</label>
+                <select id="specialization" class="form-select">
+                  <option value="General Physician">General Physician</option>
+                  <option value="ENT Specialist">ENT Specialist</option>
+                  <option value="Pulmonologist">Pulmonologist</option>
+                  <option value="Pediatrician">Pediatrician</option>
+                  <option value="Dermatologist">Dermatologist</option>
+                  <option value="Cardiologist">Cardiologist</option>
+                  <option value="Neurologist">Neurologist</option>
+                  <option value="Orthopedic">Orthopedic</option>
+                  <option value="Gastroenterologist">Gastroenterologist</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="experience_years">Experience (Years)</label>
+                <input type="number" id="experience_years" class="form-input" min="0" placeholder="10">
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="clinic_name">Clinic / Hospital Name</label>
+                <input type="text" id="clinic_name" class="form-input" placeholder="e.g. City Health Clinic">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="fee">Consultation Fee (₹)</label>
+                <input type="number" id="fee" class="form-input" value="500">
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="address">Address / Landmark</label>
+                <input type="text" id="address" class="form-input" placeholder="e.g. Rajpur Road">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="city">City</label>
+                <input type="text" id="city" class="form-input" value="Dehradun">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Practice Coordinates (Lat, Lng)</label>
+              <div class="flex gap-2">
+                <input type="number" id="lat" class="form-input" step="any" placeholder="Latitude (e.g. 30.3165)">
+                <input type="number" id="lng" class="form-input" step="any" placeholder="Longitude (e.g. 78.0322)">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="useMyLocation()" style="white-space: nowrap;">
+                  📍 Use My Location
+                </button>
+              </div>
+              <div class="form-help">Coordinates are used for patient nearby doctor discovery.</div>
+            </div>
+
+            <div class="p-3 mb-4" style="background: var(--risk-medium-bg); border-radius: 8px; font-size: 0.85rem; color: #92400e;">
+              ℹ️ Doctor accounts undergo verification by an administrator before appearing in nearby patient searches.
+            </div>
+          </div>
+
+          <button type="submit" id="reg-btn" class="btn btn-primary btn-block mt-4">
+            Register Account
+          </button>
+        </form>
+
+        <p class="text-center text-sm mt-6">
+          Already registered? <a href="/pages/login.html">Sign In</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ This tool gives general information, not a medical diagnosis. In an emergency call 112.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function switchRole(role) {
+      document.getElementById('role').value = role;
+      document.getElementById('tab-patient').classList.toggle('active', role === 'patient');
+      document.getElementById('tab-doctor').classList.toggle('active', role === 'doctor');
+      document.getElementById('patient-fields').style.display = role === 'patient' ? 'block' : 'none';
+      document.getElementById('doctor-fields').style.display = role === 'doctor' ? 'block' : 'none';
+    }
+
+    function useMyLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            document.getElementById('lat').value = pos.coords.latitude.toFixed(6);
+            document.getElementById('lng').value = pos.coords.longitude.toFixed(6);
+            UI.toast('Location captured successfully', 'success');
+          },
+          err => UI.toast('Could not detect location: ' + err.message, 'warning')
+        );
+      }
+    }
+
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const role = document.getElementById('role').value;
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value.trim(),
+        role: role
+      };
+
+      if (role === 'patient') {
+        data.age = parseInt(document.getElementById('age').value) || null;
+        data.gender = document.getElementById('gender').value;
+        data.chronic_conditions = document.getElementById('chronic_conditions').value.trim();
+        data.allergies = document.getElementById('allergies').value.trim();
+      } else {
+        data.specialization = document.getElementById('specialization').value;
+        data.clinic_name = document.getElementById('clinic_name').value.trim();
+        data.address = document.getElementById('address').value.trim();
+        data.city = document.getElementById('city').value.trim();
+        data.fee = parseFloat(document.getElementById('fee').value) || 500;
+        data.experience_years = parseInt(document.getElementById('experience_years').value) || 0;
+        data.lat = parseFloat(document.getElementById('lat').value) || 30.3165;
+        data.lng = parseFloat(document.getElementById('lng').value) || 78.0322;
+      }
+
+      const btn = document.getElementById('reg-btn');
+      btn.disabled = true;
+      btn.textContent = 'Creating Account...';
+
+      const res = await Auth.register(data);
+      btn.disabled = false;
+      btn.textContent = 'Register Account';
+
+      if (res.success) {
+        UI.toast('Account created successfully!', 'success');
+        if (role === 'doctor') {
+          window.location.href = '/pages/doctor-dashboard.html';
+        } else {
+          window.location.href = '/pages/patient-dashboard.html';
+        }
+      } else {
+        UI.toast(res.error, 'error');
+      }
+    });
+  </script>
+</body>
+</html>

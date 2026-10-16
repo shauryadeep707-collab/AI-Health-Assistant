@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Logging in requires active internet connectivity.
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <ul id="nav-links" class="navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/pages/register.html">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper flex items-center justify-between" style="justify-content: center;">
+    <div class="container" style="max-width: 440px;">
+      <div class="card">
+        <h2 class="text-center mb-2">Welcome Back</h2>
+        <p class="text-center text-sm text-muted mb-6">Log in to access your health consultations and assessments</p>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" required placeholder="patient@demo.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" id="password" class="form-input" required placeholder="••••••••">
+          </div>
+
+          <button type="submit" id="login-btn" class="btn btn-primary btn-block mt-4">
+            Sign In
+          </button>
+        </form>
+
+        <!-- Quick Demo Credentials Pills -->
+        <div class="mt-6 pt-4" style="border-top: 1px solid var(--gray-200); font-size: 0.8rem;">
+          <strong class="text-muted">Demo Accounts (One-Click Fill):</strong>
+          <div class="flex gap-2 mt-2" style="flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('patient@demo.com', 'Patient@123')">
+              👤 Patient (Rahul)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('doctor@demo.com', 'Doctor@123')">
+              👨‍⚕️ Doctor (Dr. Amit)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('admin@demo.com', 'Admin@123')">
+              🛡️ Admin
+            </button>
+          </div>
+        </div>
+
+        <p class="text-center text-sm mt-6">
+          Don't have an account? <a href="/pages/register.html">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ This tool gives general information, not a medical diagnosis. In an emergency call 112 or 108.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script>
+    function fillDemo(email, pass) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = pass;
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('login-btn');
+
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+
+      const res = await Auth.login(email, password);
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+
+      if (res.success) {
+        UI.toast('Welcome back!', 'success');
+        const params = new URLSearchParams(window.location.search);
+        const redirect = params.get('redirect');
+
+        if (redirect) {
+          window.location.href = redirect;
+        } else if (res.user.role === 'doctor') {
+          window.location.href = '/pages/doctor-dashboard.html';
+        } else if (res.user.role === 'admin') {
+          window.location.href = '/pages/admin.html';
+        } else {
+          window.location.href = '/pages/patient-dashboard.html';
+        }
+      } else {
+        UI.toast(res.error, 'error');
+      }
+    });
+  </script>
+</body>
+</html>

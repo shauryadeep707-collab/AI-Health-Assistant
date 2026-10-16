@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Health Assistant – Smart Healthcare & Doctor Connect</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Offline status banner -->
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Data is saved locally and will sync when internet connection resumes.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="HealthAI Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()" aria-label="Toggle Navigation">☰</button>
+      <ul id="nav-links" class="navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/pages/login.html">Login</a></li>
+        <li><a href="/pages/register.html" class="btn btn-primary btn-sm" style="color: white;">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">
+        Conversational AI Triage &amp; <span>Local Doctor Connect</span>
+      </h1>
+      <p class="hero-subtitle">
+        Experiencing common symptoms like fever, cough, cold, or headache? Describe them in plain words.
+        Our intelligent assistant evaluates risk, provides safe home guidance, or instantly connects you with nearby available doctors.
+      </p>
+      <div class="flex gap-4 justify-between" style="justify-content: center; flex-wrap: wrap;">
+        <a href="/pages/symptom-check.html" class="btn btn-primary btn-lg">
+          🩺 Start Free Symptom Check
+        </a>
+        <a href="/pages/doctors.html" class="btn btn-outline btn-lg">
+          👨‍⚕️ Find Nearby Doctors
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works (3 Steps) -->
+  <section class="steps-section">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="grid-3">
+        <div class="card step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Describe Symptoms</h3>
+          <p class="step-description">
+            Type your concerns naturally in English, Hindi, or Hinglish. The AI asks smart, conversational follow-ups.
+          </p>
+        </div>
+        <div class="card step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Risk Assessment</h3>
+          <p class="step-description">
+            Hard safety rules plus AI scoring classify symptoms into Low, Medium, or Urgent risk levels.
+          </p>
+        </div>
+        <div class="card step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Doctor Connect &amp; Care</h3>
+          <p class="step-description">
+            Low risk gets safe OTC guidance; Medium risk connects you directly to available local doctors with an AI summary.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="text-center mb-8">Comprehensive Healthcare Support</h2>
+      <div class="grid-2">
+        <div class="feature-card">
+          <div class="feature-icon">🚨</div>
+          <div>
+            <h4 class="font-bold">Instant Emergency Override</h4>
+            <p class="text-sm text-muted mt-1">
+              Red-flag symptoms (chest pain, breathing trouble, severe bleeding) trigger instant 112/108 routing, fully functional even offline.
+            </p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <div>
+            <h4 class="font-bold">Geolocation &amp; Interactive Map</h4>
+            <p class="text-sm text-muted mt-1">
+              Locates verified, practicing physicians around Dehradun using Haversine calculation and OpenStreetMap.
+            </p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div>
+            <h4 class="font-bold">Doctor Case Briefing (FIFO Queue)</h4>
+            <p class="text-sm text-muted mt-1">
+              Doctors receive concise, under-120-word clinical summaries, saving consultation time and prioritizing care.
+            </p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📶</div>
+          <div>
+            <h4 class="font-bold">PWA &amp; Offline IndexedDB Outbox</h4>
+            <p class="text-sm text-muted mt-1">
+              Works seamlessly without internet. Messages and consultation requests queue locally and sync automatically when online.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Mandatory Medical Disclaimer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 AI Health Assistant &bull; BCA (AI &amp; Data Science) Final-Year Project</p>
+      <div class="mt-2 text-xs">
+        Built with Flask, Vanilla JavaScript, SQLite, Leaflet &amp; OpenStreetMap
+      </div>
+    </div>
+  </footer>
+  <div class="footer-disclaimer">
+    ⚠️ <strong>Medical Disclaimer:</strong> This application provides preliminary health information and guidance based on algorithmic triage. It does NOT provide a formal medical diagnosis or replace consultation with a qualified medical professional. In case of an emergency, immediately call <strong>112</strong> or <strong>108</strong>.
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.getCurrentUser();
+      Auth.setupNavbar(user);
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW register fail:', err));
+      }
+    });
+  </script>
+</body>
+</html>
