@@ -188,3 +188,27 @@ def test_delete_account_and_data(client):
     # Attempt login with deleted credentials
     login_res = login_user(client, 'temp@demo.com', 'TempPass@123')
     assert login_res.status_code == 401
+
+def test_admin_list_patients_and_users(client):
+    login_user(client, 'admin@demo.com', 'Admin@123')
+    
+    # 1. Test GET /api/admin/patients
+    res = client.get('/api/admin/patients')
+    assert res.status_code == 200
+    data = res.get_json()
+    assert data['ok'] is True
+    assert len(data['data']) >= 2
+    patient_emails = [p['email'] for p in data['data']]
+    assert 'patient@demo.com' in patient_emails
+
+    # 2. Test GET /api/admin/users
+    res_users = client.get('/api/admin/users')
+    assert res_users.status_code == 200
+    u_data = res_users.get_json()
+    assert u_data['ok'] is True
+    assert len(u_data['data']) >= 15
+    roles = {u['role'] for u in u_data['data']}
+    assert 'admin' in roles
+    assert 'patient' in roles
+    assert 'doctor' in roles
+

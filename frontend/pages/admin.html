@@ -46,11 +46,52 @@
         </div>
       </div>
 
-      <!-- Doctors Verification Table -->
-      <div class="card">
+      <!-- Tab Navigation -->
+      <div class="flex gap-2 mb-4">
+        <button id="tab-btn-patients" class="btn btn-primary btn-sm" onclick="switchTab('patients')">👥 Registered Patients</button>
+        <button id="tab-btn-doctors" class="btn btn-secondary btn-sm" onclick="switchTab('doctors')">🩺 Doctor Verifications</button>
+        <button id="tab-btn-all" class="btn btn-secondary btn-sm" onclick="switchTab('all')">📋 All User Accounts</button>
+        <button class="btn btn-secondary btn-sm" style="margin-left:auto;" onclick="loadAdminData()">🔄 Refresh</button>
+      </div>
+
+      <!-- Section 1: Registered Patients -->
+      <div id="section-patients" class="card mb-6">
         <div class="card-header">
-          <h3 class="card-title">Doctor Registrations &amp; Verification Status</h3>
-          <button class="btn btn-secondary btn-sm" onclick="loadAdminData()">🔄 Refresh</button>
+          <div>
+            <h3 class="card-title">Registered Patients &amp; Health Profiles</h3>
+            <p class="text-xs text-muted">View all patients, personal demographics, chronic medical history, and clinical engagement</p>
+          </div>
+          <input type="text" id="patient-search" placeholder="🔍 Search patient..." class="form-input" style="max-width: 240px; padding: 6px 12px; font-size: 13px;" oninput="filterPatients()">
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Patient Details</th>
+                <th>Demographics</th>
+                <th>Chronic Conditions</th>
+                <th>Allergies</th>
+                <th>Activity</th>
+                <th>Registered On</th>
+              </tr>
+            </thead>
+            <tbody id="patients-table-body">
+              <tr>
+                <td colspan="6" class="text-center p-4">Loading patients...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 2: Doctors Verification Table -->
+      <div id="section-doctors" class="card mb-6" style="display: none;">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Doctor Registrations &amp; Verification Status</h3>
+            <p class="text-xs text-muted">Review credentials and approve licensed medical practitioners</p>
+          </div>
+          <input type="text" id="doctor-search" placeholder="🔍 Search doctor..." class="form-input" style="max-width: 240px; padding: 6px 12px; font-size: 13px;" oninput="filterDoctors()">
         </div>
         <div style="overflow-x: auto;">
           <table class="admin-table">
@@ -72,6 +113,35 @@
           </table>
         </div>
       </div>
+
+      <!-- Section 3: All User Accounts -->
+      <div id="section-all" class="card mb-6" style="display: none;">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">All System Accounts &amp; Logins</h3>
+            <p class="text-xs text-muted">Complete audit directory of all registered accounts (Admin, Patient, Doctor)</p>
+          </div>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email / Contact</th>
+                <th>System Role</th>
+                <th>Account Status</th>
+                <th>Created Date</th>
+              </tr>
+            </thead>
+            <tbody id="all-users-table-body">
+              <tr>
+                <td colspan="6" class="text-center p-4">Loading accounts...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -83,12 +153,26 @@
   <script src="/js/ui.js"></script>
   <script src="/js/auth.js"></script>
   <script>
+    let patientsCache = [];
+    let doctorsCache = [];
+    let allUsersCache = [];
+
     document.addEventListener('DOMContentLoaded', async () => {
       const user = await Auth.requireAuth(['admin']);
       if (!user) return;
       Auth.setupNavbar(user);
       loadAdminData();
     });
+
+    function switchTab(tab) {
+      document.getElementById('section-patients').style.display = tab === 'patients' ? 'block' : 'none';
+      document.getElementById('section-doctors').style.display = tab === 'doctors' ? 'block' : 'none';
+      document.getElementById('section-all').style.display = tab === 'all' ? 'block' : 'none';
+
+      document.getElementById('tab-btn-patients').className = tab === 'patients' ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+      document.getElementById('tab-btn-doctors').className = tab === 'doctors' ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+      document.getElementById('tab-btn-all').className = tab === 'all' ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+    }
 
     async function loadAdminData() {
       // 1. Load Stats
@@ -100,48 +184,161 @@
         document.getElementById('stat-consultations').textContent = statsRes.data.consultations;
       }
 
-      // 2. Load Doctors Table
-      const docsRes = await API.get('/api/admin/doctors');
-      const tbody = document.getElementById('doctors-table-body');
-      if (docsRes.ok && docsRes.data) {
-        if (docsRes.data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No doctors registered yet.</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = docsRes.data.map(d => {
-          let statusBadge = '<span class="status-badge status-pending">Pending Approval</span>';
-          if (d.is_verified === 1) statusBadge = '<span class="status-badge status-completed">Approved</span>';
-          if (d.is_verified === 2) statusBadge = '<span class="status-badge status-declined">Rejected</span>';
-
-          return `
-            <tr>
-              <td>
-                <strong>${UI.escapeHtml(d.name)}</strong><br>
-                <span class="text-xs text-muted">${UI.escapeHtml(d.email)} &bull; ${UI.escapeHtml(d.phone || 'No phone')}</span>
-              </td>
-              <td>${UI.escapeHtml(d.specialization || 'General')}</td>
-              <td>${UI.escapeHtml(d.clinic_name || 'Clinic')}, ${UI.escapeHtml(d.city || 'Dehradun')}</td>
-              <td>${d.experience_years || 0} years</td>
-              <td>${statusBadge}</td>
-              <td>
-                <div class="flex gap-2">
-                  ${d.is_verified !== 1 ? `
-                    <button class="btn btn-success btn-sm" onclick="setDoctorStatus(${d.id}, 1)">
-                      Approve
-                    </button>
-                  ` : ''}
-                  ${d.is_verified !== 2 ? `
-                    <button class="btn btn-danger btn-sm" onclick="setDoctorStatus(${d.id}, 2)">
-                      Reject
-                    </button>
-                  ` : ''}
-                </div>
-              </td>
-            </tr>
-          `;
-        }).join('');
+      // 2. Load Patients
+      const patientsRes = await API.get('/api/admin/patients');
+      if (patientsRes.ok && patientsRes.data) {
+        patientsCache = patientsRes.data;
+        renderPatients(patientsCache);
       }
+
+      // 3. Load Doctors Table
+      const docsRes = await API.get('/api/admin/doctors');
+      if (docsRes.ok && docsRes.data) {
+        doctorsCache = docsRes.data;
+        renderDoctors(doctorsCache);
+      }
+
+      // 4. Load All Users
+      const usersRes = await API.get('/api/admin/users');
+      if (usersRes.ok && usersRes.data) {
+        allUsersCache = usersRes.data;
+        renderAllUsers(allUsersCache);
+      }
+    }
+
+    function renderPatients(patients) {
+      const tbody = document.getElementById('patients-table-body');
+      if (!patients || patients.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No registered patients found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = patients.map(p => {
+        const joinedDate = p.created_at ? p.created_at.split('T')[0] : 'N/A';
+        return `
+          <tr>
+            <td>
+              <strong>${UI.escapeHtml(p.name)}</strong><br>
+              <span class="text-xs text-muted">${UI.escapeHtml(p.email)}</span><br>
+              <span class="text-xs text-muted">📞 ${UI.escapeHtml(p.phone || 'No phone')}</span>
+            </td>
+            <td>
+              <span>${p.age ? p.age + ' yrs' : 'Age N/A'}</span> &bull; 
+              <span>${UI.escapeHtml(p.gender || 'Not set')}</span>
+            </td>
+            <td>
+              <span class="text-xs" style="background: var(--bg-hover); padding: 2px 8px; border-radius: 4px;">
+                ${UI.escapeHtml(p.chronic_conditions || 'None declared')}
+              </span>
+            </td>
+            <td>
+              <span class="text-xs" style="background: var(--bg-hover); padding: 2px 8px; border-radius: 4px;">
+                ${UI.escapeHtml(p.allergies || 'None declared')}
+              </span>
+            </td>
+            <td>
+              <span class="text-xs">🩺 ${p.assessment_count || 0} checks</span><br>
+              <span class="text-xs">📅 ${p.consultation_count || 0} consults</span>
+            </td>
+            <td class="text-xs text-muted">${joinedDate}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterPatients() {
+      const query = document.getElementById('patient-search').value.toLowerCase();
+      const filtered = patientsCache.filter(p =>
+        (p.name && p.name.toLowerCase().includes(query)) ||
+        (p.email && p.email.toLowerCase().includes(query)) ||
+        (p.phone && p.phone.toLowerCase().includes(query))
+      );
+      renderPatients(filtered);
+    }
+
+    function renderDoctors(doctors) {
+      const tbody = document.getElementById('doctors-table-body');
+      if (!doctors || doctors.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No doctors registered yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = doctors.map(d => {
+        let statusBadge = '<span class="status-badge status-pending">Pending Approval</span>';
+        if (d.is_verified === 1) statusBadge = '<span class="status-badge status-completed">Approved</span>';
+        if (d.is_verified === 2) statusBadge = '<span class="status-badge status-declined">Rejected</span>';
+
+        return `
+          <tr>
+            <td>
+              <strong>${UI.escapeHtml(d.name)}</strong><br>
+              <span class="text-xs text-muted">${UI.escapeHtml(d.email)} &bull; ${UI.escapeHtml(d.phone || 'No phone')}</span>
+            </td>
+            <td>${UI.escapeHtml(d.specialization || 'General')}</td>
+            <td>${UI.escapeHtml(d.clinic_name || 'Clinic')}, ${UI.escapeHtml(d.city || 'Dehradun')}</td>
+            <td>${d.experience_years || 0} years</td>
+            <td>${statusBadge}</td>
+            <td>
+              <div class="flex gap-2">
+                ${d.is_verified !== 1 ? `
+                  <button class="btn btn-success btn-sm" onclick="setDoctorStatus(${d.id}, 1)">
+                    Approve
+                  </button>
+                ` : ''}
+                ${d.is_verified !== 2 ? `
+                  <button class="btn btn-danger btn-sm" onclick="setDoctorStatus(${d.id}, 2)">
+                    Reject
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterDoctors() {
+      const query = document.getElementById('doctor-search').value.toLowerCase();
+      const filtered = doctorsCache.filter(d =>
+        (d.name && d.name.toLowerCase().includes(query)) ||
+        (d.specialization && d.specialization.toLowerCase().includes(query)) ||
+        (d.email && d.email.toLowerCase().includes(query))
+      );
+      renderDoctors(filtered);
+    }
+
+    function renderAllUsers(users) {
+      const tbody = document.getElementById('all-users-table-body');
+      if (!users || users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No user accounts found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = users.map(u => {
+        const joinedDate = u.created_at ? u.created_at.split('T')[0] : 'N/A';
+        let roleBadge = '<span class="status-badge status-pending">Patient</span>';
+        if (u.role === 'doctor') roleBadge = '<span class="status-badge" style="background:#e0e7ff; color:#3730a3;">Doctor</span>';
+        if (u.role === 'admin') roleBadge = '<span class="status-badge status-declined">Admin</span>';
+
+        let statusText = u.role === 'doctor' ? (u.is_verified === 1 ? 'Approved' : 'Pending Verification') : 'Active';
+
+        return `
+          <tr>
+            <td><strong>#${u.id}</strong></td>
+            <td>
+              <strong>${UI.escapeHtml(u.name)}</strong>
+              ${u.specialization ? `<br><span class="text-xs text-muted">${UI.escapeHtml(u.specialization)}</span>` : ''}
+            </td>
+            <td>
+              <span class="text-sm">${UI.escapeHtml(u.email)}</span><br>
+              <span class="text-xs text-muted">📞 ${UI.escapeHtml(u.phone || 'None')}</span>
+            </td>
+            <td>${roleBadge}</td>
+            <td><span class="text-xs">${statusText}</span></td>
+            <td class="text-xs text-muted">${joinedDate}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     async function setDoctorStatus(docId, status) {
@@ -156,3 +353,4 @@
   </script>
 </body>
 </html>
+

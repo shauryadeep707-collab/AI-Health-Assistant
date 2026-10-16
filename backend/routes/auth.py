@@ -281,3 +281,37 @@ def admin_stats(user):
             'assessments': assessment_count
         }
     })
+
+@auth_bp.route('/api/admin/patients', methods=['GET'])
+@role_required('admin')
+def admin_list_patients(user):
+    """Admin endpoint to view all registered patients with profile and medical details."""
+    patients = database.fetch_all(
+        g.db,
+        """SELECT u.id, u.name, u.email, u.phone, u.created_at,
+                  p.age, p.gender, p.chronic_conditions, p.allergies,
+                  (SELECT COUNT(*) FROM assessments a WHERE a.patient_id = u.id) as assessment_count,
+                  (SELECT COUNT(*) FROM consultations c WHERE c.patient_id = u.id) as consultation_count
+           FROM users u
+           LEFT JOIN patient_profiles p ON u.id = p.user_id
+           WHERE u.role = 'patient'
+           ORDER BY u.created_at DESC"""
+    )
+    return jsonify({'ok': True, 'data': patients})
+
+@auth_bp.route('/api/admin/users', methods=['GET'])
+@role_required('admin')
+def admin_list_all_users(user):
+    """Admin endpoint to view all system users (patients, doctors, admins)."""
+    users = database.fetch_all(
+        g.db,
+        """SELECT u.id, u.name, u.email, u.phone, u.role, u.is_verified, u.created_at,
+                  p.age, p.gender, p.chronic_conditions,
+                  d.specialization, d.clinic_name
+           FROM users u
+           LEFT JOIN patient_profiles p ON u.id = p.user_id
+           LEFT JOIN doctor_profiles d ON u.id = d.user_id
+           ORDER BY u.created_at DESC"""
+    )
+    return jsonify({'ok': True, 'data': users})
+
