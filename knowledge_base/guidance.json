@@ -1,0 +1,162 @@
+{
+  "version": "1.0",
+  "disclaimer": "This home-care guidance is provided for mild symptoms and general supportive care. It does not replace professional medical advice, clinical diagnosis, or emergency medical treatment. If symptoms are severe, rapidly worsening, or unexpected, seek professional medical attention immediately.",
+  "categories": {
+    "fever": {
+      "title": "Fever & Elevated Body Temperature",
+      "home_care": [
+        "Rest adequately to help your immune system fight off the infection and conserve energy.",
+        "Stay well-hydrated by drinking water, clear broths, coconut water, or oral rehydration solutions (ORS) to prevent dehydration caused by sweating.",
+        "Wear lightweight, breathable cotton clothing and keep the room well-ventilated and at a comfortable ambient temperature (around 20-22°C or 68-72°F).",
+        "Apply lukewarm sponge baths or compresses to the forehead, neck, and armpits if fever is high and causing discomfort; never use ice water or rubbing alcohol.",
+        "Eat light, easily digestible meals such as soups, khichdi, porridge, and fresh fruits when hungry.",
+        "Take approved over-the-counter antipyretics like Paracetamol according to package instructions if the fever causes significant physical discomfort."
+      ],
+      "watch_for": [
+        "High fever reaching 103°F (39.4°C) or higher that does not respond to OTC antipyretics within 2 hours.",
+        "Stiff neck, severe photophobia (extreme sensitivity to light), or mental confusion.",
+        "Persistent vomiting leading to inability to keep fluids down for more than 12 hours.",
+        "Difficulty breathing, chest tightness, or rapid shallow breathing.",
+        "New onset of an unexplained petechial or purpuric skin rash that does not fade under pressure.",
+        "Seizures, convulsions, delirium, or extreme lethargy and unresponsiveness."
+      ],
+      "see_doctor_if": [
+        "Fever lasts more than 3 consecutive days without improvement.",
+        "Fever repeatedly spikes above 102°F (38.9°C) despite standard home management.",
+        "The affected individual is an infant under 3 months of age (seek immediate emergency care) or elderly with multiple chronic comorbidities.",
+        "New localized symptoms develop, such as intense ear pain, severe throat pain, burning urination, or severe abdominal pain.",
+        "Fever temporarily subsides for 24-48 hours but then returns with worsening cough or shaking chills."
+      ]
+    },
+    "cold_cough": {
+      "title": "Common Cold, Cough & Congestion",
+      "home_care": [
+        "Inhale warm steam for 5 to 10 minutes, 2 to 3 times a day, to loosen thick mucus and soothe irritated nasal passages.",
+        "Use sterile isotonic saline nasal sprays or drops to relieve nasal congestion, rinse irritants, and moisten dry nasal passages.",
+        "Drink plenty of warm liquids such as herbal teas, ginger water, warm water with lemon and honey (for individuals over 1 year of age), and warm clear broths.",
+        "Use a cool-mist room humidifier or keep a bowl of water in the room to maintain air humidity and reduce airway irritation.",
+        "Elevate your head with an extra pillow while sleeping to minimize post-nasal drip, sinus pressure, and night-time coughing bouts.",
+        "Avoid known respiratory irritants including active and passive tobacco smoke, vaping aerosol, strong chemical cleaning fumes, and polluted air."
+      ],
+      "watch_for": [
+        "Significant shortness of breath, wheezing, gasping for air, or persistent chest tightness.",
+        "Coughing up blood, blood-streaked phlegm, or thick rust-colored sputum.",
+        "Persistent high fever (above 101.5°F or 38.6°C) lasting longer than 3 days.",
+        "Severe sharp pleuritic chest pain that worsens significantly with deep breaths or coughing.",
+        "Bluish or grayish discoloration of the lips, fingertips, or tongue (cyanosis).",
+        "Extreme exhaustion, confusion, or inability to stay awake and speak in full sentences."
+      ],
+      "see_doctor_if": [
+        "Cough persists for more than 2 to 3 weeks without notable improvement.",
+        "Cold symptoms steadily worsen after day 5 to 7, or initially improve and then rebound with high fever and worse cough.",
+        "Symptoms are accompanied by underlying chronic respiratory conditions such as asthma, COPD, or congestive heart failure.",
+        "Persistent facial pain, maxillary tenderness, or purulent nasal discharge continues beyond 10 days (indicating bacterial sinusitis).",
+        "Inability to keep fluids down due to severe coughing fits or accompanying nausea."
+      ]
+    },
+    "headache": {
+      "title": "Headache & Tension Relief",
+      "home_care": [
+        "Rest in a quiet, dark, well-ventilated room with minimal screen time and reduced sensory stimulation.",
+        "Apply a cold compress or wrapped ice pack to your forehead, temples, or back of your neck for 15 minutes to reduce vascular inflammation.",
+        "Drink a full glass of water or electrolyte solution immediately, as mild dehydration is one of the most common headache triggers.",
+        "Gently massage the temples, jaw muscles, neck, and shoulders to relieve muscular tension and stress.",
+        "Practice slow, deep diaphragmatic breathing and muscle relaxation techniques to lower tension.",
+        "Maintain regular meal times and consistent sleep patterns, avoiding skipping meals which causes reactive hypoglycemia headaches."
+      ],
+      "watch_for": [
+        "Sudden, excruciating headache that peaks within seconds like a 'thunderclap' (worst headache of your life).",
+        "Headache accompanied by fever, stiff neck, nausea, vomiting, or confusion.",
+        "Neurological deficits including one-sided weakness, facial drooping, numbness, slurred speech, or vision loss.",
+        "Headache following recent head trauma or traumatic fall.",
+        "Headache accompanied by loss of consciousness, confusion, personality changes, or seizures.",
+        "Headache that rapidly worsens when coughing, bending over, straining, or moving suddenly."
+      ],
+      "see_doctor_if": [
+        "Headaches occur more than 2 to 3 times per week or require daily OTC analgesics.",
+        "Headache pattern or frequency changes substantially from your historical headaches.",
+        "Headache persists continuously for more than 48 hours without relief from rest and OTC medications.",
+        "Headache develops in an individual over 50 years of age with new temple tenderness or vision disturbances.",
+        "Headache is accompanied by progressive eye redness, halo around lights, or acute eye pain."
+      ]
+    },
+    "sore_throat": {
+      "title": "Sore Throat & Pharyngeal Irritation",
+      "home_care": [
+        "Gargle with warm salt water (1/2 teaspoon of salt in 1 glass of warm water) 3 to 4 times daily to reduce swelling, cleanse mucus, and soothe discomfort.",
+        "Drink soothing warm liquids like decaffeinated tea with honey (honey only for individuals older than 1 year), warm broth, or warm water.",
+        "Suck on throat lozenges or hard candies to stimulate saliva production and keep the irritated pharynx moist.",
+        "Use a cool-mist humidifier in the bedroom or take a warm steamy shower to keep airway mucous membranes hydrated.",
+        "Rest your voice by limiting talking and avoiding whispering, which puts extra mechanical strain on the vocal cords.",
+        "Eat soft, non-irritating foods like yogurt, mashed potatoes, soups, and puddings; avoid spicy, acidic, crunchy, or very salty foods."
+      ],
+      "watch_for": [
+        "Difficulty breathing, noisy breathing (stridor), or feeling like the airway is constricting.",
+        "Severe difficulty swallowing saliva, leading to unintentional drooling or inability to swallow fluids.",
+        "Inability to open the mouth fully (trismus) or asymmetric swelling of the tonsil/palate (possible peritonsillar abscess).",
+        "High fever accompanied by visible white patches, pus, or severe exudate on the tonsils.",
+        "Appearance of a red, rough 'sandpaper' texture rash across the torso (possible scarlet fever).",
+        "Coughing up blood or dark rusty secretions."
+      ],
+      "see_doctor_if": [
+        "Sore throat lasts longer than 5 to 7 days without clear signs of improvement.",
+        "Severe throat pain occurs without typical viral symptoms like runny nose, sneezing, or cough (suggests streptococcal pharyngitis).",
+        "Frequent, recurrent episodes of severe sore throat occurring within a few months.",
+        "Persistent hoarseness or voice loss lasting longer than 10 to 14 days.",
+        "Accompanied by prominent tender lumps in the neck (swollen lymph nodes) and high fever."
+      ]
+    },
+    "stomach": {
+      "title": "Stomach Upset, Nausea & Mild Diarrhea",
+      "home_care": [
+        "Sip oral rehydration salts (ORS) solution, diluted clear broths, coconut water, or electrolyte water frequently in small sips (5-10 ml every few minutes).",
+        "Give the digestive tract a brief rest during acute nausea, avoiding heavy, fatty, fried, or spicy meals.",
+        "Gradually reintroduce bland, binding foods following the BRAT approach (Bananas, Rice, Applesauce, Toast) or boiled potatoes and khichdi.",
+        "Apply a warm water bag or heating pad on the abdomen at low heat to ease intestinal cramps and muscle spasms.",
+        "Avoid caffeine, alcohol, milk/dairy products, carbonated beverages, and artificial sweeteners which can irritate the gut.",
+        "Wash hands thoroughly with soap and clean water before eating and after using the restroom to avoid spread of gastrointestinal bugs."
+      ],
+      "watch_for": [
+        "Signs of moderate-to-severe dehydration: sunken eyes, extreme dry mouth, dizziness upon standing, little or no urine output for 8+ hours.",
+        "Severe, sharp, unremitting, or localized abdominal pain (especially in the lower right abdomen).",
+        "Vomiting blood (bright red or dark coffee-ground appearance) or passing black, tarry, or bloody stools.",
+        "Persistent uncontrollable vomiting preventing retention of any fluids for over 12-24 hours.",
+        "High fever above 101.5°F (38.6°C) accompanying severe diarrhea or vomiting.",
+        "Abdominal distension, board-like abdominal rigidity, or rebound tenderness."
+      ],
+      "see_doctor_if": [
+        "Diarrhea persists for more than 48 hours in adults (or 24 hours in small children/elderly) without improvement.",
+        "Vomiting persists for more than 24 hours without the ability to hold down fluids.",
+        "Unexplained unintended weight loss or chronic diarrhea persisting longer than 1-2 weeks.",
+        "Symptoms begin shortly after recent international travel, consumption of suspected contaminated food, or recent antibiotic use.",
+        "Patient has chronic health conditions like kidney disease, heart disease, diabetes, or is pregnant."
+      ]
+    },
+    "general": {
+      "title": "General Mild Malaise & Fatigue",
+      "home_care": [
+        "Prioritize 7 to 9 hours of restorative sleep each night, maintaining a dark, cool, and peaceful bedroom environment.",
+        "Stay consistently hydrated by drinking 2 to 2.5 liters of clean water and herbal fluids daily.",
+        "Consume balanced, nutrient-dense meals containing whole grains, lean proteins, vegetables, and fresh fruits to support metabolic energy.",
+        "Incorporate gentle movement such as short light walks or light stretching, while avoiding strenuous physical overexertion during recovery.",
+        "Practice stress-reduction habits like meditation, mindful breathing, or gentle yoga to decrease cortisol-driven fatigue.",
+        "Monitor vital signs and symptom trends daily in a health journal to identify triggers or signs of worsening."
+      ],
+      "watch_for": [
+        "Sudden, unexplained shortness of breath, chest pain, palpitations, or lightheadedness.",
+        "Profound unexplainable weakness, fainting, sudden loss of balance, or sudden difficulty walking.",
+        "Rapid, unexplained unintentional weight loss or severe night sweats.",
+        "Persistent fever of unknown origin lasting more than 7 days.",
+        "New onset of swollen, painless, hard lymph nodes in neck, armpits, or groin.",
+        "Severe persistent depression, debilitating hopelessness, or thoughts of self-harm."
+      ],
+      "see_doctor_if": [
+        "Exhaustion, low energy, or vague malaise persists for more than 2 weeks despite adequate rest.",
+        "Symptoms interfere substantially with daily basic activities, work, or self-care.",
+        "Fatigue is accompanied by noticeable changes in skin color, pale conjunctiva, brittle nails, or cold intolerance.",
+        "Malaise coincides with the start of a new prescription medication or change in dosage.",
+        "Accompanied by chronic unprovoked joint pain, muscle aches, or recurring low-grade temperatures."
+      ]
+    }
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "version": "1.0",
+  "disclaimer": "This information is for general educational purposes regarding commonly available over-the-counter (OTC) supportive remedies. It does NOT constitute a prescription, medical diagnosis, or personalized pharmacological advice. Never administer medications to infants or children without consulting a pediatrician. Always read the product package leaflet, follow manufacturer instructions, and consult a registered doctor or pharmacist before taking any medication.",
+  "notice": "All medicines and supportive measures listed are general OTC supportive options only. No prescription-only medicines (POM) or antibiotics are recommended. Dosage, safety warnings, and contraindications must always be verified on the packaging or directly with a licensed healthcare professional.",
+  "categories": {
+    "fever": [
+      {
+        "name": "Paracetamol (Acetaminophen)",
+        "purpose": "Reduces body temperature (antipyretic) and relieves associated mild to moderate pain or body aches.",
+        "general_info": "Common first-line over-the-counter antipyretic and analgesic. Available in tablet, capsule, and oral suspension forms. Helps lower elevated body temperature by acting on the hypothalamus heat-regulating center.",
+        "precautions": [
+          "Do not exceed the maximum daily adult dose stated on the product package (typically 4000 mg in 24 hours from all sources).",
+          "Check labels of all concurrent medications (such as multi-symptom cold syrups) to prevent accidental paracetamol overdose.",
+          "Maintain an interval of at least 4 to 6 hours between individual doses.",
+          "Always use the measuring syringe or cup provided with liquid formulations rather than household kitchen spoons."
+        ],
+        "avoid_if": [
+          "Known severe allergy or hypersensitivity to paracetamol or acetaminophen.",
+          "Severe liver impairment, active liver disease, or acute liver failure.",
+          "Chronic heavy alcohol consumption or alcohol-related liver injury."
+        ],
+        "note": "Safe and effective when used strictly as directed. Seek pediatric consultation for age-appropriate child formulations; never administer adult dosage strengths to children."
+      }
+    ],
+    "cold_cough": [
+      {
+        "name": "Paracetamol",
+        "purpose": "Relieves body aches, fever, and headache associated with common cold or respiratory viral infections.",
+        "general_info": "Over-the-counter pain reliever and fever reducer that eases general malaise and muscular discomfort during a viral upper respiratory infection.",
+        "precautions": [
+          "Ensure total paracetamol intake across all cold and flu combination products does not exceed the manufacturer daily adult limit.",
+          "Allow at least 4 to 6 hours between doses.",
+          "Consult a doctor if fever lasts more than 3 days or symptoms worsen."
+        ],
+        "avoid_if": [
+          "Known allergy or hypersensitivity to paracetamol.",
+          "Severe liver disease or hepatic impairment.",
+          "Chronic severe alcoholism."
+        ],
+        "note": "Does not cure viral infections or suppress cough directly, but improves overall comfort during illness."
+      },
+      {
+        "name": "Steam Inhalation",
+        "purpose": "Moistens respiratory airways, relieves nasal congestion, and loosens viscous bronchial mucus.",
+        "general_info": "A natural non-pharmacological supportive therapy using warm water vapor to soothe irritated nasal passages and facilitate airway drainage.",
+        "precautions": [
+          "Keep facial skin at a safe distance (at least 20 to 30 cm) from the hot water surface to avoid accidental steam burns or scalds.",
+          "Keep boiling water and electrical steamers completely out of reach of children.",
+          "Inhale slowly and steadily through the nose for 5 to 10 minutes at a time."
+        ],
+        "avoid_if": [
+          "Unsupervised young children or individuals with reduced sensory sensation or cognitive impairment.",
+          "Severe acute asthma exacerbation where hot vapor may trigger reactive bronchospasm."
+        ],
+        "note": "Plain water steam is effective and gentle; avoid adding concentrated essential oils which can irritate delicate respiratory mucosa."
+      },
+      {
+        "name": "Saline Nasal Drops",
+        "purpose": "Hydrates nasal mucous membranes and gently thins mucus to clear congested nasal passages.",
+        "general_info": "Sterile 0.9% sodium chloride isotonic saline solution available over the counter as drops or spray. Free from active drug chemicals or decongestants.",
+        "precautions": [
+          "Do not share nasal droppers or spray bottles with other family members to avoid cross-infection.",
+          "Discard open saline solution containers according to manufacturer expiration timelines to preserve sterility.",
+          "Gently blow or wipe the nose after administration."
+        ],
+        "avoid_if": [
+          "Any known allergy to added preservatives (if using preserved formulas; use preservative-free saline instead).",
+          "Severe facial trauma or suspected skull base fracture."
+        ],
+        "note": "Non-addictive and does not cause rebound congestion (rhinitis medicamentosa), making it suitable for frequent supportive daily use."
+      }
+    ],
+    "headache": [
+      {
+        "name": "Paracetamol",
+        "purpose": "Relieves mild to moderate tension headaches and discomfort.",
+        "general_info": "Widely used OTC analgesic that acts on the central nervous system to reduce pain sensation without causing gastric mucosal irritation.",
+        "precautions": [
+          "Do not combine with other medications containing paracetamol.",
+          "Adhere strictly to recommended adult doses on the packaging.",
+          "Limit frequent regular use to prevent medication-overuse (rebound) headaches."
+        ],
+        "avoid_if": [
+          "Severe hepatic impairment or active liver disease.",
+          "Known hypersensitivity to paracetamol.",
+          "Concomitant heavy alcohol consumption."
+        ],
+        "note": "Gentle on the stomach and preferred for individuals with a history of acid reflux or stomach ulcers."
+      },
+      {
+        "name": "Ibuprofen",
+        "purpose": "Reduces pain and inflammatory swelling associated with tension headaches, sinus headaches, and muscular soreness.",
+        "general_info": "A non-steroidal anti-inflammatory drug (NSAID) that inhibits prostaglandin synthesis to alleviate inflammatory pain.",
+        "precautions": [
+          "Always take with or immediately after food or a glass of milk to protect the stomach lining.",
+          "Use the lowest effective dose for the shortest duration necessary.",
+          "Stay well hydrated while taking NSAIDs to support renal clearance.",
+          "Consult a physician before use if you have hypertension or cardiovascular conditions."
+        ],
+        "avoid_if": [
+          "Active stomach ulcers, history of gastrointestinal bleeding, or severe gastritis.",
+          "Severe kidney dysfunction or chronic renal disease.",
+          "Third trimester of pregnancy.",
+          "Aspirin-sensitive asthma or known NSAID hypersensitivity.",
+          "Concurrent use of anticoagulant or blood-thinning medications without medical supervision."
+        ],
+        "note": "Do not take concurrently with other NSAIDs (such as naproxen, diclofenac, or aspirin)."
+      }
+    ],
+    "sore_throat": [
+      {
+        "name": "Warm Saline Gargle",
+        "purpose": "Reduces pharyngeal tissue edema, washes away accumulated secretions, and eases localized throat pain.",
+        "general_info": "A gentle hypertonic/isotonic home rinse made by dissolving 1/2 teaspoon of table salt in a glass of warm clean water.",
+        "precautions": [
+          "Ensure water temperature is comfortably lukewarm, never scalding hot.",
+          "Gargle in the back of the throat for 20 to 30 seconds and spit out completely; do not swallow.",
+          "Repeat 3 to 4 times daily as needed."
+        ],
+        "avoid_if": [
+          "Young children who cannot yet reliably spit out fluids without choking or swallowing.",
+          "Individuals with severe swallowing impairment (dysphagia)."
+        ],
+        "note": "A simple, highly effective, drug-free supportive remedy that can be used safely alongside other supportive measures."
+      },
+      {
+        "name": "Throat Lozenges",
+        "purpose": "Soothes raw throat lining and provides temporary localized relief from throat irritation and swallowing pain.",
+        "general_info": "Hard dissolvable pastilles containing soothing agents (such as pectin, glycerin, honey, or mild cooling menthol) that stimulate salivation.",
+        "precautions": [
+          "Allow the lozenge to dissolve slowly in the mouth without chewing or biting.",
+          "Keep out of reach of toddlers and small children due to potential choking hazard.",
+          "Check sugar content if managing diabetes; sugar-free alternatives are available."
+        ],
+        "avoid_if": [
+          "Children under 4 to 6 years of age who have choking vulnerability.",
+          "Known allergy to any specific flavor, dye, or active ingredient in the lozenge."
+        ],
+        "note": "Provides temporary topical comfort; does not treat underlying bacterial or viral pathogens."
+      },
+      {
+        "name": "Warm Fluids with Honey",
+        "purpose": "Coats and lubricates the irritated pharyngeal mucosa, providing natural soothing relief and easing tickly coughs.",
+        "general_info": "A traditional supportive home remedy combining warm water or caffeine-free herbal tea with a spoonful of pure honey.",
+        "precautions": [
+          "Ensure fluid is pleasantly warm, not hot enough to scald mouth or throat tissues.",
+          "Rinse mouth or brush teeth before bed if consuming sweet fluids to protect dental enamel."
+        ],
+        "avoid_if": [
+          "Infants under 12 months of age (STRICT CONTRAINDICATION due to the risk of infant botulism caused by Clostridium botulinum spores)."
+        ],
+        "note": "Scientifically supported as an effective demulcent for cough and throat irritation in adults and children over 1 year of age."
+      }
+    ],
+    "stomach": [
+      {
+        "name": "ORS (Oral Rehydration Salts)",
+        "purpose": "Prevents and treats mild to moderate dehydration and electrolyte depletion caused by diarrhea or vomiting.",
+        "general_info": "A scientifically balanced formulation of glucose and electrolytes (sodium, potassium, chloride, citrate) conforming to WHO rehydration standards.",
+        "precautions": [
+          "Dissolve the sachet in the exact volume of clean drinking water specified on the packet (do not use milk, juice, or soda).",
+          "Sip slowly in small, frequent amounts (a teaspoon or small sip every few minutes) to prevent triggering nausea.",
+          "Discard prepared solution after 24 hours if kept at room temperature (or after 48 hours if refrigerated)."
+        ],
+        "avoid_if": [
+          "Severe intestinal obstruction, paralytic ileus, or intractable vomiting requiring IV rehydration.",
+          "Severe kidney failure with hyperkalemia, unless specifically directed by a nephrologist."
+        ],
+        "note": "Crucial first-line supportive therapy for any gastrointestinal fluid loss; rehydrates far more effectively than plain water alone."
+      },
+      {
+        "name": "Antacid",
+        "purpose": "Rapidly neutralizes excess gastric acid to relieve heartburn, sour stomach, and acid indigestion.",
+        "general_info": "Over-the-counter chewable tablets or liquid suspensions containing basic salts like magnesium hydroxide, aluminum hydroxide, or calcium carbonate.",
+        "precautions": [
+          "Take 1 to 2 hours after meals or at bedtime as directed by product instructions.",
+          "Separate antacid intake by at least 2 hours from other medications, as antacids can reduce drug absorption.",
+          "Chew tablets thoroughly before swallowing and follow with a glass of water."
+        ],
+        "avoid_if": [
+          "Severe chronic kidney disease (risk of magnesium or aluminum accumulation).",
+          "Hypercalcemia (for calcium-based antacids).",
+          "Severe unexplained acute abdominal pain or suspected appendicitis."
+        ],
+        "note": "Intended for occasional, short-term symptomatic acid relief. Consult a doctor if heartburn occurs regularly more than twice a week."
+      }
+    ],
+    "general": [
+      {
+        "name": "Paracetamol",
+        "purpose": "Provides supportive relief for mild general body aches, muscle stiffness, and elevated body temperature.",
+        "general_info": "Standard first-line over-the-counter analgesic and antipyretic for general malaise and fever management.",
+        "precautions": [
+          "Adhere strictly to manufacturer packaging limits and avoid taking multiple paracetamol-containing products simultaneously.",
+          "Maintain 4 to 6 hours between individual doses.",
+          "Stay well hydrated while resting."
+        ],
+        "avoid_if": [
+          "Severe liver dysfunction or chronic heavy alcohol consumption.",
+          "Known hypersensitivity to paracetamol."
+        ],
+        "note": "A dependable, well-tolerated supportive remedy for general discomfort when taken according to directions."
+      },
+      {
+        "name": "ORS (Oral Rehydration Salts)",
+        "purpose": "Restores vital electrolyte balance and hydration during periods of physical exhaustion, heat stress, or mild illness.",
+        "general_info": "WHO-formulated electrolyte and glucose mixture that optimizes cellular water and electrolyte uptake through sodium-glucose cotransport.",
+        "precautions": [
+          "Mix with the exact amount of boiled and cooled or clean filtered water indicated on the package.",
+          "Consume throughout the day in small frequent sips.",
+          "Do not add extra sugar, salt, or flavorings to pre-measured packets."
+        ],
+        "avoid_if": [
+          "Severe dehydration with circulatory shock (requires immediate emergency medical intervention and IV fluids).",
+          "Significant renal insufficiency or severe electrolyte imbalances requiring hospital monitoring."
+        ],
+        "note": "Maintains essential fluid and electrolyte balance during recovery from physical fatigue, heat exposure, or illness."
+      }
+    ]
+  }
+}

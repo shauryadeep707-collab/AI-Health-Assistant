@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "disclaimer": "These are safety-override rules. If ANY red flag matches, risk is immediately set to URGENT.",
+  "red_flags": [
+    {
+      "id": "chest_pain",
+      "name": "Chest Pain or Pressure",
+      "keywords": ["chest pain", "chest pressure", "chest tightness", "heart attack", "seene mein dard", "chhati mein dard", "sine me dard", "dil ka dard"],
+      "patterns": ["chest.*(pain|pressure|tight|heavy|squeeze)", "pain.*chest", "heart.*attack"],
+      "action": "Call emergency services (112) immediately. Do not wait. Chew an aspirin if not allergic.",
+      "category": "cardiac"
+    },
+    {
+      "id": "breathing_difficulty",
+      "name": "Difficulty Breathing",
+      "keywords": ["trouble breathing", "can't breathe", "breathless", "shortness of breath", "difficulty breathing", "gasping", "saans lene mein takleef", "saans nahi aa rahi", "dum ghutna", "saans phoolna", "dum ghut raha"],
+      "patterns": ["(can'?t|cannot|trouble|difficulty|hard).*(breath|breathing)", "short(ness)? of breath", "breath.*difficult"],
+      "action": "Call emergency services (112). Sit upright. Stay calm and try to breathe slowly.",
+      "category": "respiratory_emergency"
+    },
+    {
+      "id": "unconscious",
+      "name": "Fainting or Unconsciousness",
+      "keywords": ["fainting", "fainted", "unconscious", "passed out", "collapsed", "unresponsive", "behosh", "hosh nahi", "gir gaya", "behosh ho gaya"],
+      "patterns": ["(faint|pass|black).*(out|ed)", "unconscious", "not respond", "collapse"],
+      "action": "Call emergency services (112). Place the person in recovery position. Check breathing.",
+      "category": "neurological_emergency"
+    },
+    {
+      "id": "seizure",
+      "name": "Seizure or Convulsions",
+      "keywords": ["seizure", "seizures", "convulsion", "convulsions", "fits", "fitting", "daura", "mirgi", "mirgi ka daura", "jhatkay", "jhatke"],
+      "patterns": ["seizure", "convuls", "epilep", "fits?"],
+      "action": "Call emergency services (112). Clear the area around the person. Do NOT put anything in their mouth. Time the seizure.",
+      "category": "neurological_emergency"
+    },
+    {
+      "id": "stroke_signs",
+      "name": "Stroke Warning Signs",
+      "keywords": ["face drooping", "slurred speech", "arm weakness", "one-sided weakness", "stroke", "can't move arm", "can't move leg", "munh teda", "bolne mein dikkat", "ek taraf ka badan", "lakwa", "ek hath nahi hil raha"],
+      "patterns": ["face.*(droop|numb)", "slur.*(speech|word)", "(arm|leg|side).*(weak|numb|can'?t move)", "stroke", "one.side.*(weak|numb|paralyz)"],
+      "action": "Call emergency services (112) IMMEDIATELY. Note the time symptoms started. Use FAST: Face drooping, Arm weakness, Speech difficulty, Time to call.",
+      "category": "neurological_emergency"
+    },
+    {
+      "id": "severe_bleeding",
+      "name": "Severe or Uncontrolled Bleeding",
+      "keywords": ["severe bleeding", "won't stop bleeding", "blood loss", "heavy bleeding", "bahut khoon", "khoon band nahi ho raha", "bahut zyada khoon"],
+      "patterns": ["(severe|heavy|uncontrol|won'?t stop).*bleed", "blood.*(loss|everywhere|won'?t stop)"],
+      "action": "Call emergency services (112). Apply firm pressure with a clean cloth. Keep the injured area elevated.",
+      "category": "trauma"
+    },
+    {
+      "id": "vomiting_blood",
+      "name": "Vomiting or Coughing Blood",
+      "keywords": ["vomiting blood", "blood in vomit", "coughing blood", "blood in cough", "throwing up blood", "khoon ki ulti", "ulti mein khoon", "khoon aa raha", "khoon ki khansi"],
+      "patterns": ["(vomit|throw|cough|spit).*(blood|red)", "blood.*(vomit|cough|spit)"],
+      "action": "Call emergency services (112). Do not eat or drink. Lie on your side.",
+      "category": "gastrointestinal_emergency"
+    },
+    {
+      "id": "allergic_reaction",
+      "name": "Severe Allergic Reaction",
+      "keywords": ["severe allergic reaction", "face swelling", "throat swelling", "anaphylaxis", "can't swallow", "tongue swelling", "chehra sooj gaya", "gala sooj gaya", "saans ruk rahi", "allergy se sooj gaya"],
+      "patterns": ["(face|throat|tongue|lip).*(swell|swollen|swelling)", "anaphyla", "(can'?t|cannot).*(swallow|breathe).*swell"],
+      "action": "Call emergency services (112). If the person has an EpiPen, use it. Lie them down with legs elevated unless breathing is difficult.",
+      "category": "allergic_emergency"
+    },
+    {
+      "id": "suicidal",
+      "name": "Suicidal Thoughts or Self-Harm",
+      "keywords": ["suicidal", "suicide", "self-harm", "want to die", "end my life", "kill myself", "hurting myself", "marna chahta", "marna chahti", "khudkushi", "apne aap ko nuksan", "jeena nahi chahta", "zindagi khatam"],
+      "patterns": ["(want|going|plan|think).*(die|kill|end|suicide|harm)", "suicid", "self.harm", "end.*(it|life|everything)"],
+      "action": "You are not alone. Call emergency services (112) or a helpline (iCall: 9152987821, Vandrevala Foundation: 1860-2662-345). Stay with someone you trust.",
+      "category": "mental_health_emergency"
+    },
+    {
+      "id": "high_fever_severe",
+      "name": "Very High Fever with Severe Symptoms",
+      "keywords": ["fever with stiff neck", "fever with confusion", "fever 105", "very high fever", "fever and can't wake up", "bahut tez bukhar", "gardan akad gayi", "bukhar mein hosh nahi", "105 bukhar"],
+      "patterns": ["fever.*(stiff neck|confus|105|106|107|delirium|hallucin)", "(stiff neck|confus).*(fever|temperature)", "10[5-9].*fever"],
+      "action": "Call emergency services (112). Cool the person with lukewarm water. Do not use ice water.",
+      "category": "infectious_emergency"
+    },
+    {
+      "id": "infant_fever",
+      "name": "Fever in Baby Under 3 Months",
+      "keywords": ["baby fever", "newborn fever", "infant fever", "baby burning up", "3 month old fever", "2 month old fever", "1 month old fever", "bachche ko bukhar", "chote bachche ko bukhar", "navjaat ko bukhar"],
+      "patterns": ["(baby|infant|newborn|[0-3] month).*(fever|temperature|hot|burning)", "fever.*(baby|infant|newborn|[0-3] month)"],
+      "action": "Seek immediate medical care. Fever in babies under 3 months can be serious. Call your pediatrician or go to the emergency room.",
+      "category": "pediatric_emergency"
+    },
+    {
+      "id": "pregnancy_bleeding",
+      "name": "Bleeding During Pregnancy",
+      "keywords": ["bleeding in pregnancy", "pregnant and bleeding", "pregnancy bleeding", "miscarriage", "pregnancy mein khoon", "pet mein dard aur khoon", "garbhavastha mein khoon"],
+      "patterns": ["(pregnan|expecting).*(bleed|blood|hemorrh)", "(bleed|blood).*(pregnan|expecting)"],
+      "action": "Seek immediate medical care. Call your doctor or go to the emergency room. Lie down and rest until help arrives.",
+      "category": "obstetric_emergency"
+    }
+  ]
+}
