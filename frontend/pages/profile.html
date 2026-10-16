@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Profile edits will be synced when connection resumes.
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container" style="max-width: 650px;">
+      <div class="card">
+        <h2 class="mb-4">Account &amp; Health Profile</h2>
+
+        <form id="profile-form">
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label" for="profile-name">Full Name</label>
+              <input type="text" id="profile-name" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="profile-email">Email (Cannot be changed)</label>
+              <input type="email" id="profile-email" class="form-input" disabled>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="profile-phone">Phone Number</label>
+            <input type="tel" id="profile-phone" class="form-input">
+          </div>
+
+          <!-- Dynamic Role Profile Fields -->
+          <div id="dynamic-profile-fields"></div>
+
+          <div class="flex justify-between items-center mt-6 pt-4" style="border-top: 1px solid var(--gray-200);">
+            <button type="submit" id="save-profile-btn" class="btn btn-primary">
+              Save Changes
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">
+              Delete My Account &amp; Data
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ Privacy Notice: Health data is encrypted and strictly accessible only to you and authorized doctors you explicitly consult.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+  <script>
+    let userRole = 'patient';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAuth();
+      if (!user) return;
+      Auth.setupNavbar(user);
+
+      userRole = user.role;
+      document.getElementById('profile-name').value = user.name || '';
+      document.getElementById('profile-email').value = user.email || '';
+      document.getElementById('profile-phone').value = user.phone || '';
+
+      const container = document.getElementById('dynamic-profile-fields');
+      const p = user.profile || {};
+
+      if (userRole === 'patient') {
+        container.innerHTML = `
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Age</label>
+              <input type="number" id="profile-age" class="form-input" value="${p.age || ''}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <select id="profile-gender" class="form-select">
+                <option value="Male" ${p.gender === 'Male' ? 'selected' : ''}>Male</option>
+                <option value="Female" ${p.gender === 'Female' ? 'selected' : ''}>Female</option>
+                <option value="Other" ${p.gender === 'Other' ? 'selected' : ''}>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Chronic Conditions</label>
+            <input type="text" id="profile-chronic" class="form-input" value="${UI.escapeHtml(p.chronic_conditions || '')}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Allergies</label>
+            <input type="text" id="profile-allergies" class="form-input" value="${UI.escapeHtml(p.allergies || '')}">
+          </div>
+        `;
+      } else if (userRole === 'doctor') {
+        container.innerHTML = `
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Specialization</label>
+              <input type="text" id="profile-spec" class="form-input" value="${UI.escapeHtml(p.specialization || '')}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Experience (Years)</label>
+              <input type="number" id="profile-exp" class="form-input" value="${p.experience_years || 0}">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Clinic Name</label>
+              <input type="text" id="profile-clinic" class="form-input" value="${UI.escapeHtml(p.clinic_name || '')}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Consultation Fee (₹)</label>
+              <input type="number" id="profile-fee" class="form-input" value="${p.fee || 500}">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Address</label>
+              <input type="text" id="profile-address" class="form-input" value="${UI.escapeHtml(p.address || '')}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input type="text" id="profile-city" class="form-input" value="${UI.escapeHtml(p.city || 'Dehradun')}">
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('profile-name').value.trim(),
+        phone: document.getElementById('profile-phone').value.trim()
+      };
+
+      if (userRole === 'patient') {
+        payload.age = parseInt(document.getElementById('profile-age')?.value) || null;
+        payload.gender = document.getElementById('profile-gender')?.value;
+        payload.chronic_conditions = document.getElementById('profile-chronic')?.value.trim();
+        payload.allergies = document.getElementById('profile-allergies')?.value.trim();
+      } else if (userRole === 'doctor') {
+        payload.specialization = document.getElementById('profile-spec')?.value.trim();
+        payload.experience_years = parseInt(document.getElementById('profile-exp')?.value) || 0;
+        payload.clinic_name = document.getElementById('profile-clinic')?.value.trim();
+        payload.fee = parseFloat(document.getElementById('profile-fee')?.value) || 500;
+        payload.address = document.getElementById('profile-address')?.value.trim();
+        payload.city = document.getElementById('profile-city')?.value.trim();
+      }
+
+      const res = await API.put('/api/profile', payload);
+      if (res.ok) {
+        UI.toast('Profile updated successfully!', 'success');
+      } else {
+        UI.toast(res.error || 'Failed to update profile', 'error');
+      }
+    });
+
+    async function confirmDeleteAccount() {
+      if (confirm('Are you ABSOLUTELY sure you want to permanently delete your account and all associated symptom checks, chat transcripts, and consultations? This cannot be undone.')) {
+        const res = await API.delete('/api/profile');
+        if (res.ok) {
+          alert('Your account and all data have been completely deleted.');
+          window.location.href = '/';
+        } else {
+          UI.toast(res.error || 'Failed to delete account', 'error');
+        }
+      }
+    }
+  </script>
+</body>
+</html>
