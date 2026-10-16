@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Cached assessments and consultations remain readable.
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+      <!-- Welcome Header -->
+      <div class="card mb-6 flex justify-between items-center" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2>Hello, <span id="patient-greeting-name">Patient</span> 👋</h2>
+          <p class="text-sm text-muted mt-1">Review your recent symptom assessments, active doctor consultations, and health guides.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="/pages/symptom-check.html" class="btn btn-primary">
+            🩺 Check Symptoms Now
+          </a>
+          <a href="/pages/doctors.html" class="btn btn-secondary">
+            👨‍⚕️ Find Doctors
+          </a>
+        </div>
+      </div>
+
+      <!-- Past Assessments & Consultations Grid -->
+      <div class="grid-2">
+        <!-- Past Assessments -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Past Symptom Checks</h3>
+            <a href="/pages/symptom-check.html" class="text-xs text-primary font-semibold">+ New Check</a>
+          </div>
+          <div id="assessments-list">
+            <!-- Dynamic assessments list -->
+          </div>
+        </div>
+
+        <!-- Consultations Overview -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Doctor Consultations</h3>
+            <a href="/pages/consultations.html" class="text-xs text-primary font-semibold">View All</a>
+          </div>
+          <div id="consultations-summary-list">
+            <!-- Dynamic consultations list -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ This tool gives general information, not a medical diagnosis. In an emergency call 112 or 108.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAuth(['patient']);
+      if (!user) return;
+      Auth.setupNavbar(user);
+
+      const nameEl = document.getElementById('patient-greeting-name');
+      if (nameEl) nameEl.textContent = user.name;
+
+      loadAssessments();
+      loadConsultations();
+    });
+
+    async function loadAssessments() {
+      const container = document.getElementById('assessments-list');
+      UI.showLoading(container, 2);
+
+      const res = await API.get('/api/assessments');
+      if (res.ok && res.data && res.data.length > 0) {
+        container.innerHTML = res.data.map(a => `
+          <div class="p-3 mb-3" style="background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+            <div class="flex justify-between items-center">
+              <div>
+                <strong style="text-transform: capitalize;">${UI.escapeHtml(a.category || 'General')}</strong>
+                <div class="text-xs text-muted">${new Date(a.created_at).toLocaleDateString()}</div>
+              </div>
+              <div>
+                ${UI.riskBadge(a.risk_level || 'low')}
+              </div>
+            </div>
+            <div class="mt-3 flex justify-between items-center">
+              <span class="text-xs text-muted">Status: ${a.status}</span>
+              <a href="/pages/result.html?id=${a.id}" class="btn btn-outline btn-sm">
+                View Result &rarr;
+              </a>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        UI.showEmpty(container, '🩺', 'No symptom checks yet', 'Click "Check Symptoms Now" above to begin your first check.');
+      }
+    }
+
+    async function loadConsultations() {
+      const container = document.getElementById('consultations-summary-list');
+      UI.showLoading(container, 2);
+
+      const res = await API.get('/api/consultations');
+      if (res.ok && res.data && res.data.length > 0) {
+        container.innerHTML = res.data.slice(0, 3).map(c => `
+          <div class="p-3 mb-3" style="background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+            <div class="flex justify-between items-center">
+              <strong>${UI.escapeHtml(c.doctor_name || 'Doctor')}</strong>
+              ${UI.statusBadge(c.status)}
+            </div>
+            <div class="text-xs text-muted mt-1">
+              ${UI.escapeHtml(c.specialization || 'General Physician')} &bull; ${new Date(c.created_at).toLocaleDateString()}
+            </div>
+            ${c.doctor_advice ? `
+              <div class="text-xs text-success mt-2" style="font-weight: 500;">
+                ✓ Advice Received: "${UI.escapeHtml(c.doctor_advice.substring(0, 60))}..."
+              </div>
+            ` : ''}
+          </div>
+        `).join('') + `
+          <div class="text-center mt-2">
+            <a href="/pages/consultations.html" class="text-xs text-primary font-semibold">View all consultations &rarr;</a>
+          </div>
+        `;
+      } else {
+        UI.showEmpty(container, '📋', 'No consultations requested yet', 'If an assessment is marked Medium risk, you can request a consultation.');
+      }
+    }
+  </script>
+</body>
+</html>

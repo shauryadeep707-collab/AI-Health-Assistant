@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Portal & Queue – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Availability status updates are saved locally and will sync when reconnected.
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant &bull; Doctor Portal</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+      <!-- Top Bar: Availability Toggle -->
+      <div class="card mb-6 flex justify-between items-center" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2>Doctor Consultation Dashboard</h2>
+          <p class="text-sm text-muted">Review incoming patient AI summaries in your FIFO queue and provide medical advice</p>
+        </div>
+        <div class="flex items-center gap-3 p-3" style="background: var(--gray-50); border-radius: 12px; border: 1px solid var(--gray-200);">
+          <span id="availability-text" class="text-sm font-semibold text-gray-700">Available</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="availability-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div id="stat-pending" class="stat-value" style="color: var(--warning);">0</div>
+          <div class="stat-label">Pending Requests (FIFO)</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-accepted" class="stat-value" style="color: var(--primary);">0</div>
+          <div class="stat-label">Active / Accepted Cases</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-completed" class="stat-value" style="color: var(--success);">0</div>
+          <div class="stat-label">Completed Consultations</div>
+        </div>
+      </div>
+
+      <!-- Consultation Request FIFO Queue -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Patient Request Queue (FIFO: Oldest First)</h3>
+          <span class="text-xs text-muted">Auto-refreshed via notifications</span>
+        </div>
+        <div id="doctor-queue">
+          <!-- Dynamically populated queue items -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ Clinical Decision Support System: Summaries are AI-assisted triage notes. Clinical responsibility resides with the treating physician.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+  <script src="/js/consultations.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Consultations.initDoctorDashboard();
+    });
+  </script>
+</body>
+</html>
