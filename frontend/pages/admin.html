@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal – Doctor Verification</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant &bull; Admin Portal</span>
+      </a>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+      <div class="card mb-6">
+        <h2>Administrator Control Center</h2>
+        <p class="text-sm text-muted">Review doctor licensing approvals, monitor system volume, and verify clinical profiles</p>
+      </div>
+
+      <!-- Admin Stats Grid -->
+      <div class="stats-grid mb-6">
+        <div class="stat-card">
+          <div id="stat-patients" class="stat-value">0</div>
+          <div class="stat-label">Registered Patients</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-doctors" class="stat-value">0</div>
+          <div class="stat-label">Registered Doctors</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-pending-docs" class="stat-value" style="color: var(--warning);">0</div>
+          <div class="stat-label">Pending Verifications</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-consultations" class="stat-value">0</div>
+          <div class="stat-label">Total Consultations</div>
+        </div>
+      </div>
+
+      <!-- Doctors Verification Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Doctor Registrations &amp; Verification Status</h3>
+          <button class="btn btn-secondary btn-sm" onclick="loadAdminData()">🔄 Refresh</button>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Doctor</th>
+                <th>Specialization</th>
+                <th>Clinic / City</th>
+                <th>Experience</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="doctors-table-body">
+              <tr>
+                <td colspan="6" class="text-center p-4">Loading doctors...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ Restricted Administrator Console &bull; Confidential audit actions logged.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAuth(['admin']);
+      if (!user) return;
+      Auth.setupNavbar(user);
+      loadAdminData();
+    });
+
+    async function loadAdminData() {
+      // 1. Load Stats
+      const statsRes = await API.get('/api/admin/stats');
+      if (statsRes.ok && statsRes.data) {
+        document.getElementById('stat-patients').textContent = statsRes.data.patients;
+        document.getElementById('stat-doctors').textContent = statsRes.data.doctors;
+        document.getElementById('stat-pending-docs').textContent = statsRes.data.pending_doctors;
+        document.getElementById('stat-consultations').textContent = statsRes.data.consultations;
+      }
+
+      // 2. Load Doctors Table
+      const docsRes = await API.get('/api/admin/doctors');
+      const tbody = document.getElementById('doctors-table-body');
+      if (docsRes.ok && docsRes.data) {
+        if (docsRes.data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No doctors registered yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = docsRes.data.map(d => {
+          let statusBadge = '<span class="status-badge status-pending">Pending Approval</span>';
+          if (d.is_verified === 1) statusBadge = '<span class="status-badge status-completed">Approved</span>';
+          if (d.is_verified === 2) statusBadge = '<span class="status-badge status-declined">Rejected</span>';
+
+          return `
+            <tr>
+              <td>
+                <strong>${UI.escapeHtml(d.name)}</strong><br>
+                <span class="text-xs text-muted">${UI.escapeHtml(d.email)} &bull; ${UI.escapeHtml(d.phone || 'No phone')}</span>
+              </td>
+              <td>${UI.escapeHtml(d.specialization || 'General')}</td>
+              <td>${UI.escapeHtml(d.clinic_name || 'Clinic')}, ${UI.escapeHtml(d.city || 'Dehradun')}</td>
+              <td>${d.experience_years || 0} years</td>
+              <td>${statusBadge}</td>
+              <td>
+                <div class="flex gap-2">
+                  ${d.is_verified !== 1 ? `
+                    <button class="btn btn-success btn-sm" onclick="setDoctorStatus(${d.id}, 1)">
+                      Approve
+                    </button>
+                  ` : ''}
+                  ${d.is_verified !== 2 ? `
+                    <button class="btn btn-danger btn-sm" onclick="setDoctorStatus(${d.id}, 2)">
+                      Reject
+                    </button>
+                  ` : ''}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    async function setDoctorStatus(docId, status) {
+      const res = await API.put(`/api/admin/doctors/${docId}/verify`, { status });
+      if (res.ok) {
+        UI.toast('Doctor verification updated', 'success');
+        loadAdminData();
+      } else {
+        UI.toast(res.error || 'Failed to update doctor verification', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
