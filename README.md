@@ -35,9 +35,9 @@ Open **`http://localhost:5000`** in your browser.
 | **Doctor** | `doctor@demo.com` | `Doctor@123` | Dr. Amit Verma (General Physician, Dehradun) |
 | **Doctor 2** | `doctor2@demo.com` | `Doctor@123` | Dr. Sneha Patel (ENT Specialist, Dehradun) |
 | **Doctor 3** | `doctor3@demo.com` | `Doctor@123` | Dr. Rajesh Kumar (Pulmonologist, Dehradun) |
-| **Admin** | `admin@demo.com` | `Admin@123` | System Administrator (Doctor Verification) |
-
 *12 fictional practicing doctors in the Dehradun, Uttarakhand area are pre-seeded with coordinates for map discovery.*
+
+👉 **For the complete credentials guide, account IDs, and source file locations, see the [`credentials/`](credentials/DEMO_CREDENTIALS.md) folder.**
 
 ---
 
