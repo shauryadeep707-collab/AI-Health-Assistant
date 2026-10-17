@@ -187,6 +187,17 @@ def get_consultation(user, consultation_id):
     )
     messages = []
     if assessment:
+        assessment = dict(assessment)
+        import json
+        try:
+            assessment['structured_json'] = json.loads(assessment.get('structured_json') or '{}')
+        except (json.JSONDecodeError, TypeError):
+            assessment['structured_json'] = {}
+        try:
+            assessment['risk_reasons'] = json.loads(assessment.get('risk_reasons') or '[]')
+        except (json.JSONDecodeError, TypeError):
+            assessment['risk_reasons'] = []
+
         messages = database.fetch_all(
             g.db,
             "SELECT role, content, created_at FROM messages WHERE assessment_id = ? ORDER BY created_at ASC",

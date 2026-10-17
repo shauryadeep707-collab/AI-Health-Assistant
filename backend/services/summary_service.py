@@ -39,10 +39,10 @@ Risk score: {risk_result.get('score', 0)}
 Risk reasons: {', '.join(risk_result.get('reasons', []))}
 Red flags: {', '.join([rf['name'] for rf in risk_result.get('red_flags', [])])}
 
-Conversation:
+Conversation between Patient and AI Symptom Checker:
 {conversation}
 
-Generate a summary under 120 words."""
+Generate a concise, well-structured clinical summary for the doctor. Include what the patient reported, how the dialogue progressed, symptoms duration, severity, and clinical risk."""
         
         result = call_openai(
             [{'role': 'user', 'content': prompt}],
@@ -52,65 +52,68 @@ Generate a summary under 120 words."""
             return result.strip()
     
     # Demo mode / fallback: use template
-    return _template_summary(structured_data, risk_result, patient_profile)
+    return _template_summary(structured_data, risk_result, patient_profile, messages)
 
 
-def _template_summary(structured_data, risk_result, patient_profile):
-    """Generate a summary using a template (for demo mode)."""
-    parts = []
+def _template_summary(structured_data, risk_result, patient_profile, messages=None):
+    """Generate a structured clinical summary of the patient-checker dialogue."""
+    lines = []
     
-    # Patient info
+    # 1. Patient Profile Header
     if patient_profile:
         age = patient_profile.get('age', '?')
         gender = patient_profile.get('gender', '?')
-        parts.append(f"Patient: {age}y {gender}.")
+        pt_info = f"Patient: {age}y {gender}"
         
         conditions = patient_profile.get('chronic_conditions', '')
         if conditions and conditions.lower() not in ('none', 'nil', 'na', 'n/a', ''):
-            parts.append(f"Known conditions: {conditions}.")
+            pt_info += f" | History: {conditions}"
         
         allergies = patient_profile.get('allergies', '')
         if allergies and allergies.lower() not in ('none', 'nil', 'na', 'n/a', ''):
-            parts.append(f"Allergies: {allergies}.")
+            pt_info += f" | Allergies: {allergies}"
+        lines.append(pt_info + ".")
     
-    # Main complaint
+    # 2. Chief Complaint
     symptoms = structured_data.get('main_symptoms', [])
     if symptoms:
-        parts.append(f"Chief complaint: {', '.join(symptoms)}.")
+        lines.append(f"Chief Complaint: {', '.join(symptoms)}.")
     
-    # Duration and severity
-    duration = structured_data.get('duration_days', 0)
-    severity = structured_data.get('severity', 'unknown')
-    parts.append(f"Duration: {duration} day(s). Severity: {severity}.")
-    
-    # Worsening
-    if structured_data.get('worsening'):
-        parts.append("Symptoms reported as worsening.")
-    
-    # Temperature
+    # 3. Patient Talk & Symptom Checker Dialogue Synthesis
+    duration = structured_data.get('duration_days', 1)
+    severity = (structured_data.get('severity') or 'mild').capitalize()
+    worsening = "Getting worse" if structured_data.get('worsening') else "Stable / not worsening"
     temp = structured_data.get('temperature_f', 0)
-    if temp > 0:
-        parts.append(f"Temperature: {temp}°F.")
     
-    # Other symptoms
+    talk_summary = f"Symptom Checker Q&A: Duration: {duration} day(s); Severity: {severity}; Progression: {worsening}"
+    if temp and float(temp) > 0:
+        talk_summary += f"; Temperature: {temp}°F"
+    
     other = structured_data.get('other_symptoms', [])
     if other:
-        parts.append(f"Associated symptoms: {', '.join(other)}.")
+        talk_summary += f"; Associated Symptoms: {', '.join(other)}"
     
-    # Risk assessment
-    level = risk_result.get('level', 'unknown').upper()
+    meds = structured_data.get('medicines_taken', [])
+    if meds and any(m.lower() not in ('none', 'no', 'nothing') for m in meds):
+        talk_summary += f"; Medications Taken: {', '.join(meds)}"
+    
+    lines.append(talk_summary + ".")
+    
+    # 4. Risk Assessment & Clinical Escalation Factors
+    level = (risk_result.get('level') or 'low').upper()
     score = risk_result.get('score', 0)
-    parts.append(f"Risk assessment: {level} (score: {score}).")
+    risk_line = f"Clinical Assessment: {level} Risk (Score: {score}/10)"
     
+    reasons = risk_result.get('reasons', [])
+    if reasons:
+        risk_line += f" — Factors: {'; '.join(reasons[:3])}"
+    
+    lines.append(risk_line + ".")
+
     # Red flags
     red_flags = risk_result.get('red_flags', [])
     if red_flags:
         flag_names = [rf['name'] for rf in red_flags]
-        parts.append(f"RED FLAGS: {', '.join(flag_names)}.")
-    
-    # Reasons
-    reasons = risk_result.get('reasons', [])
-    if reasons:
-        parts.append(f"Factors: {'; '.join(reasons[:3])}.")
-    
-    return ' '.join(parts)
+        lines.append(f"EMERGENCY RED FLAGS: {', '.join(flag_names)}.")
+
+    return ' '.join(lines)

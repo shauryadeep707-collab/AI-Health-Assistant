@@ -99,6 +99,12 @@ const Result = {
         </div>
       </div>
 
+      <!-- Automatic Doctor Dispatch Card -->
+      ${this.renderAutoDispatchCard(data)}
+
+      <!-- Summary of Patient Talk with Health Checker -->
+      ${this.renderTalkSummaryCard(data)}
+
       <!-- High-Risk Patient Alert Banner -->
       <div class="high-risk-alert-box card">
         <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: 1rem;">
@@ -168,6 +174,12 @@ const Result = {
         </div>
       </div>
 
+      <!-- Automatic Doctor Dispatch Card -->
+      ${this.renderAutoDispatchCard(data)}
+
+      <!-- Summary of Patient Talk with Health Checker -->
+      ${this.renderTalkSummaryCard(data)}
+
       <!-- High-Risk Patient Alert Banner -->
       <div class="high-risk-alert-box card">
         <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: 1rem;">
@@ -180,21 +192,6 @@ const Result = {
           <button id="alert-toggle-btn" class="btn btn-warning" onclick="Result.triggerHighRiskAlert(${data.id})">
             🔔 Alert Me &amp; Notify On-Call Doctors
           </button>
-        </div>
-      </div>
-
-      <div class="card mt-6">
-        <div class="card-header">
-          <h3 class="card-title">Assessment Summary</h3>
-        </div>
-        <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6;">
-          ${UI.escapeHtml(data.summary || 'Symptoms assessed requiring doctor consultation.')}
-        </p>
-        <div class="mt-4">
-          <strong>Key Clinical Factors Identified:</strong>
-          <ul style="margin-top: 0.5rem; padding-left: 1.25rem; color: var(--gray-700);">
-            ${reasons.map(r => `<li style="margin-bottom: 0.35rem;">• ${UI.escapeHtml(r)}</li>`).join('')}
-          </ul>
         </div>
       </div>
 
@@ -243,6 +240,12 @@ const Result = {
           </span>
         </div>
       </div>
+
+      <!-- Automatic Doctor Dispatch Card -->
+      ${this.renderAutoDispatchCard(data)}
+
+      <!-- Summary of Patient Talk with Health Checker -->
+      ${this.renderTalkSummaryCard(data)}
 
       <!-- Home-Care Guidance Accordion (Warning Signs REMOVED per user request) -->
       <div class="card mt-6">
@@ -334,7 +337,87 @@ const Result = {
   },
 
   /* ==========================================================
-     4. DOCTOR CARDS RENDERER (Online & Offline Support)
+     4. AUTOMATIC DOCTOR ROUTING & TALK SUMMARY CARDS
+     ========================================================== */
+  renderAutoDispatchCard(data) {
+    const ac = data.assigned_consultation;
+    if (!ac) {
+      return '';
+    }
+    const docName = ac.doctor_name || 'Specialist Doctor';
+    const spec = ac.doctor_specialization || 'Consultant';
+    const clinic = ac.clinic_name ? ` &bull; ${UI.escapeHtml(ac.clinic_name)}` : '';
+    const status = ac.status || 'pending';
+
+    return `
+      <div class="card mt-6" style="border: 2px solid #10b981; background: #f0fdf4;">
+        <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="font-size: 2rem;">⚡</div>
+            <div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <h4 style="margin: 0; color: #065f46;">Case Automatically Forwarded to Doctor</h4>
+                <span class="badge" style="background: #10b981; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 12px;">AUTO-DISPATCHED</span>
+              </div>
+              <p class="text-sm mt-1" style="color: #047857; margin-bottom: 0;">
+                Your triage summary and health checkup talk have been automatically sent to <strong>Dr. ${UI.escapeHtml(docName)}</strong> (${UI.escapeHtml(spec)}${clinic}).
+              </p>
+              <div class="text-xs text-muted mt-1">
+                Queue Status: <strong style="text-transform: capitalize; color: #065f46;">${UI.escapeHtml(status)}</strong> &bull; The doctor has been notified and will review your case shortly.
+              </div>
+            </div>
+          </div>
+          <div>
+            <a href="/pages/consultations.html" class="btn btn-sm btn-primary">
+              View Consultation Status
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  renderTalkSummaryCard(data) {
+    const summary = data.summary || '';
+    if (!summary) return '';
+    const structured = (typeof data.structured_json === 'object') ? (data.structured_json || {}) : {};
+    const duration = structured.duration_days;
+    const severity = structured.severity;
+    const worsening = structured.worsening;
+    const temp = structured.temperature_f;
+    const reasons = Array.isArray(data.risk_reasons) ? data.risk_reasons : [];
+
+    return `
+      <div class="card mt-6" style="border-left: 5px solid var(--primary);">
+        <div class="card-header">
+          <h3 class="card-title">📋 Summary of Your Talk with AI Health Checker</h3>
+          <span class="badge badge-info">Auto-Generated Dialogue Summary</span>
+        </div>
+        <p style="color: var(--gray-800); font-size: 0.95rem; line-height: 1.6; margin-top: 0.5rem;">
+          ${UI.escapeHtml(summary)}
+        </p>
+        ${(duration !== undefined || severity || worsening !== undefined || temp) ? `
+          <div class="flex gap-4 mt-3 pt-3" style="border-top: 1px solid var(--gray-200); flex-wrap: wrap; font-size: 0.85rem; color: var(--gray-700);">
+            ${duration ? `<span>⏱️ <strong>Duration:</strong> ${duration} day(s)</span>` : ''}
+            ${severity ? `<span>🩺 <strong>Severity:</strong> ${UI.escapeHtml(severity)}</span>` : ''}
+            ${worsening !== undefined ? `<span>📈 <strong>Progression:</strong> ${worsening ? 'Getting worse' : 'Stable'}</span>` : ''}
+            ${temp ? `<span>🌡️ <strong>Temperature:</strong> ${temp}°F</span>` : ''}
+          </div>
+        ` : ''}
+        ${reasons.length > 0 ? `
+          <div class="mt-3 pt-2" style="font-size: 0.85rem; color: var(--gray-600);">
+            <strong>Clinical Factors Identified:</strong>
+            <ul style="margin-top: 0.25rem; padding-left: 1.25rem;">
+              ${reasons.map(r => `<li>${UI.escapeHtml(r)}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  },
+
+  /* ==========================================================
+     5. DOCTOR CARDS RENDERER (Online & Offline Support)
      ========================================================== */
   renderDoctorCardsHtml(doctors, assessmentId, isHighRisk) {
     if (!doctors || doctors.length === 0) {

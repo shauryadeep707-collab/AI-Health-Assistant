@@ -193,6 +193,12 @@ const Consultations = {
 
     const { consultation, patient, assessment, messages } = res.data;
 
+    const structured = (assessment && typeof assessment.structured_json === 'object') ? (assessment.structured_json || {}) : {};
+    const riskReasons = Array.isArray(assessment?.risk_reasons) ? assessment.risk_reasons : [];
+    const mainSymptoms = Array.isArray(structured.main_symptoms) ? structured.main_symptoms.join(', ') : (assessment?.category || 'General');
+    const otherSymptoms = Array.isArray(structured.other_symptoms) && structured.other_symptoms.length > 0 ? structured.other_symptoms.join(', ') : 'None reported';
+    const medsTaken = Array.isArray(structured.medicines_taken) && structured.medicines_taken.length > 0 ? structured.medicines_taken.join(', ') : 'None';
+
     container.innerHTML = `
       <div class="card mb-6">
         <div class="card-header">
@@ -210,31 +216,78 @@ const Consultations = {
           </div>
         </div>
 
-        <div class="p-4 mb-4" style="background: var(--primary-bg); border-radius: 8px;">
-          <h4 style="color: var(--primary-dark); font-size: 0.95rem;">🤖 AI-Generated Triage Summary</h4>
-          <p class="text-sm mt-1" style="color: var(--gray-800);">${UI.escapeHtml(assessment?.summary || 'No summary available')}</p>
-          <div class="mt-2">
-            ${UI.riskBadge(assessment?.risk_level || 'medium')}
-            <span class="text-xs text-muted" style="margin-left: 0.5rem;">Score: ${assessment?.risk_score || 0}/10</span>
+        <!-- Automatic Dispatch Status Banner -->
+        <div class="p-3 mb-4 flex items-center justify-between" style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px;">
+          <div class="text-xs" style="color: #065f46; font-weight: 600;">
+            ✓ Automatically routed &amp; delivered to your queue on ${consultation.created_at ? new Date(consultation.created_at).toLocaleString() : 'Just now'}
+          </div>
+          <span class="badge" style="background: #10b981; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;">AUTO-ROUTED</span>
+        </div>
+
+        <!-- Patient-Checker Talk Summary Box -->
+        <div class="p-4 mb-4" style="background: var(--primary-bg); border-radius: 8px; border: 1px solid #bfdbfe;">
+          <div class="flex items-center justify-between mb-2">
+            <h4 style="color: var(--primary-dark); font-size: 1rem; margin: 0;">
+              📋 Summary of Patient Talk with AI Health Checker
+            </h4>
+            <div>
+              ${UI.riskBadge(assessment?.risk_level || 'medium')}
+              <span class="text-xs text-muted" style="margin-left: 0.5rem; font-weight: 600;">Score: ${assessment?.risk_score || 0}/10</span>
+            </div>
+          </div>
+
+          <p class="text-sm mt-2" style="color: var(--gray-800); line-height: 1.6; font-weight: 500;">
+            ${UI.escapeHtml(assessment?.summary || 'No dialogue summary generated.')}
+          </p>
+
+          <!-- Dialogue Clinical Parameters -->
+          <div class="grid grid-2 gap-3 mt-4 pt-3" style="border-top: 1px solid #dbeafe; font-size: 0.85rem;">
+            <div>
+              <span class="text-muted">Chief Complaint:</span> 
+              <strong style="color: var(--gray-800);">${UI.escapeHtml(mainSymptoms)}</strong>
+            </div>
+            <div>
+              <span class="text-muted">Duration &amp; Severity:</span> 
+              <strong style="color: var(--gray-800);">${structured.duration_days || 1} day(s) &bull; ${(structured.severity || 'moderate').toUpperCase()}</strong>
+            </div>
+            <div>
+              <span class="text-muted">Progression:</span> 
+              <strong style="color: var(--gray-800);">${structured.worsening ? '⚠️ Getting worse' : 'Stable'}</strong>
+              ${structured.temperature_f ? ` &bull; Temp: <strong>${structured.temperature_f}°F</strong>` : ''}
+            </div>
+            <div>
+              <span class="text-muted">Prior Meds Taken:</span> 
+              <strong style="color: var(--gray-800);">${UI.escapeHtml(medsTaken)}</strong>
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <span class="text-muted">Associated Symptoms:</span> 
+              <span style="color: var(--gray-800);">${UI.escapeHtml(otherSymptoms)}</span>
+            </div>
+            ${riskReasons.length > 0 ? `
+              <div style="grid-column: 1 / -1;">
+                <span class="text-muted">Clinical Factors:</span> 
+                <span style="color: var(--risk-urgent); font-weight: 500;">${riskReasons.map(r => UI.escapeHtml(r)).join('; ')}</span>
+              </div>
+            ` : ''}
           </div>
         </div>
 
         <div class="mb-4">
           <div class="text-xs" style="color: var(--success); font-weight: 600;">
-            ✓ Patient Consent Verified: Given on ${consultation.consent_at ? new Date(consultation.consent_at).toLocaleString() : 'N/A'}
+            ✓ Patient Consent Verified: Authorized data sharing on ${consultation.consent_at ? new Date(consultation.consent_at).toLocaleString() : 'N/A'}
           </div>
         </div>
 
         <!-- Chat Transcript Accordion -->
         <div class="accordion-item mb-4">
           <button class="accordion-header" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
-            View Complete Patient AI Chat Transcript (${messages?.length || 0} messages)
+            💬 View Complete Patient &amp; Checker Talk Transcript (${messages?.length || 0} messages)
           </button>
           <div class="accordion-body">
             <div style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0.5rem 0;">
               ${(messages || []).map(m => `
-                <div style="font-size: 0.85rem; padding: 0.4rem 0.6rem; border-radius: 6px; background: ${m.role === 'user' ? 'var(--primary-bg)' : 'var(--gray-100)'};">
-                  <strong>${m.role === 'user' ? 'Patient' : 'AI Assistant'}:</strong> ${UI.escapeHtml(m.content)}
+                <div style="font-size: 0.85rem; padding: 0.5rem 0.75rem; border-radius: 6px; background: ${m.role === 'user' ? 'var(--primary-bg)' : 'var(--gray-100)'};">
+                  <strong>${m.role === 'user' ? '👤 Patient' : (m.role === 'assistant' ? '🤖 AI Health Checker' : 'System')}:</strong> ${UI.escapeHtml(m.content)}
                 </div>
               `).join('')}
             </div>

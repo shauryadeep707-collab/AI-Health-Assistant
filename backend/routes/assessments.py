@@ -17,6 +17,95 @@ from backend.services.notification_service import create_notification
 assessments_bp = Blueprint('assessments', __name__)
 
 
+def auto_route_case_to_doctor(db_conn, assessment_id, patient, category, risk_level, summary):
+    """
+    Automatically creates a consultation case and routes the patient's talk summary
+    to the best-matching verified specialist doctor.
+    """
+    try:
+        category = (category or 'general').lower()
+        from backend.routes.doctors import CATEGORY_SPECIALTIES
+        target_specs = CATEGORY_SPECIALTIES.get(category, ['General Physician'])
+
+        # Check if a consultation already exists for this assessment
+        existing = database.fetch_one(
+            db_conn,
+            """SELECT c.id, c.doctor_id, u.name as doctor_name, d.specialization as doctor_specialization
+               FROM consultations c
+               JOIN users u ON c.doctor_id = u.id
+               LEFT JOIN doctor_profiles d ON u.id = d.user_id
+               WHERE c.assessment_id = ?""",
+            (assessment_id,)
+        )
+        if existing:
+            return existing['id'], existing
+
+        # Find the best verified doctor for this category (online first)
+        placeholders = ','.join(['?' for _ in target_specs])
+        sql = f"""
+            SELECT u.id, u.name, u.email, d.specialization, d.is_available, d.clinic_name
+            FROM users u
+            JOIN doctor_profiles d ON u.id = d.user_id
+            WHERE u.role = 'doctor' AND u.is_verified = 1 AND d.specialization IN ({placeholders})
+            ORDER BY d.is_available DESC, u.id ASC
+            LIMIT 1
+        """
+        doc = database.fetch_one(db_conn, sql, target_specs)
+
+        # Fallback to any verified doctor
+        if not doc:
+            doc = database.fetch_one(
+                db_conn,
+                """SELECT u.id, u.name, u.email, d.specialization, d.is_available, d.clinic_name
+                   FROM users u
+                   JOIN doctor_profiles d ON u.id = d.user_id
+                   WHERE u.role = 'doctor' AND u.is_verified = 1
+                   ORDER BY d.is_available DESC, u.id ASC
+                   LIMIT 1"""
+            )
+
+        if not doc:
+            return None, None
+
+        from datetime import datetime, timezone
+        consent_at = datetime.now(timezone.utc).isoformat()
+        client_id = f"auto-consult-{assessment_id}"
+
+        consultation_id = database.insert(
+            db_conn,
+            """INSERT INTO consultations 
+               (client_id, assessment_id, patient_id, doctor_id, status, consent_given, consent_at) 
+               VALUES (?, ?, ?, ?, 'pending', 1, ?)""",
+            (client_id, assessment_id, patient['id'], doc['id'], consent_at)
+        )
+
+        patient_name = patient.get('name', 'Patient')
+        doc_notice = (
+            f"🚨 EMERGENCY CASE AUTOMATICALLY ROUTED: Patient {patient_name} reported URGENT symptoms. Immediate review required!"
+            if risk_level == 'urgent' else
+            f"📋 Patient Triage Summary Received: {patient_name} completed assessment for {category} ({risk_level.upper()} Risk). Case ready for review."
+        )
+        create_notification(
+            db_conn,
+            user_id=doc['id'],
+            text=doc_notice,
+            link=f"/pages/doctor-consultation.html?id={consultation_id}"
+        )
+
+        create_notification(
+            db_conn,
+            user_id=patient['id'],
+            text=f"✓ Your health checkup summary was automatically delivered to Dr. {doc['name']} ({doc.get('specialization', 'Specialist')}).",
+            link=f"/pages/consultations.html"
+        )
+
+        return consultation_id, doc
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("auto_route_case_to_doctor error: %s", e)
+        return None, None
+
+
 @assessments_bp.route('/api/assessments', methods=['POST'])
 @role_required('patient')
 def create_assessment(user):
@@ -106,6 +195,9 @@ def send_message(user, assessment_id):
              json.dumps(risk_result['reasons']), summary, assessment_id)
         )
         
+        # Auto-route urgent case and summary directly to doctor
+        consult_id, doc = auto_route_case_to_doctor(g.db, assessment_id, user, 'general', 'urgent', summary)
+
         return jsonify({
             'ok': True,
             'data': {
@@ -113,6 +205,9 @@ def send_message(user, assessment_id):
                 'assessment_id': assessment_id,
                 'risk': risk_result,
                 'red_flags': red_flags,
+                'summary': summary,
+                'consultation_id': consult_id,
+                'doctor': doc
             }
         })
     
@@ -171,7 +266,7 @@ def send_message(user, assessment_id):
         all_text = ' '.join([m['content'] for m in messages if m['role'] == 'user'])
         risk_result = assess_risk(all_text, structured, profile, ai_risk)
         
-        # Generate summary
+        # Generate summary of the talk
         summary = generate_summary(structured, risk_result, profile, messages)
         
         # Update assessment with results
@@ -192,6 +287,9 @@ def send_message(user, assessment_id):
             (str(uuid.uuid4()), assessment_id, 'system', complete_msg)
         )
         
+        # Automatically route case and summary to matching specialist doctor
+        consult_id, doc = auto_route_case_to_doctor(g.db, assessment_id, user, category, risk_result['level'], summary)
+
         return jsonify({
             'ok': True,
             'data': {
@@ -201,6 +299,8 @@ def send_message(user, assessment_id):
                 'category': category,
                 'structured_data': structured,
                 'summary': summary,
+                'consultation_id': consult_id,
+                'doctor': doc
             }
         })
     
@@ -245,6 +345,19 @@ def get_assessment(user, assessment_id):
     except (json.JSONDecodeError, TypeError):
         result['risk_reasons'] = []
     
+    # Check for automatically assigned consultation
+    assigned_consultation = database.fetch_one(
+        g.db,
+        """SELECT c.id, c.status, c.created_at, c.doctor_advice,
+                  u.name as doctor_name, u.email as doctor_email,
+                  d.specialization as doctor_specialization, d.clinic_name, d.address as clinic_address, d.city as clinic_city
+           FROM consultations c
+           JOIN users u ON c.doctor_id = u.id
+           LEFT JOIN doctor_profiles d ON u.id = d.user_id
+           WHERE c.assessment_id = ?""",
+        (assessment_id,)
+    )
+    result['assigned_consultation'] = assigned_consultation
     result['messages'] = messages
     
     return jsonify({'ok': True, 'data': result})

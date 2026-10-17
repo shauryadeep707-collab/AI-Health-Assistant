@@ -324,3 +324,44 @@ def test_assessment_high_risk_alert_and_offline_doctor_consult(client):
     assert consult_res.get_json()['data']['is_urgent'] is True
 
 
+def test_automatic_dialogue_summary_and_doctor_routing(client):
+    """Test that patient talk with the checker automatically generates a structured summary and routes case to doctor."""
+    login_user(client, 'patient@demo.com', 'Patient@123')
+
+    # 1. Create assessment
+    ass_res = client.post('/api/assessments', json={'client_id': 'auto-route-test-ass'})
+    assert ass_res.status_code == 201
+    ass_id = ass_res.get_json()['data']['id']
+
+    # 2. Complete with red flag (immediate auto-route)
+    msg_res = client.post(f'/api/assessments/{ass_id}/message', json={
+        'content': 'I am having crushing chest pain radiating to my left arm',
+        'client_id': 'auto-msg-1'
+    })
+    assert msg_res.status_code == 200
+    data = msg_res.get_json()['data']
+    assert data['type'] == 'urgent'
+    assert 'summary' in data
+    assert 'Chief Complaint' in data['summary'] or 'crushing chest pain' in data['summary']
+    assert data['consultation_id'] is not None
+    assert data['doctor'] is not None
+
+    # 3. Patient gets assessment details and verifies assigned_consultation is present
+    get_res = client.get(f'/api/assessments/{ass_id}')
+    assert get_res.status_code == 200
+    ass_data = get_res.get_json()['data']
+    assert ass_data['assigned_consultation'] is not None
+    assert ass_data['assigned_consultation']['id'] == data['consultation_id']
+
+    # 4. Doctor logs in and views consultation details
+    login_user(client, 'doctor@demo.com', 'Doctor@123')
+    consult_id = data['consultation_id']
+    doc_res = client.get(f'/api/consultations/{consult_id}')
+    assert doc_res.status_code == 200
+    doc_data = doc_res.get_json()['data']
+    assert doc_data['consultation']['status'] == 'pending'
+    assert doc_data['assessment']['summary'] is not None
+    assert len(doc_data['messages']) >= 1
+
+
+
