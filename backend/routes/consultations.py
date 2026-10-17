@@ -69,13 +69,24 @@ def request_consultation(user):
         (client_id, assessment_id, user['id'], doctor_id, consent_given, consent_at)
     )
 
+    is_urgent = bool(data.get('is_urgent', False))
+    doctor_notice = f"🚨 URGENT HIGH-RISK ALERT from {user['name']}: Immediate medical evaluation requested!" if is_urgent else f"New consultation request from {user['name']}."
+
     # In-app notification to the doctor (conceptual FIFO queue)
     create_notification(
         g.db,
         user_id=doctor_id,
-        text=f"New consultation request from {user['name']}.",
+        text=doctor_notice,
         link=f"/pages/doctor-consultation.html?id={consultation_id}"
     )
+
+    if is_urgent:
+        create_notification(
+            g.db,
+            user_id=user['id'],
+            text=f"🚨 Emergency consultation alert sent to Dr. {doctor['name']}. You will be alerted the moment they respond.",
+            link=f"/pages/consultations.html"
+        )
 
     return jsonify({
         'ok': True,
@@ -83,7 +94,8 @@ def request_consultation(user):
             'id': consultation_id,
             'client_id': client_id,
             'status': 'pending',
-            'message': 'Consultation request sent to doctor.'
+            'is_urgent': is_urgent,
+            'message': 'Urgent alert sent to doctor.' if is_urgent else 'Consultation request sent to doctor.'
         }
     }), 201
 

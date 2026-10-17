@@ -17,6 +17,7 @@ AI SAFETY RULES:
 
 import json
 import os
+import re
 from backend.config import config
 
 # Demo mode follow-up questions organized by symptom category
@@ -74,11 +75,13 @@ DEMO_FOLLOWUPS = {
 
 # Category detection keywords for demo mode
 CATEGORY_KEYWORDS = {
-    'fever': ['fever', 'temperature', 'bukhar', 'tez bukhar', 'hot', 'burning up', 'tapman'],
-    'cold_cough': ['cold', 'cough', 'sardi', 'khansi', 'sneeze', 'runny nose', 'naak', 'jukaam', 'nazla'],
-    'headache': ['headache', 'head pain', 'sir dard', 'sar dard', 'migraine', 'sir me dard'],
-    'sore_throat': ['sore throat', 'throat pain', 'gala dard', 'gale mein dard', 'gala kharab', 'tonsil'],
-    'stomach': ['stomach', 'pet dard', 'diarrhea', 'vomit', 'nausea', 'acidity', 'pet me dard', 'ulti', 'dast', 'kabz'],
+    'fever': ['fever', 'temperature', 'bukhar', 'tez bukhar', 'hot', 'burning up', 'tapman', 'pyrexia', 'chills'],
+    'cold_cough': ['cold', 'cough', 'sardi', 'khansi', 'sneeze', 'runny nose', 'naak', 'jukaam', 'nazla', 'congestion', 'flu', 'phlegm', 'balgam'],
+    'headache': ['headache', 'head pain', 'sir dard', 'sar dard', 'migraine', 'sir me dard', 'cephalalgia', 'throbbing head'],
+    'sore_throat': ['sore throat', 'throat pain', 'gala dard', 'gale mein dard', 'gala kharab', 'tonsil', 'pharyngitis', 'difficulty swallowing'],
+    'stomach': ['stomach', 'pet dard', 'diarrhea', 'vomit', 'nausea', 'acidity', 'pet me dard', 'ulti', 'dast', 'kabz', 'abdominal', 'belly pain', 'loose motion'],
+    'cardiac': ['chest', 'heart', 'palpitation', 'seene', 'chhati', 'pressure', 'sine me dard'],
+    'skin': ['rash', 'itching', 'khujli', 'skin', 'allergy', 'daane', 'redness', 'boils'],
 }
 
 
@@ -112,15 +115,18 @@ def get_followup_question(category, question_index, messages=None):
 
 def extract_structured_data_demo(messages, category):
     """
-    Extract structured data from chat messages in demo mode.
-    Parses the Q&A pairs to build the structured JSON.
-    
-    WHY parse answers: the demo follow-ups use chips with known values,
-    so we can reliably extract duration, severity, etc.
+    Intelligently extract structured clinical data from chat messages in demo mode.
+    Analyzes the full conversational history (all user messages) for:
+    - Duration (days, weeks, relative phrases)
+    - Severity (mild, moderate, severe across English & Hindi)
+    - Worsening status (improving vs worsening)
+    - Temperature (°F)
+    - Associated symptoms
+    - AI risk recommendation
     """
     structured = {
         'main_symptoms': [],
-        'category': category,
+        'category': category or 'general',
         'duration_days': 1,
         'severity': 'mild',
         'worsening': False,
@@ -128,56 +134,128 @@ def extract_structured_data_demo(messages, category):
         'other_symptoms': [],
         'medicines_taken': [],
         'notes': '',
+        'ai_risk_level': 'low'
     }
     
-    # First user message contains main symptoms
     user_messages = [m for m in messages if m.get('role') == 'user']
-    if user_messages:
-        structured['main_symptoms'] = [user_messages[0].get('content', '')]
-    
-    # Parse subsequent answers based on position
+    if not user_messages:
+        return structured
+
+    all_user_text = ' '.join([m.get('content', '') for m in user_messages]).lower().strip()
+    first_msg = user_messages[0].get('content', '')
+    structured['main_symptoms'] = [first_msg] if first_msg else []
+
+    # 1. DURATION EXTRACTION
+    day_match = re.search(r'(\d+)\s*(?:-\s*(\d+))?\s*(?:day|din|dias)', all_user_text)
+    week_match = re.search(r'(\d+)\s*(?:-\s*(\d+))?\s*(?:week|hafte|hafta)', all_user_text)
+    if week_match:
+        weeks = int(week_match.group(2) or week_match.group(1))
+        structured['duration_days'] = max(7, weeks * 7)
+    elif day_match:
+        days = int(day_match.group(2) or day_match.group(1))
+        structured['duration_days'] = days
+    elif any(p in all_user_text for p in ['more than a week', 'over a week', 'about a week', '1 week', 'ek hafta']):
+        structured['duration_days'] = 7
+    elif any(p in all_user_text for p in ['4-7 days', '4 to 7 days', 'char se saat din']):
+        structured['duration_days'] = 5
+    elif any(p in all_user_text for p in ['2-3 days', '2 to 3 days', 'do teen din']):
+        structured['duration_days'] = 3
+    elif any(p in all_user_text for p in ['since yesterday', 'kal se']):
+        structured['duration_days'] = 2
+    elif any(p in all_user_text for p in ['today', 'aaj se', '1 day', 'ek din']):
+        structured['duration_days'] = 1
+
+    # Also parse sequential answers if chips were clicked
     for i, msg in enumerate(user_messages[1:], 1):
-        answer = (msg.get('content', '') or '').lower().strip()
-        
-        if i == 1:  # Duration
-            if 'week' in answer or '7' in answer:
-                structured['duration_days'] = 7
-            elif '4' in answer or '5' in answer or '6' in answer:
-                structured['duration_days'] = 5
-            elif '2' in answer or '3' in answer:
-                structured['duration_days'] = 3
-            else:
-                structured['duration_days'] = 1
-        
-        elif i == 2:  # Severity
-            if 'severe' in answer or 'worst' in answer:
-                structured['severity'] = 'severe'
-            elif 'moderate' in answer:
-                structured['severity'] = 'moderate'
-            else:
-                structured['severity'] = 'mild'
-        
-        elif i == 3:  # Worsening
-            structured['worsening'] = 'worse' in answer or 'yes' in answer
-        
-        elif i == 4:  # Temperature or related
-            if '103' in answer or 'above 103' in answer:
-                structured['temperature_f'] = 104
-            elif '101' in answer or '102' in answer:
-                structured['temperature_f'] = 102
-            elif '100' in answer:
-                structured['temperature_f'] = 100
-            elif 'high' in answer:
-                structured['temperature_f'] = 102
-        
-        elif i == 5:  # Other symptoms
-            if 'none' not in answer:
-                structured['other_symptoms'] = [answer]
-        
-        elif i == 6:  # Medicines taken
-            if 'nothing' not in answer and 'no' not in answer:
-                structured['medicines_taken'] = [answer]
-    
+        ans = (msg.get('content', '') or '').lower().strip()
+        if i == 1:
+            if 'week' in ans or '7' in ans:
+                structured['duration_days'] = max(structured['duration_days'], 7)
+            elif '4' in ans or '5' in ans or '6' in ans:
+                structured['duration_days'] = max(structured['duration_days'], 5)
+            elif '2' in ans or '3' in ans:
+                structured['duration_days'] = max(structured['duration_days'], 3)
+
+    # 2. SEVERITY EXTRACTION (English & Hindi)
+    severe_words = [
+        'severe', 'worst', 'unbearable', 'extreme', 'intense', 'critical',
+        'very high', 'very bad', 'bahut zyada', 'tez', 'bura', 'cannot sleep',
+        'hard to swallow', 'terrible', 'excruciating', 'acute', 'high intensity',
+        'shiddat', 'asahy', 'unbearable pain', 'very painful'
+    ]
+    moderate_words = [
+        'moderate', 'medium', 'quite bad', 'bothersome', 'persistent', 'bad',
+        'painful', 'achy', 'frequent', 'thoda zyada', 'kafi', 'disturbing', 'troublesome'
+    ]
+    if any(w in all_user_text for w in severe_words):
+        structured['severity'] = 'severe'
+    elif any(w in all_user_text for w in moderate_words):
+        structured['severity'] = 'moderate'
+    else:
+        # Check follow-up answers for chip clicks
+        for i, msg in enumerate(user_messages[1:], 1):
+            ans = (msg.get('content', '') or '').lower().strip()
+            if i == 2:
+                if 'severe' in ans or 'worst' in ans:
+                    structured['severity'] = 'severe'
+                elif 'moderate' in ans:
+                    structured['severity'] = 'moderate'
+
+    # 3. WORSENING EXTRACTION
+    worse_words = [
+        'getting worse', 'worse', 'worsening', 'increasing', 'escalating',
+        'spreading', 'badh raha', 'zyada ho raha', 'badhti ja rahi',
+        'yes, getting worse', 'yes, worse', 'intensifying', 'worsened'
+    ]
+    improving_words = ['improving', 'better', 'getting better', 'recovering', 'easing', 'slowly improving']
+    if any(w in all_user_text for w in worse_words) and not any(w in all_user_text for w in improving_words):
+        structured['worsening'] = True
+    else:
+        for i, msg in enumerate(user_messages[1:], 1):
+            ans = (msg.get('content', '') or '').lower().strip()
+            if i == 3:
+                structured['worsening'] = 'worse' in ans or 'yes' in ans
+
+    # 4. TEMPERATURE EXTRACTION
+    temp_match = re.search(r'\b(10[0-6](?:\.[0-9])?)\b', all_user_text)
+    if temp_match:
+        try:
+            structured['temperature_f'] = float(temp_match.group(1))
+        except ValueError:
+            pass
+    elif any(p in all_user_text for p in ['above 103', '>103', 'high fever', 'tez bukhar']):
+        structured['temperature_f'] = 103.5
+    elif any(p in all_user_text for p in ['101-103', '101 to 103', '102']):
+        structured['temperature_f'] = 102.0
+    elif any(p in all_user_text for p in ['100-101', 'mild fever', 'halka bukhar']):
+        structured['temperature_f'] = 100.5
+
+    # 5. ASSOCIATED / OTHER SYMPTOMS
+    symptom_catalog = [
+        ('headache', 'Headache'), ('cough', 'Cough'), ('cold', 'Common Cold'),
+        ('sore throat', 'Sore Throat'), ('throat pain', 'Throat Pain'),
+        ('body ache', 'Body Ache'), ('fatigue', 'Fatigue / Weakness'),
+        ('dizziness', 'Dizziness'), ('nausea', 'Nausea'), ('vomiting', 'Vomiting'),
+        ('diarrhea', 'Diarrhea'), ('stomach pain', 'Abdominal Pain'),
+        ('chills', 'Chills / Shivering'), ('runny nose', 'Runny Nose'),
+        ('loss of appetite', 'Loss of Appetite'), ('rash', 'Skin Rash')
+    ]
+    detected_others = []
+    for kw, label in symptom_catalog:
+        if kw in all_user_text:
+            if not first_msg or kw not in first_msg.lower():
+                detected_others.append(label)
+    if detected_others:
+        structured['other_symptoms'] = list(dict.fromkeys(detected_others))[:5]
+
+    # 6. ESTIMATE AI_RISK_LEVEL (helps elevate risk when appropriate)
+    if structured['temperature_f'] >= 103 or (structured['severity'] == 'severe' and structured['duration_days'] >= 3):
+        structured['ai_risk_level'] = 'urgent'
+    elif structured['severity'] in ('moderate', 'severe') or structured['duration_days'] >= 3 or structured['temperature_f'] >= 101 or structured['worsening']:
+        structured['ai_risk_level'] = 'medium'
+    else:
+        structured['ai_risk_level'] = 'low'
+
     return structured
 
 

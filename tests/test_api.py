@@ -259,3 +259,68 @@ def test_doctor_credentials_registration_and_review(client):
     assert verify_res.get_json()['ok'] is True
 
 
+def test_accurate_symptom_nlp_extraction():
+    from backend.services.ai_service import extract_structured_data_demo
+    from backend.services.risk_engine import calculate_risk_score
+
+    # Simulate realistic user messages
+    messages = [
+        {'role': 'user', 'content': 'I have severe fever and stomach pain for 4 days getting worse, temperature is 102.5'},
+        {'role': 'assistant', 'content': 'Do you have any other symptoms?'},
+        {'role': 'user', 'content': 'Yes, severe headache and vomiting'}
+    ]
+
+    extracted = extract_structured_data_demo(messages, 'fever')
+    assert extracted['duration_days'] == 4
+    assert extracted['severity'] == 'severe'
+    assert extracted['worsening'] is True
+    assert extracted['temperature_f'] == 102.5
+    assert len(extracted['other_symptoms']) >= 1
+
+    # Ensure risk score is calculated accurately and NOT 0
+    score, reasons = calculate_risk_score(extracted)
+    assert score >= 5
+    assert any('Severe' in r for r in reasons)
+    assert any('worse' in r for r in reasons)
+
+
+def test_assessment_high_risk_alert_and_offline_doctor_consult(client):
+    login_user(client, 'patient@demo.com', 'Patient@123')
+
+    # 1. Create assessment
+    ass_res = client.post('/api/assessments', json={'client_id': 'alert-test-ass'})
+    assert ass_res.status_code == 201
+    ass_id = ass_res.get_json()['data']['id']
+
+    # 2. Trigger high risk alert
+    alert_res = client.post(f'/api/assessments/{ass_id}/alert')
+    assert alert_res.status_code == 200
+    alert_data = alert_res.get_json()['data']
+    assert alert_data['alert_active'] is True
+
+    # 3. Check notifications
+    notif_res = client.get('/api/notifications')
+    assert notif_res.status_code == 200
+    notifs = notif_res.get_json()['data']
+    assert any('High-Risk Health Alert' in n['text'] for n in notifs)
+
+    # 4. Search related doctors including offline
+    doc_res = client.get('/api/doctors/nearby?category=fever&include_offline=true')
+    assert doc_res.status_code == 200
+    docs = doc_res.get_json()['data']
+    assert len(docs) > 0
+    assert 'medical_degree' in docs[0]
+
+    # 5. Request consultation with is_urgent flag
+    target_doc = docs[0]
+    consult_res = client.post('/api/consultations', json={
+        'client_id': 'urgent-consult-client',
+        'doctor_id': target_doc['id'],
+        'assessment_id': ass_id,
+        'consent_given': True,
+        'is_urgent': True
+    })
+    assert consult_res.status_code == 201
+    assert consult_res.get_json()['data']['is_urgent'] is True
+
+

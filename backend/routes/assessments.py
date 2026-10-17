@@ -12,6 +12,7 @@ from backend import db as database
 from backend.services.ai_service import process_message, detect_category, extract_structured_data_demo
 from backend.services.risk_engine import assess_risk, check_red_flags
 from backend.services.summary_service import generate_summary
+from backend.services.notification_service import create_notification
 
 assessments_bp = Blueprint('assessments', __name__)
 
@@ -259,3 +260,52 @@ def list_assessments(user):
         (user['id'],)
     )
     return jsonify({'ok': True, 'data': assessments})
+
+
+@assessments_bp.route('/api/assessments/<int:assessment_id>/alert', methods=['POST'])
+@role_required('patient')
+def trigger_assessment_alert(user, assessment_id):
+    """
+    Patient triggers high-risk notification / emergency alert.
+    Dispatches in-app notification to patient and alerts on-call verified doctors.
+    """
+    assessment = database.fetch_one(
+        g.db,
+        'SELECT * FROM assessments WHERE id = ? AND patient_id = ?',
+        (assessment_id, user['id'])
+    )
+    if not assessment:
+        return jsonify({'ok': False, 'error': 'Assessment not found'}), 404
+
+    risk_lvl = (assessment.get('risk_level') or 'medium').upper()
+    category = (assessment.get('category') or 'general').replace('_', ' ').title()
+
+    # 1. Create patient notification (with link to result)
+    create_notification(
+        g.db,
+        user_id=user['id'],
+        text=f"🚨 High-Risk Health Alert Activated: Your {category} assessment ({risk_lvl} Risk) is registered for emergency doctor monitoring.",
+        link=f"/pages/result.html?id={assessment_id}"
+    )
+
+    # 2. Dispatch high-risk alert to verified doctors (including on-call/offline)
+    doctors = database.fetch_all(
+        g.db,
+        "SELECT u.id, u.name FROM users u WHERE u.role = 'doctor' AND u.is_verified = 1 LIMIT 5"
+    )
+    for doc in doctors:
+        create_notification(
+            g.db,
+            user_id=doc['id'],
+            text=f"🚨 HIGH-RISK EMERGENCY ALERT: Patient {user['name']} reported {risk_lvl} risk {category} symptoms. Immediate review required.",
+            link=f"/pages/doctor-consultations.html"
+        )
+
+    return jsonify({
+        'ok': True,
+        'data': {
+            'message': 'High-risk alert activated. You and on-call doctors have been notified.',
+            'alert_active': True,
+            'notified_doctors_count': len(doctors)
+        }
+    })

@@ -147,6 +147,12 @@ def calculate_risk_score(structured_data, patient_profile=None):
         score += weights['temp_101']
         reasons.append(f'Fever: {temp}°F (≥101°F: +{weights["temp_101"]})')
     
+    # --- Associated / Multiple Symptoms Acuity ---
+    other_symptoms = structured_data.get('other_symptoms', [])
+    if isinstance(other_symptoms, list) and len(other_symptoms) >= 2:
+        score += 1
+        reasons.append(f'Multiple concurrent symptoms ({len(other_symptoms)} reported: +1)')
+
     # --- Age risk (from patient profile) ---
     if patient_profile:
         age = patient_profile.get('age', 0)
@@ -236,5 +242,9 @@ def assess_risk(text, structured_data, patient_profile=None, ai_risk_level=None)
             result['level'] = ai_risk_level.lower()
             result['reasons'].append(f'AI assessment elevated risk to {ai_risk_level}')
             result['method'] = 'ai_escalated'
+            if ai_order == 1 and result['score'] < 3:
+                result['score'] = 3
+            elif ai_order == 2 and result['score'] < 6:
+                result['score'] = 6
     
     return result

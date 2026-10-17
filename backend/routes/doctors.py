@@ -30,13 +30,26 @@ def haversine_distance(lat1, lng1, lat2, lng2):
     return R * c
 
 
+CATEGORY_SPECIALTIES = {
+    'fever': ['General Physician', 'Pediatrician', 'Internal Medicine'],
+    'cold_cough': ['Pulmonologist', 'ENT Specialist', 'General Physician'],
+    'headache': ['Neurologist', 'General Physician'],
+    'sore_throat': ['ENT Specialist', 'General Physician'],
+    'stomach': ['Gastroenterologist', 'General Physician'],
+    'cardiac': ['Cardiologist', 'General Physician'],
+    'skin': ['Dermatologist', 'General Physician'],
+    'general': ['General Physician']
+}
+
+
 @doctors_bp.route('/api/doctors/nearby', methods=['GET'])
 @role_required('patient')
 def nearby_doctors(user):
-    """Find nearby available doctors.
-    Query params: lat, lng, radius_km (default 50), specialization (optional)
-    Returns doctors sorted by distance, with distance_km.
-    Only returns verified (is_verified=1) and available doctors.
+    """Find nearby doctors.
+    Query params: lat, lng, radius_km (default 50), specialization (optional),
+    category (optional - matches condition to relevant medical specialty),
+    include_offline (optional - if true, returns both online and offline doctors).
+    Only returns verified (is_verified=1) doctors.
     """
     try:
         lat = float(request.args.get('lat', 0))
@@ -45,29 +58,55 @@ def nearby_doctors(user):
         lat, lng = 0, 0
     
     radius_km = float(request.args.get('radius_km', 50))
-    specialization = request.args.get('specialization', '')
-    city = request.args.get('city', '')
+    specialization = request.args.get('specialization', '').strip()
+    category = request.args.get('category', '').strip().lower()
+    city = request.args.get('city', '').strip()
+    include_offline = request.args.get('include_offline', '').lower() in ('true', '1', 'yes')
     
     # Build query
     sql = """
         SELECT u.id, u.name, u.email, d.specialization, d.clinic_name, d.address,
                d.city, d.lat, d.lng, d.fee, d.experience_years, d.is_available,
-               d.available_days, d.available_from, d.available_to
+               d.available_days, d.available_from, d.available_to, d.medical_degree
         FROM users u
         JOIN doctor_profiles d ON u.id = d.user_id
-        WHERE u.role = 'doctor' AND u.is_verified = 1 AND d.is_available = 1
+        WHERE u.role = 'doctor' AND u.is_verified = 1
     """
     params = []
+    
+    if not include_offline:
+        sql += ' AND d.is_available = 1'
     
     if specialization:
         sql += ' AND d.specialization = ?'
         params.append(specialization)
+    elif category and category in CATEGORY_SPECIALTIES:
+        # Match condition to relevant medical specialties
+        specs = CATEGORY_SPECIALTIES[category]
+        placeholders = ','.join(['?' for _ in specs])
+        sql += f' AND d.specialization IN ({placeholders})'
+        params.extend(specs)
     
     if city:
         sql += ' AND LOWER(d.city) = LOWER(?)'
         params.append(city)
     
     doctors = database.fetch_all(g.db, sql, params)
+    
+    # If category filter was too strict and returned 0 doctors, fall back to all verified doctors
+    if len(doctors) == 0 and category:
+        fallback_sql = """
+            SELECT u.id, u.name, u.email, d.specialization, d.clinic_name, d.address,
+                   d.city, d.lat, d.lng, d.fee, d.experience_years, d.is_available,
+                   d.available_days, d.available_from, d.available_to, d.medical_degree
+            FROM users u
+            JOIN doctor_profiles d ON u.id = d.user_id
+            WHERE u.role = 'doctor' AND u.is_verified = 1
+        """
+        fallback_params = []
+        if not include_offline:
+            fallback_sql += ' AND d.is_available = 1'
+        doctors = database.fetch_all(g.db, fallback_sql, fallback_params)
     
     # Calculate distances and filter by radius
     results = []
@@ -85,8 +124,13 @@ def nearby_doctors(user):
         
         results.append(doc)
     
-    # Sort by distance (nearest first), unknowns at the end
-    results.sort(key=lambda d: d.get('distance_km') if d.get('distance_km') is not None else 9999)
+    # Sort: Condition-matched specialists first, online available first, then nearest distance
+    target_specs = CATEGORY_SPECIALTIES.get(category, []) if category else []
+    results.sort(key=lambda d: (
+        0 if (target_specs and d.get('specialization') in target_specs) else 1,
+        0 if d.get('is_available') == 1 else 1,
+        d.get('distance_km') if d.get('distance_km') is not None else 9999
+    ))
     
     return jsonify({'ok': True, 'data': results})
 

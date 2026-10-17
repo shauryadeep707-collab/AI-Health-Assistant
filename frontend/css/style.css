@@ -676,6 +676,40 @@ input, select, textarea { font-family: inherit; font-size: var(--font-size-base)
   font-weight: 600;
 }
 
+.doctor-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.doctor-status-online {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.doctor-status-offline {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.high-risk-alert-box {
+  background: #fff1f2;
+  border: 1.5px solid #fda4af;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(225, 29, 72, 0.08);
+}
+
+.high-risk-alert-box h4 {
+  color: #be123c;
+  margin-bottom: 0.25rem;
+}
+
 /* === Consultation Status === */
 .status-badge {
   display: inline-flex;
