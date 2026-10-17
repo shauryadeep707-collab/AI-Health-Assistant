@@ -35,7 +35,7 @@
         <form id="login-form">
           <div class="form-group">
             <label class="form-label" for="email">Email Address</label>
-            <input type="email" id="email" class="form-input" required placeholder="patient@demo.com">
+            <input type="email" id="email" class="form-input" required placeholder="name@example.com">
           </div>
 
           <div class="form-group">
@@ -47,22 +47,6 @@
             Sign In
           </button>
         </form>
-
-        <!-- Quick Demo Credentials Pills -->
-        <div class="mt-6 pt-4" style="border-top: 1px solid var(--gray-200); font-size: 0.8rem;">
-          <strong class="text-muted">Demo Accounts (One-Click Fill):</strong>
-          <div class="flex gap-2 mt-2" style="flex-wrap: wrap;">
-            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('patient@demo.com', 'Patient@123')">
-              👤 Patient (Rahul)
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('doctor@demo.com', 'Doctor@123')">
-              👨‍⚕️ Doctor (Dr. Amit)
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('admin@demo.com', 'Admin@123')">
-              🛡️ Admin
-            </button>
-          </div>
-        </div>
 
         <p class="text-center text-sm mt-6">
           Don't have an account? <a href="/pages/register.html">Sign Up</a>
@@ -80,11 +64,6 @@
   <script src="/js/auth.js"></script>
   <script src="/js/notifications.js"></script>
   <script>
-    function fillDemo(email, pass) {
-      document.getElementById('email').value = email;
-      document.getElementById('password').value = pass;
-    }
-
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value.trim();
