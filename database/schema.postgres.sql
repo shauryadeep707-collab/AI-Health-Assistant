@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS doctor_profiles (
     lng DOUBLE PRECISION,
     fee DOUBLE PRECISION,
     experience_years INTEGER,
-    is_available BOOLEAN DEFAULT TRUE,
+    is_available INTEGER DEFAULT 1,
     available_days TEXT DEFAULT 'Mon,Tue,Wed,Thu,Fri',
     available_from TEXT DEFAULT '09:00',
     available_to TEXT DEFAULT '17:00'
@@ -97,6 +97,18 @@ CREATE TABLE IF NOT EXISTS ai_usage (
     used_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS medicines (
+    id BIGSERIAL PRIMARY KEY,
+    category TEXT NOT NULL,
+    name TEXT NOT NULL,
+    purpose TEXT,
+    general_info TEXT,
+    precautions TEXT,
+    avoid_if TEXT,
+    safety_note TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_doctor_available ON doctor_profiles(is_available, specialization);
 CREATE INDEX IF NOT EXISTS idx_doctor_location ON doctor_profiles(lat, lng);
@@ -105,14 +117,5 @@ CREATE INDEX IF NOT EXISTS idx_assessment_patient ON assessments(patient_id);
 CREATE INDEX IF NOT EXISTS idx_notification_user ON notifications(user_id, is_read);
 CREATE INDEX IF NOT EXISTS idx_login_attempts ON login_attempts(email, attempted_at);
 CREATE INDEX IF NOT EXISTS idx_ai_usage ON ai_usage(user_id, used_at);
+CREATE INDEX IF NOT EXISTS idx_medicines_category ON medicines(category);
 
--- Row Level Security (RLS) enabled on every table
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE patient_profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE doctor_profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE assessments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
-ALTER TABLE consultations ENABLE ROW LEVEL SECURITY;
-ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
-ALTER TABLE login_attempts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE ai_usage ENABLE ROW LEVEL SECURITY;

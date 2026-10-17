@@ -5,7 +5,7 @@ Notifications and Knowledge Base retrieval routes for AI Health Assistant.
 from flask import Blueprint, request, jsonify, g
 from backend.auth_utils import role_required
 from backend.services.notification_service import get_user_notifications, mark_notification_read
-from backend.services.knowledge_base import get_guidance, get_medicines
+from backend.services.knowledge_base import get_guidance, get_medicines, get_medicines_from_db
 
 notifications_bp = Blueprint('notifications', __name__)
 
@@ -30,8 +30,15 @@ def fetch_guidance(category):
     guidance = get_guidance(category)
     return jsonify({'ok': True, 'data': guidance})
 
+@notifications_bp.route('/api/medicines', methods=['GET'])
+def fetch_all_medicines():
+    """Fetch all controlled OTC medicines from Supabase/PostgreSQL."""
+    medicines = get_medicines_from_db(g.db)
+    return jsonify({'ok': True, 'data': medicines})
+
 @notifications_bp.route('/api/medicines/<category>', methods=['GET'])
 def fetch_medicines(category):
-    """Fetch controlled OTC medicine info for low-risk scenarios."""
-    medicines = get_medicines(category)
+    """Fetch controlled OTC medicine info for low-risk scenarios from Supabase/PostgreSQL."""
+    medicines = get_medicines_from_db(g.db, category)
     return jsonify({'ok': True, 'data': medicines})
+

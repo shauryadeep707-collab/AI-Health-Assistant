@@ -14,6 +14,8 @@ from database.seed import seed_database
 @pytest.fixture
 def app():
     test_db_path = os.path.join(os.path.dirname(__file__), 'test_sync.db')
+    orig_db_url = config.DATABASE_URL
+    config.DATABASE_URL = ''
     config.SQLITE_PATH = test_db_path
     if os.path.exists(test_db_path):
         os.remove(test_db_path)
@@ -29,8 +31,10 @@ def app():
 
     yield app
 
+    config.DATABASE_URL = orig_db_url
     if os.path.exists(test_db_path):
         os.remove(test_db_path)
+
 
 @pytest.fixture
 def client(app):

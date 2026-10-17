@@ -54,7 +54,38 @@ def get_medicines(category):
     """
     category = (category or 'general').lower()
     cat_data = _MEDICINES.get(category, _MEDICINES.get('general', {}))
+    if isinstance(cat_data, list):
+        return cat_data
     return cat_data.get('medicines', [])
+
+
+def get_medicines_from_db(conn, category=None):
+    """Fetch medicines directly from database (Supabase/PostgreSQL/SQLite) with fallback."""
+    try:
+        from backend import db
+        if category:
+            rows = db.fetch_all(conn, "SELECT id, category, name, purpose, general_info, precautions, avoid_if, safety_note FROM medicines WHERE category = ?", (category.lower(),))
+        else:
+            rows = db.fetch_all(conn, "SELECT id, category, name, purpose, general_info, precautions, avoid_if, safety_note FROM medicines ORDER BY category, name")
+        
+        if rows:
+            for r in rows:
+                if isinstance(r.get('precautions'), str):
+                    try:
+                        r['precautions'] = json.loads(r['precautions'])
+                    except Exception:
+                        pass
+                if isinstance(r.get('avoid_if'), str):
+                    try:
+                        r['avoid_if'] = json.loads(r['avoid_if'])
+                    except Exception:
+                        pass
+            return rows
+    except Exception as e:
+        pass
+
+    return get_medicines(category)
+
 
 
 def get_specialization_for_category(category):
