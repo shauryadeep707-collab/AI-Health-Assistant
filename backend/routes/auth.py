@@ -74,13 +74,32 @@ def register():
         lng = data.get('lng')
         fee = data.get('fee', 500.0)
         experience_years = data.get('experience_years', 0)
+
+        # Medical Degree, Registration & Verification Document Details
+        medical_degree = data.get('medical_degree', 'MBBS').strip() or 'MBBS'
+        registration_number = data.get('registration_number', '').strip() or 'NMC-PENDING'
+        medical_council = data.get('medical_council', 'State Medical Council').strip() or 'State Medical Council'
+        graduation_year = data.get('graduation_year')
+        try:
+            graduation_year = int(graduation_year) if graduation_year else 2018
+        except (ValueError, TypeError):
+            graduation_year = 2018
+        medical_college = data.get('medical_college', 'Medical College').strip() or 'Medical College'
+        document_url = data.get('document_url', '')
+        document_name = data.get('document_name', 'Medical_Registration_Certificate.pdf')
+
         database.execute(
             g.db,
             """INSERT INTO doctor_profiles 
-               (user_id, specialization, clinic_name, address, city, lat, lng, fee, experience_years, is_available) 
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)""",
-            (user_id, specialization, clinic_name, address, city, lat, lng, fee, experience_years)
+               (user_id, specialization, clinic_name, address, city, lat, lng, fee, experience_years,
+                medical_degree, registration_number, medical_council, graduation_year, medical_college,
+                document_url, document_name, is_available) 
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)""",
+            (user_id, specialization, clinic_name, address, city, lat, lng, fee, experience_years,
+             medical_degree, registration_number, medical_council, graduation_year, medical_college,
+             document_url, document_name)
         )
+
 
     # Set session login
     session['user_id'] = user_id
@@ -236,11 +255,13 @@ def manage_profile():
 @auth_bp.route('/api/admin/doctors', methods=['GET'])
 @role_required('admin')
 def admin_list_doctors(user):
-    """Admin endpoint to view all doctors and their verification status."""
+    """Admin endpoint to view all doctors with qualifications, council registration, and certificate document."""
     doctors = database.fetch_all(
         g.db,
         """SELECT u.id, u.name, u.email, u.phone, u.is_verified, u.created_at,
-                  d.specialization, d.clinic_name, d.city, d.experience_years
+                  d.specialization, d.clinic_name, d.city, d.experience_years,
+                  d.medical_degree, d.registration_number, d.medical_council,
+                  d.graduation_year, d.medical_college, d.document_url, d.document_name, d.verification_notes
            FROM users u
            JOIN doctor_profiles d ON u.id = d.user_id
            WHERE u.role = 'doctor'
@@ -251,15 +272,23 @@ def admin_list_doctors(user):
 @auth_bp.route('/api/admin/doctors/<int:doctor_id>/verify', methods=['PUT'])
 @role_required('admin')
 def admin_verify_doctor(user, doctor_id):
-    """Admin endpoint to approve (1) or reject (2) a doctor."""
+    """Admin endpoint to approve (1) or reject (2) a doctor with audit verification notes."""
     data = request.get_json() or {}
     status = data.get('status', 1)  # 1 = approved, 2 = rejected
+    notes = data.get('notes', '')
     database.execute(
         g.db,
         "UPDATE users SET is_verified = ? WHERE id = ? AND role = 'doctor'",
         (status, doctor_id)
     )
+    if notes:
+        database.execute(
+            g.db,
+            "UPDATE doctor_profiles SET verification_notes = ? WHERE user_id = ?",
+            (notes, doctor_id)
+        )
     return jsonify({'ok': True, 'data': {'message': 'Doctor verification status updated'}})
+
 
 @auth_bp.route('/api/admin/stats', methods=['GET'])
 @role_required('admin')

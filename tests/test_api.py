@@ -216,3 +216,46 @@ def test_admin_list_patients_and_users(client):
     assert 'patient' in roles
     assert 'doctor' in roles
 
+def test_doctor_credentials_registration_and_review(client):
+    """Test doctor registration with degree, license registration number, and document inspection."""
+    # 1. Register a doctor with degrees and council license
+    reg_res = client.post('/api/auth/register', json={
+        'name': 'Dr. Kavish Mehra',
+        'email': 'kavish@demo.com',
+        'password': 'Doctor@123',
+        'role': 'doctor',
+        'specialization': 'Cardiologist',
+        'city': 'Dehradun',
+        'medical_degree': 'MBBS, MD',
+        'registration_number': 'UKMC-2019-9041',
+        'medical_council': 'Uttarakhand Medical Council',
+        'graduation_year': 2017,
+        'medical_college': 'AIIMS Rishikesh',
+        'document_url': 'data:image/svg+xml;utf8,<svg>SampleCert</svg>',
+        'document_name': 'AIIMS_Degree_Certificate.svg'
+    })
+    assert reg_res.status_code == 201
+    doc_id = reg_res.get_json()['data']['id']
+    client.post('/api/auth/logout')
+
+    # 2. Admin logs in and reviews credentials
+    login_user(client, 'admin@demo.com', 'Admin@123')
+    docs_res = client.get('/api/admin/doctors')
+    assert docs_res.status_code == 200
+    docs = docs_res.get_json()['data']
+    doc = next((d for d in docs if d['id'] == doc_id), None)
+    assert doc is not None
+    assert doc['medical_degree'] == 'MBBS, MD'
+    assert doc['registration_number'] == 'UKMC-2019-9041'
+    assert doc['medical_council'] == 'Uttarakhand Medical Council'
+    assert doc['document_name'] == 'AIIMS_Degree_Certificate.svg'
+
+    # 3. Admin verifies and approves with audit notes
+    verify_res = client.put(f'/api/admin/doctors/{doc_id}/verify', json={
+        'status': 1,
+        'notes': 'Degrees and State Council registration verified against UKMC registry.'
+    })
+    assert verify_res.status_code == 200
+    assert verify_res.get_json()['ok'] is True
+
+

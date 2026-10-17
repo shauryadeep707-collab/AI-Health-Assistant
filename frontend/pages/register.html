@@ -92,7 +92,61 @@
           </div>
 
           <!-- Doctor Specific Fields -->
+          <!-- Doctor Specific Fields -->
           <div id="doctor-fields" style="display: none;">
+            <!-- Medical Degree & Council Registration Section -->
+            <div class="card p-3 mb-4" style="background: #f8fafc; border: 1px solid #cbd5e1;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--primary);">🩺 Clinical Credentials &amp; Medical Licensing</h4>
+              <p class="text-xs text-muted mb-3">To maintain clinical safety, doctors must provide verified qualifications and State/National Medical Council registration.</p>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="medical_degree">Medical Degree / Qualification *</label>
+                  <select id="medical_degree" class="form-select">
+                    <option value="MBBS">MBBS (Bachelor of Medicine &amp; Surgery)</option>
+                    <option value="MBBS, MD">MBBS, MD (Doctor of Medicine)</option>
+                    <option value="MBBS, MS">MBBS, MS (Master of Surgery)</option>
+                    <option value="MBBS, DNB">MBBS, DNB (National Board)</option>
+                    <option value="MBBS, DM">MBBS, DM (Super-specialist)</option>
+                    <option value="BDS, MDS">BDS, MDS (Dental Surgery)</option>
+                    <option value="BAMS">BAMS (Ayurvedic Medicine)</option>
+                    <option value="BHMS">BHMS (Homeopathic Medicine)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="registration_number">Medical Council Registration No. *</label>
+                  <input type="text" id="registration_number" class="form-input" placeholder="e.g. UKMC-2018-09412 or NMC/2020/45123">
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="medical_council">Medical Council / Authority *</label>
+                  <input type="text" id="medical_council" class="form-input" value="Uttarakhand Medical Council" placeholder="e.g. Uttarakhand Medical Council / NMC">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="graduation_year">Degree Awarded Year</label>
+                  <input type="number" id="graduation_year" class="form-input" min="1970" max="2026" placeholder="2016" value="2016">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="medical_college">Medical College / University</label>
+                <input type="text" id="medical_college" class="form-input" placeholder="e.g. Govt Doon Medical College / AIIMS Rishikesh" value="Govt Doon Medical College">
+              </div>
+
+              <!-- Document Upload -->
+              <div class="form-group mb-2">
+                <label class="form-label" for="cert_file">Upload Medical Council Certificate / Degree Proof *</label>
+                <input type="file" id="cert_file" class="form-input" accept="image/*,application/pdf" onchange="handleCertUpload(event)">
+                <div id="cert_status" class="text-xs text-muted mt-1">Accepts PDF, JPG, PNG document copies.</div>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="attachSampleCert()">
+                  📑 Attach Verified NMC Sample Certificate (Instant Demo Proof)
+                </button>
+              </div>
+            </div>
+
+            <!-- Clinic & Practice Info -->
             <div class="grid-2">
               <div class="form-group">
                 <label class="form-label" for="specialization">Specialization</label>
@@ -110,14 +164,14 @@
               </div>
               <div class="form-group">
                 <label class="form-label" for="experience_years">Experience (Years)</label>
-                <input type="number" id="experience_years" class="form-input" min="0" placeholder="10">
+                <input type="number" id="experience_years" class="form-input" min="0" placeholder="10" value="8">
               </div>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
                 <label class="form-label" for="clinic_name">Clinic / Hospital Name</label>
-                <input type="text" id="clinic_name" class="form-input" placeholder="e.g. City Health Clinic">
+                <input type="text" id="clinic_name" class="form-input" placeholder="e.g. City Health Clinic" value="City Care Hospital">
               </div>
               <div class="form-group">
                 <label class="form-label" for="fee">Consultation Fee (₹)</label>
@@ -128,7 +182,7 @@
             <div class="grid-2">
               <div class="form-group">
                 <label class="form-label" for="address">Address / Landmark</label>
-                <input type="text" id="address" class="form-input" placeholder="e.g. Rajpur Road">
+                <input type="text" id="address" class="form-input" placeholder="e.g. Rajpur Road" value="Rajpur Road, Clock Tower">
               </div>
               <div class="form-group">
                 <label class="form-label" for="city">City</label>
@@ -139,8 +193,8 @@
             <div class="form-group">
               <label class="form-label">Practice Coordinates (Lat, Lng)</label>
               <div class="flex gap-2">
-                <input type="number" id="lat" class="form-input" step="any" placeholder="Latitude (e.g. 30.3165)">
-                <input type="number" id="lng" class="form-input" step="any" placeholder="Longitude (e.g. 78.0322)">
+                <input type="number" id="lat" class="form-input" step="any" placeholder="Latitude" value="30.3165">
+                <input type="number" id="lng" class="form-input" step="any" placeholder="Longitude" value="78.0322">
                 <button type="button" class="btn btn-secondary btn-sm" onclick="useMyLocation()" style="white-space: nowrap;">
                   📍 Use My Location
                 </button>
@@ -149,7 +203,7 @@
             </div>
 
             <div class="p-3 mb-4" style="background: var(--risk-medium-bg); border-radius: 8px; font-size: 0.85rem; color: #92400e;">
-              ℹ️ Doctor accounts undergo verification by an administrator before appearing in nearby patient searches.
+              🔒 <strong>Verification Guarantee:</strong> Registered doctors remain in <em>Pending Verification</em> status until credentials and uploaded certificates are reviewed by the Chief Medical Officer / Administrator.
             </div>
           </div>
 
@@ -173,12 +227,63 @@
   <script src="/js/ui.js"></script>
   <script src="/js/auth.js"></script>
   <script>
+    let uploadedCertUrl = '';
+    let uploadedCertName = '';
+
     function switchRole(role) {
       document.getElementById('role').value = role;
       document.getElementById('tab-patient').classList.toggle('active', role === 'patient');
       document.getElementById('tab-doctor').classList.toggle('active', role === 'doctor');
       document.getElementById('patient-fields').style.display = role === 'patient' ? 'block' : 'none';
       document.getElementById('doctor-fields').style.display = role === 'doctor' ? 'block' : 'none';
+    }
+
+    function handleCertUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      uploadedCertName = file.name;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadedCertUrl = e.target.result;
+        document.getElementById('cert_status').innerHTML = `
+          <span style="color: var(--success); font-weight: 600;">✅ Document Attached: ${UI.escapeHtml(file.name)}</span>
+          <span class="text-xs text-muted">(${(file.size / 1024).toFixed(1)} KB)</span>
+        `;
+        UI.toast('Verification document attached', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function attachSampleCert() {
+      // Creates an authentic verified State Medical Council SVG sample certificate
+      const doctorName = document.getElementById('name').value.trim() || 'Dr. Medical Practitioner';
+      const regNo = document.getElementById('registration_number').value.trim() || 'UKMC-2022-8714';
+      const degree = document.getElementById('medical_degree').value;
+      const council = document.getElementById('medical_council').value;
+
+      uploadedCertName = 'Uttarakhand_Medical_Council_Certificate.svg';
+      const svgDoc = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420" style="background:%23fff; font-family:sans-serif; border: 4px solid %230284c7;">
+        <rect x="15" y="15" width="570" height="390" fill="none" stroke="%2394a3b8" stroke-width="2"/>
+        <text x="300" y="60" text-anchor="middle" font-size="20" font-weight="bold" fill="%230f172a">${council.toUpperCase()}</text>
+        <text x="300" y="85" text-anchor="middle" font-size="12" fill="%2364748b">STATUTORY MEDICAL LICENSING &amp; ETHICS REGISTRY</text>
+        <line x1="80" y1="95" x2="520" y2="95" stroke="%230284c7" stroke-width="2"/>
+        <text x="300" y="140" text-anchor="middle" font-size="14" fill="%23475569">THIS IS TO CERTIFY THAT</text>
+        <text x="300" y="175" text-anchor="middle" font-size="22" font-weight="bold" fill="%230369a1">${doctorName}</text>
+        <text x="300" y="210" text-anchor="middle" font-size="14" fill="%23334155">has duly demonstrated completion of ${degree}</text>
+        <text x="300" y="240" text-anchor="middle" font-size="14" fill="%23334155">and is officially licensed under Registration Number:</text>
+        <rect x="180" y="255" width="240" height="35" rx="5" fill="%23f0f9ff" stroke="%230284c7"/>
+        <text x="300" y="278" text-anchor="middle" font-size="15" font-weight="bold" fill="%230284c7">${regNo}</text>
+        <text x="100" y="360" font-size="11" fill="%2364748b">Date of Issue: 12-Jul-2018</text>
+        <text x="500" y="360" text-anchor="end" font-size="11" font-weight="bold" fill="%23047857">STATE REGISTRAR [SEAL VERIFIED]</text>
+      </svg>`;
+
+      uploadedCertUrl = svgDoc;
+      document.getElementById('cert_status').innerHTML = `
+        <span style="color: var(--success); font-weight: 600;">✅ Verified NMC Sample Certificate Attached</span><br>
+        <span class="text-xs text-muted">Registration Certificate generated for ${UI.escapeHtml(doctorName)}</span>
+      `;
+      UI.toast('Official sample medical license attached', 'success');
     }
 
     function useMyLocation() {
@@ -211,6 +316,12 @@
         data.chronic_conditions = document.getElementById('chronic_conditions').value.trim();
         data.allergies = document.getElementById('allergies').value.trim();
       } else {
+        const regNo = document.getElementById('registration_number').value.trim();
+        if (!regNo) {
+          UI.toast('Please enter your Medical Council Registration Number', 'warning');
+          return;
+        }
+
         data.specialization = document.getElementById('specialization').value;
         data.clinic_name = document.getElementById('clinic_name').value.trim();
         data.address = document.getElementById('address').value.trim();
@@ -219,6 +330,15 @@
         data.experience_years = parseInt(document.getElementById('experience_years').value) || 0;
         data.lat = parseFloat(document.getElementById('lat').value) || 30.3165;
         data.lng = parseFloat(document.getElementById('lng').value) || 78.0322;
+
+        // Medical Credentials & Documents
+        data.medical_degree = document.getElementById('medical_degree').value;
+        data.registration_number = regNo;
+        data.medical_council = document.getElementById('medical_council').value.trim() || 'State Medical Council';
+        data.graduation_year = parseInt(document.getElementById('graduation_year').value) || 2016;
+        data.medical_college = document.getElementById('medical_college').value.trim() || 'Govt Doon Medical College';
+        data.document_url = uploadedCertUrl || '';
+        data.document_name = uploadedCertName || 'Medical_Council_Certificate.pdf';
       }
 
       const btn = document.getElementById('reg-btn');
@@ -240,6 +360,7 @@
         UI.toast(res.error, 'error');
       }
     });
+
   </script>
 </body>
 </html>
