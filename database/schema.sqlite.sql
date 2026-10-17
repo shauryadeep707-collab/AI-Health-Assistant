@@ -105,6 +105,18 @@ CREATE TABLE IF NOT EXISTS ai_usage (
     used_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS medicines (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category TEXT NOT NULL,
+    name TEXT NOT NULL,
+    purpose TEXT,
+    general_info TEXT,
+    precautions TEXT,
+    avoid_if TEXT,
+    safety_note TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_doctor_available ON doctor_profiles(is_available, specialization);
 CREATE INDEX IF NOT EXISTS idx_doctor_location ON doctor_profiles(lat, lng);
@@ -113,3 +125,4 @@ CREATE INDEX IF NOT EXISTS idx_assessment_patient ON assessments(patient_id);
 CREATE INDEX IF NOT EXISTS idx_notification_user ON notifications(user_id, is_read);
 CREATE INDEX IF NOT EXISTS idx_login_attempts ON login_attempts(email, attempted_at);
 CREATE INDEX IF NOT EXISTS idx_ai_usage ON ai_usage(user_id, used_at);
+CREATE INDEX IF NOT EXISTS idx_medicines_category ON medicines(category);

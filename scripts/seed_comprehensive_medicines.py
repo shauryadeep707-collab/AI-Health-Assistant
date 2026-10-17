@@ -1,0 +1,1123 @@
+"""
+Comprehensive Medicines Seeder for AI Health Assistant.
+Expands the OTC and supportive medicines catalog to 65+ clinical medications across 10 categories:
+1. fever
+2. cold_cough
+3. headache
+4. sore_throat
+5. stomach
+6. skin
+7. eye_ear
+8. allergies
+9. muscle_pain
+10. general
+
+Populates:
+- knowledge_base/medicines.json (Local JSON fallback)
+- SQLite database (health_assistant.db)
+- Supabase Cloud PostgreSQL database (via DATABASE_URL in .env)
+"""
+
+import json
+import os
+import sys
+
+# Add project root to sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+MEDICINES_DATA = {
+  "fever": [
+    {
+      "name": "Paracetamol (Acetaminophen 500mg/650mg)",
+      "purpose": "Reduces elevated body temperature (antipyretic) and relieves general pain, headache, and body aches.",
+      "general_info": "First-line over-the-counter antipyretic and analgesic. Acts centrally on hypothalamic thermoregulation centers. Available in tablets, syrup, and drops.",
+      "precautions": [
+        "Do not exceed maximum daily adult dose (4000 mg in 24 hours from all combined sources).",
+        "Maintain an interval of at least 4 to 6 hours between consecutive doses.",
+        "Check labels of all multi-symptom cold medications to avoid accidental paracetamol overdose."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity or allergic reaction to paracetamol.",
+        "Severe active liver failure, acute hepatitis, or advanced cirrhosis.",
+        "Chronic severe alcohol dependency."
+      ],
+      "safety_note": "First choice antipyretic. Always consult a pediatrician for age-appropriate dosage in children."
+    },
+    {
+      "name": "Ibuprofen (200mg / 400mg)",
+      "purpose": "Lowers high fever and relieves inflammatory body aches, joint stiffness, and muscle pains.",
+      "general_info": "Non-steroidal anti-inflammatory drug (NSAID) that inhibits prostaglandin synthesis, reducing both fever and localized tissue swelling.",
+      "precautions": [
+        "Always take with or immediately following a meal or glass of milk to protect gastric lining.",
+        "Use the lowest effective dose for the shortest duration necessary.",
+        "Maintain adequate oral fluid intake to support kidney function."
+      ],
+      "avoid_if": [
+        "Active peptic ulcer disease, history of gastrointestinal bleeding, or severe gastritis.",
+        "Severe renal (kidney) failure or advanced heart failure.",
+        "Third trimester of pregnancy.",
+        "Aspirin-exacerbated respiratory disease (aspirin-sensitive asthma)."
+      ],
+      "safety_note": "Avoid combining with other NSAIDs (such as naproxen, diclofenac, or aspirin)."
+    },
+    {
+      "name": "Mefenamic Acid (250mg / 500mg)",
+      "purpose": "Relieves acute fever and severe spasmodic body pain, toothache, or muscle aches.",
+      "general_info": "Potent NSAID with analgesic and antipyretic properties, especially effective for fever accompanied by muscular cramping or dysmenorrhea.",
+      "precautions": [
+        "Take strictly after food to reduce stomach upset.",
+        "Limit use to short courses (under 5 to 7 days) unless prescribed otherwise by a physician.",
+        "Keep hydrated throughout the day."
+      ],
+      "avoid_if": [
+        "Active gastrointestinal ulceration or inflammatory bowel disease.",
+        "Severe kidney or liver impairment.",
+        "Pregnancy, especially in the third trimester."
+      ],
+      "safety_note": "Discontinue immediately if heartburn, dark tarry stools, or severe stomach pain develops."
+    },
+    {
+      "name": "Lukewarm Sponge Hydrotherapy",
+      "purpose": "Non-pharmacological physical cooling to safely bring down elevated surface body temperature.",
+      "general_info": "Gentle wiping of forehead, neck, armpits, and groin using a soft cloth moistened with comfortably lukewarm water (around 30°C / 85°F).",
+      "precautions": [
+        "Always use lukewarm tap water, NEVER ice water or cold alcohol rubs.",
+        "Stop sponging if the patient begins shivering, as shivering increases internal core temperature.",
+        "Keep the room well-ventilated without direct cold drafts."
+      ],
+      "avoid_if": [
+        "Shivering, severe chills, or hypothermia.",
+        "Uncooperative or highly agitated individuals."
+      ],
+      "safety_note": "An excellent drug-free adjunctive measure, especially in children while waiting for oral antipyretics to take effect."
+    },
+    {
+      "name": "Oral Electrolyte Rehydration Fluid",
+      "purpose": "Prevents dehydration and replaces essential sodium, potassium, and chloride lost through fever sweating.",
+      "general_info": "Balanced electrolyte formulation restoring water and mineral balance caused by prolonged perspiration and fever-related metabolic demands.",
+      "precautions": [
+        "Mix with clean drinking water as per package directions.",
+        "Sip small amounts regularly every 15 to 30 minutes.",
+        "Do not boil ready-made pre-mixed electrolyte solutions."
+      ],
+      "avoid_if": [
+        "Severe persistent vomiting requiring intravenous fluids.",
+        "Anuria or severe kidney failure without medical clearance."
+      ],
+      "safety_note": "Crucial supportive therapy for prolonged fever to prevent weakness and orthostatic lightheadedness."
+    }
+  ],
+
+  "cold_cough": [
+    {
+      "name": "Steam Inhalation Therapy",
+      "purpose": "Moistens mucosal airway lining, loosens thick phlegm, and unblocks congested nasal sinuses.",
+      "general_info": "Natural physical therapy using warm water vapor to soothe irritated upper respiratory tracts and facilitate sinus drainage.",
+      "precautions": [
+        "Keep face at a safe distance (25-30 cm) from the hot water surface to avoid scalding burns.",
+        "Keep hot containers and electrical steamers completely away from young children.",
+        "Inhale steadily for 5 to 10 minutes, 2 to 3 times daily."
+      ],
+      "avoid_if": [
+        "Unsupervised young children.",
+        "Severe reactive bronchospasm or acute asthma attacks triggered by warm vapor."
+      ],
+      "safety_note": "Plain water steam is safest. Avoid adding concentrated essential oils which can trigger bronchial irritation."
+    },
+    {
+      "name": "Saline Nasal Drops / Spray (0.9% NaCl)",
+      "purpose": "Gently washes out allergens, thins sticky mucus, and restores natural nasal ciliary motion.",
+      "general_info": "Sterile isotonic salt solution that cleanses nasal passages without chemicals, drugs, or preservatives.",
+      "precautions": [
+        "Do not share droppers or nozzles across family members to prevent spreading viruses.",
+        "Gently blow nose a few minutes after application.",
+        "Discard open bottles according to expiry guidance."
+      ],
+      "avoid_if": [
+        "Severe nasal trauma or suspected skull base injury."
+      ],
+      "safety_note": "Completely safe for daily use; does not cause rebound nasal congestion."
+    },
+    {
+      "name": "Cetirizine (10mg)",
+      "purpose": "Relieves sneezing, runny nose, itchy watery eyes, and allergic nasal flare-ups.",
+      "general_info": "Second-generation H1-antihistamine providing 24-hour relief with lower sedation compared to first-generation options.",
+      "precautions": [
+        "Preferably take once daily at bedtime as mild drowsiness can occur.",
+        "Avoid operating heavy machinery or driving until you know how the medication affects you.",
+        "Avoid concurrent alcohol consumption."
+      ],
+      "avoid_if": [
+        "Severe end-stage renal disease (eGFR < 10 ml/min).",
+        "Known hypersensitivity to cetirizine or hydroxyzine."
+      ],
+      "safety_note": "Highly effective for acute seasonal allergic rhinitis and histamine-driven runny nose."
+    },
+    {
+      "name": "Loratadine (10mg)",
+      "purpose": "Provides non-drowsy 24-hour relief from nasal congestion, sneezing, and runny nose.",
+      "general_info": "Non-sedating second-generation antihistamine suitable for daytime symptom control during work or school.",
+      "precautions": [
+        "Take once daily with or without food.",
+        "Adhere to recommended daily dosage limits."
+      ],
+      "avoid_if": [
+        "Severe hepatic impairment unless dosage adjusted by doctor.",
+        "Known hypersensitivity to loratadine."
+      ],
+      "safety_note": "Ideal choice for daytime allergic cold symptoms where alertness is required."
+    },
+    {
+      "name": "Dextromethorphan HBr (Syrup / Lozenges)",
+      "purpose": "Suppresses dry, tickly, non-productive hacking coughs that disturb rest and sleep.",
+      "general_info": "Centrally acting cough suppressant that elevates the cough threshold in the brain's medulla without suppressing respiration.",
+      "precautions": [
+        "Do not use for productive wet coughs where clearing mucus is medically necessary.",
+        "Always use the provided measuring cup or syringe.",
+        "Do not combine with other multi-symptom cold syrups without verifying ingredients."
+      ],
+      "avoid_if": [
+        "Concurrent use with monoamine oxidase inhibitors (MAOIs) or within 14 days of stopping them.",
+        "Chronic bronchitis, emphysema, or wet mucus-filled productive cough."
+      ],
+      "safety_note": "Reserved specifically for non-productive dry coughs."
+    },
+    {
+      "name": "Guaifenesin Expectorant (Syrup)",
+      "purpose": "Thins and loosens viscous phlegm, making wet chesty coughs more productive and easier to clear.",
+      "general_info": "Oral expectorant that increases hydration of respiratory tract secretions, reducing mucus viscosity.",
+      "precautions": [
+        "Drink plenty of water throughout the day to assist the mucus-thinning effect.",
+        "Follow package dosage guidelines carefully."
+      ],
+      "avoid_if": [
+        "Known allergy to guaifenesin or syrup inactive excipients.",
+        "Children under 4 years without pediatrician supervision."
+      ],
+      "safety_note": "Hydration is key: drinking warm water significantly enhances guaifenesin's mucus-clearing efficacy."
+    },
+    {
+      "name": "Chlorpheniramine Maleate (CPM 4mg)",
+      "purpose": "Provides rapid relief from acute profuse watery runny nose, sneezing, and itchy throat.",
+      "general_info": "First-generation antihistamine with anticholinergic properties that effectively dries up excessive nasal secretions.",
+      "precautions": [
+        "Causes noticeable drowsiness; best taken at bedtime.",
+        "Do not drive or operate dangerous equipment after taking CPM.",
+        "Avoid alcohol and tranquilizers."
+      ],
+      "avoid_if": [
+        "Narrow-angle glaucoma.",
+        "Benign prostatic hyperplasia (BPH) with urinary retention.",
+        "Severe asthma exacerbation."
+      ],
+      "safety_note": "Very effective for drying excessive nasal drip, but causes sedation."
+    },
+    {
+      "name": "Xylometazoline 0.1% Nasal Spray",
+      "purpose": "Quickly unblocks severely stuffed nasal passages, opening airways within 2 to 3 minutes.",
+      "general_info": "Topical alpha-adrenergic sympathomimetic nasal spray that constricts dilated nasal mucosal blood vessels.",
+      "precautions": [
+        "STRICT LIMIT: Do not use for more than 3 to 5 consecutive days to prevent rhinitis medicamentosa (severe rebound congestion).",
+        "Administer 1 spray per nostril up to 2-3 times daily.",
+        "Clean nozzle after each use."
+      ],
+      "avoid_if": [
+        "Uncontrolled severe hypertension or coronary artery disease.",
+        "History of trans-sphenoidal hypophysectomy or dry rhinitis.",
+        "Young children under 6 years (use pediatric strength 0.05% under doctor advice)."
+      ],
+      "safety_note": "For short-term emergency unblocking only; never use continuously for prolonged periods."
+    },
+    {
+      "name": "Honey & Ginger Warm Demulcent",
+      "purpose": "Natural soothing home demulcent coating irritated pharyngeal lining and calming reflex cough bursts.",
+      "general_info": "Traditional supportive drink made with pure honey, fresh ginger extract, and warm water.",
+      "precautions": [
+        "Ensure fluid is comfortably warm, not boiling.",
+        "Maintain good dental hygiene after consuming sweet mixtures."
+      ],
+      "avoid_if": [
+        "Infants under 12 months of age (STRICT CONTRAINDICATION: risk of infant botulism)."
+      ],
+      "safety_note": "Supported by WHO guidelines as an effective home demulcent for cough relief in adults and children older than 1 year."
+    }
+  ],
+
+  "headache": [
+    {
+      "name": "Paracetamol (500mg / 650mg)",
+      "purpose": "Relieves mild to moderate tension headaches, dull aches, and stress-induced cranial discomfort.",
+      "general_info": "First-line pain reliever that works centrally without irritating the stomach lining or affecting blood clotting.",
+      "precautions": [
+        "Do not exceed 4000 mg within a 24-hour period.",
+        "Avoid frequent daily use (more than 15 days/month) to prevent medication overuse headache.",
+        "Ensure at least 4 to 6 hours between doses."
+      ],
+      "avoid_if": [
+        "Active liver disease or hepatic failure.",
+        "Known hypersensitivity to paracetamol.",
+        "Heavy alcohol consumption."
+      ],
+      "safety_note": "Gentle on the stomach; ideal for patients with acid reflux or gastritis."
+    },
+    {
+      "name": "Ibuprofen (400mg)",
+      "purpose": "Relieves throbbing tension headaches, sinus headaches with facial pressure, and neck stiffness.",
+      "general_info": "NSAID that reduces prostaglandin-mediated vascular inflammation and muscular tension surrounding the scalp.",
+      "precautions": [
+        "Always take with food or milk to prevent stomach irritation.",
+        "Stay well hydrated while taking NSAIDs."
+      ],
+      "avoid_if": [
+        "Active stomach ulcers or history of GI bleeding.",
+        "Severe renal dysfunction.",
+        "Third trimester of pregnancy.",
+        "Aspirin-sensitive asthma."
+      ],
+      "safety_note": "Provides fast relief for inflammatory or sinus-associated headaches."
+    },
+    {
+      "name": "Aspirin + Paracetamol + Caffeine Combination",
+      "purpose": "Synergistic OTC formula targeting stubborn acute vascular headaches and migraine flare-ups.",
+      "general_info": "Caffeine acts as a cranial vasoconstrictor and accelerates the analgesic absorption of paracetamol and aspirin.",
+      "precautions": [
+        "Take with food and a full glass of water.",
+        "Limit caffeine intake from tea or coffee while taking this medication.",
+        "Do not take close to bedtime if sensitive to caffeine."
+      ],
+      "avoid_if": [
+        "Children and adolescents under 18 years with viral illness (STRICT CONTRAINDICATION: risk of Reye's syndrome).",
+        "Active stomach ulcers, bleeding disorders, or anticoagulant use.",
+        "Severe uncontrolled hypertension."
+      ],
+      "safety_note": "Do not give to children or teenagers recovering from chickenpox or flu symptoms."
+    },
+    {
+      "name": "Peppermint & Menthol Essential Oil Roll-On",
+      "purpose": "Topical cooling relief providing soothing sensory diversion and easing forehead tension.",
+      "general_info": "Natural menthol formulation applied topically across temples and forehead to produce a gentle cooling, muscle-relaxing sensation.",
+      "precautions": [
+        "Apply only to intact skin; keep strictly away from eyes, eyelids, and open wounds.",
+        "Wash hands thoroughly after application.",
+        "Test on a small patch of skin first if prone to skin sensitivity."
+      ],
+      "avoid_if": [
+        "Broken, inflamed, or eczematous skin on the face.",
+        "Known allergy to menthol or peppermint oil."
+      ],
+      "safety_note": "Safe, non-pharmacological topical therapy for tension headaches."
+    },
+    {
+      "name": "Magnesium Glycinate / Citrate (250mg)",
+      "purpose": "Supportive dietary mineral helping reduce neuromuscular excitability and frequency of tension headaches.",
+      "general_info": "Essential intracellular cation involved in vascular tone regulation and neurotransmitter release.",
+      "precautions": [
+        "Take with meals to prevent mild laxative effects.",
+        "Consult doctor if taking concurrent blood pressure medications."
+      ],
+      "avoid_if": [
+        "Severe renal impairment (risk of hypermagnesemia).",
+        "Heart block or severe bradycardia."
+      ],
+      "safety_note": "A beneficial supportive nutritional supplement for recurrent stress and tension headaches."
+    }
+  ],
+
+  "sore_throat": [
+    {
+      "name": "Warm Saline Gargle",
+      "purpose": "Reduces pharyngeal mucosal edema, cleanses accumulated mucus, and provides drug-free pain relief.",
+      "general_info": "Simple hypertonic/isotonic home rinse prepared with 1/2 teaspoon of salt dissolved in 200 ml of comfortably warm water.",
+      "precautions": [
+        "Ensure water temperature is comfortably warm, never hot enough to scald.",
+        "Gargle for 20-30 seconds in the back of throat and spit out completely; do not swallow.",
+        "Repeat 3 to 4 times daily."
+      ],
+      "avoid_if": [
+        "Young children who cannot spit reliably.",
+        "Severe swallowing impairment."
+      ],
+      "safety_note": "Highly effective, universally recommended supportive measure for throat irritation."
+    },
+    {
+      "name": "Antiseptic Throat Lozenges (Amylmetacresol & Dichlorobenzyl Alcohol)",
+      "purpose": "Dual-action antiseptic pastilles that soothe raw throat tissues and reduce oral bacterial count.",
+      "general_info": "Slowly dissolvable pastilles containing antimicrobial agents that combat localized throat pathogens while stimulating salivation.",
+      "precautions": [
+        "Dissolve slowly in the mouth without chewing or biting.",
+        "Do not exceed recommended lozenge count per 24 hours (typically max 8-12).",
+        "Check sugar content if diabetic."
+      ],
+      "avoid_if": [
+        "Children under 6 years due to choking hazard.",
+        "Known allergy to excipients or colorings."
+      ],
+      "safety_note": "Provides soothing symptomatic relief for early scratchy throat discomfort."
+    },
+    {
+      "name": "Povidone-Iodine 0.5% - 1% Gargle & Rinse",
+      "purpose": "Broad-spectrum antiseptic mouthwash targeting oral bacteria, fungi, and enveloped viruses.",
+      "general_info": "Diluted microbicidal povidone-iodine solution formulated specifically for oral pharyngeal hygiene during infections.",
+      "precautions": [
+        "Dilute with an equal volume of warm water if indicated on package.",
+        "Gargle and spit out thoroughly; do NOT swallow.",
+        "Use for up to 7-10 consecutive days."
+      ],
+      "avoid_if": [
+        "Known allergy to iodine or povidone.",
+        "Hyperthyroidism, active thyroid disorders, or radioactive iodine treatment.",
+        "Pregnancy and breastfeeding (avoid prolonged gargling due to systemic iodine absorption)."
+      ],
+      "safety_note": "Potent antimicrobial gargle for acute inflamed throat conditions."
+    },
+    {
+      "name": "Benzocaine / Lidocaine Throat Spray",
+      "purpose": "Provides rapid localized numbness to relieve severe throat pain, making swallowing and eating comfortable.",
+      "general_info": "Topical local anesthetic spray that reversibly blocks nerve impulses in the pharyngeal mucosa.",
+      "precautions": [
+        "Spray directly toward the back of the mouth as directed on packaging.",
+        "Wait at least 30-45 minutes before eating or drinking hot fluids to avoid accidental choking or tongue biting.",
+        "Use only as needed for acute pain peaks."
+      ],
+      "avoid_if": [
+        "History of methemoglobinemia (associated with excessive benzocaine).",
+        "Children under 2 years.",
+        "Severe dysphagia or impaired airway reflexes."
+      ],
+      "safety_note": "Provides fast temporary numbness for sharp swallowing pain."
+    },
+    {
+      "name": "Chlorhexidine Gluconate 0.2% Oral Rinse",
+      "purpose": "Antiseptic oral mouthwash reducing plaque and secondary microbial contamination in sore throat and mouth ulcers.",
+      "general_info": "Broad-spectrum cationic oral antiseptic providing prolonged bacteriostatic activity by adhering to mucosal surfaces.",
+      "precautions": [
+        "Rinse with 10-15 ml for 30 seconds after brushing, then spit out.",
+        "Do not rinse with water or drink immediately after use to allow retention.",
+        "Temporary superficial tooth staining can occur with prolonged use (removable by dental cleaning)."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to chlorhexidine.",
+        "Children under 6 years."
+      ],
+      "safety_note": "Great supportive rinse for inflamed gums, canker sores, and pharyngeal irritation."
+    }
+  ],
+
+  "stomach": [
+    {
+      "name": "ORS (Oral Rehydration Salts - WHO Formula)",
+      "purpose": "Prevents and treats dehydration and electrolyte imbalances resulting from acute diarrhea or vomiting.",
+      "general_info": "Scientifically balanced mixture of sodium chloride, anhydrous glucose, potassium chloride, and trisodium citrate conforming to WHO low-osmolarity standards.",
+      "precautions": [
+        "Dissolve entire packet in the exact volume of clean drinking water specified (usually 1 liter or 200 ml).",
+        "Do not mix with milk, soup, juice, or soft drinks.",
+        "Sip small amounts frequently (5-10 ml every 5 minutes) if vomiting is present.",
+        "Discard unused solution after 24 hours at room temperature."
+      ],
+      "avoid_if": [
+        "Severe paralytic ileus or intractable mechanical intestinal obstruction.",
+        "Severe hypovolemic shock requiring emergency IV resuscitation."
+      ],
+      "safety_note": "The single most critical life-saving supportive treatment for acute gastrointestinal fluid loss."
+    },
+    {
+      "name": "Liquid Antacid (Magnesium + Aluminum Hydroxide + Simethicone)",
+      "purpose": "Rapidly neutralizes excess stomach acid, coats esophageal lining, and disperses trapped gas bubbles.",
+      "general_info": "Balanced fast-acting oral suspension that combines acid neutralization with anti-foaming simethicone for heartburn and gas.",
+      "precautions": [
+        "Shake bottle well before pouring.",
+        "Take 1 to 2 hours after meals or at bedtime as directed.",
+        "Separate administration by at least 2 hours from other medications to avoid drug binding."
+      ],
+      "avoid_if": [
+        "Severe kidney failure (risk of aluminum/magnesium systemic accumulation).",
+        "Severe acute undiagnosed abdominal pain."
+      ],
+      "safety_note": "Provides quick symptomatic relief for episodic acidity, sour burps, and gastric fullness."
+    },
+    {
+      "name": "Chewable Calcium Carbonate / Sodium Bicarbonate",
+      "purpose": "Instant fast-acting neutralization of acid reflux, burning sensation, and indigestion.",
+      "general_info": "Chewable effervescent or mint tablets that react instantly with hydrochloric acid in the stomach.",
+      "precautions": [
+        "Chew tablets thoroughly before swallowing; follow with a glass of water.",
+        "Do not exceed recommended maximum daily tablets."
+      ],
+      "avoid_if": [
+        "Hypercalcemia, kidney stones, or severe renal impairment.",
+        "Strict low-sodium diets (for sodium bicarbonate formulations)."
+      ],
+      "safety_note": "Ideal for fast portable relief after heavy, spicy, or greasy meals."
+    },
+    {
+      "name": "Omeprazole (20mg OTC)",
+      "purpose": "Provides 24-hour relief from persistent acid reflux, heartburn, and gastroesophageal discomfort.",
+      "general_info": "Proton pump inhibitor (PPI) that suppresses the final step of gastric acid production at the parietal cell proton pump.",
+      "precautions": [
+        "Take once daily in the morning, ideally 30 to 60 minutes before breakfast.",
+        "Swallow capsules whole with water; do not crush, chew, or open pellets.",
+        "Designed for short 14-day courses for frequent heartburn (2 or more days a week)."
+      ],
+      "avoid_if": [
+        "Severe hepatic failure without physician monitoring.",
+        "Known hypersensitivity to omeprazole or other PPIs.",
+        "Immediate relief needed (takes 1-4 days for peak effect; use antacid for instant relief)."
+      ],
+      "safety_note": "Consult a gastroenterologist if heartburn persists beyond 14 days or is accompanied by difficulty swallowing."
+    },
+    {
+      "name": "Famotidine (20mg)",
+      "purpose": "Prevents and relieves heartburn, acid indigestion, and sour stomach with 10-12 hour acid suppression.",
+      "general_info": "H2-receptor antagonist that blocks histamine-stimulated gastric acid secretion, offering longer action than antacids.",
+      "precautions": [
+        "Take 30 to 60 minutes before consuming food or beverages that cause heartburn.",
+        "Can be taken with or without food."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to famotidine or other H2 blockers.",
+        "Severe renal insufficiency unless dose adjusted by doctor."
+      ],
+      "safety_note": "Effective for preventing nocturnal acid breakthrough and meal-induced reflux."
+    },
+    {
+      "name": "Loperamide (2mg)",
+      "purpose": "Slows intestinal transit to decrease stool frequency and firm up consistency in acute uncomplicated watery diarrhea.",
+      "general_info": "Synthetic opioid-receptor agonist acting locally on the myenteric plexus of the large intestine without central narcotic effects.",
+      "precautions": [
+        "Take initial 2 capsules (4mg), followed by 1 capsule (2mg) after each unformed stool (max 8mg/day for OTC use).",
+        "Always continue drinking ORS and fluids; loperamide stops frequency but does not replace lost fluids.",
+        "Discontinue as soon as stools become formed or if no improvement occurs within 48 hours."
+      ],
+      "avoid_if": [
+        "Bloody diarrhea, high fever, or dysentery (STRICT CONTRAINDICATION: risk of toxic megacolon).",
+        "Acute ulcerative colitis or bacterial enterocolitis (Salmonella, Shigella, C. difficile).",
+        "Children under 12 years without pediatrician direction."
+      ],
+      "safety_note": "Do not use if stool contains blood, pus, or if diarrhea is accompanied by high fever."
+    },
+    {
+      "name": "Psyllium Husk (Isabgol)",
+      "purpose": "Natural bulk-forming dietary fiber for chronic constipation, gentle stool softening, and bowel regularity.",
+      "general_info": "Natural soluble fiber derived from Plantago ovata seeds that absorbs water in the colon to form an easily passed soft gel.",
+      "precautions": [
+        "MUST mix 1-2 teaspoons thoroughly in a full glass (250 ml) of water and drink immediately.",
+        "Follow with an additional glass of plain water to ensure proper intestinal transit.",
+        "Takes 12 to 72 hours for full laxative effect."
+      ],
+      "avoid_if": [
+        "Intestinal obstruction, fecal impaction, or difficulty swallowing.",
+        "Taking without sufficient water (can swell and cause choking or esophageal blockage)."
+      ],
+      "safety_note": "Safest non-habit-forming long-term natural solution for smooth daily bowel habits."
+    },
+    {
+      "name": "Probiotics (Lactobacillus & Saccharomyces boulardii)",
+      "purpose": "Replenishes healthy intestinal microflora and accelerates gut recovery during or after diarrhea.",
+      "general_info": "Beneficial live microbial strains that compete against harmful pathogens, reinforce mucosal barrier, and synthesize organic acids.",
+      "precautions": [
+        "Take with room temperature water or meals; avoid mixing into boiling hot drinks.",
+        "If taking concurrent antibiotics, separate probiotic by at least 2 hours."
+      ],
+      "avoid_if": [
+        "Severely immunocompromised patients, central venous lines, or critical ICU illness."
+      ],
+      "safety_note": "Excellent supportive gut restoration therapy during recovery from gastroenteritis or antibiotic therapy."
+    },
+    {
+      "name": "Simethicone (80mg / 125mg)",
+      "purpose": "Relieves uncomfortable abdominal bloating, pressure, cramps, and gas fullness.",
+      "general_info": "Inert surfactant that reduces surface tension of gas bubbles in the gastrointestinal tract, allowing them to coalesce and pass easily.",
+      "precautions": [
+        "Chew tablets thoroughly after meals and at bedtime.",
+        "Safe and not systemically absorbed."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to simethicone.",
+        "Suspected bowel perforation or intestinal obstruction."
+      ],
+      "safety_note": "Completely non-systemic; acts strictly physically within the intestinal lumen."
+    },
+    {
+      "name": "Dicyclomine / Mebeverine",
+      "purpose": "Relieves painful intestinal smooth muscle spasms, IBS cramps, and colicky stomach pain.",
+      "general_info": "Directly relaxes visceral smooth muscles of the digestive tract, easing sharp griping abdominal spasms.",
+      "precautions": [
+        "Take 20 to 30 minutes before meals.",
+        "May cause mild dry mouth or blurred vision."
+      ],
+      "avoid_if": [
+        "Severe paralytic ileus or toxic megacolon.",
+        "Glaucoma or myasthenia gravis (for antimuscarinic agents)."
+      ],
+      "safety_note": "Helpful supportive therapy for smooth muscle abdominal cramping."
+    },
+    {
+      "name": "Milk of Magnesia (Magnesium Hydroxide)",
+      "purpose": "Gentle osmotic laxative drawing fluid into the colon for overnight relief of acute constipation.",
+      "general_info": "Saline osmotic laxative that causes water retention in the bowel lumen, stimulating peristalsis within 6 to 8 hours.",
+      "precautions": [
+        "Drink a full glass of water with each dose.",
+        "Take at bedtime for expected morning bowel movement."
+      ],
+      "avoid_if": [
+        "Severe kidney failure or hypermagnesemia.",
+        "Undiagnosed acute abdominal pain or suspected appendicitis."
+      ],
+      "safety_note": "Gentle short-term saline laxative; maintain hydration."
+    }
+  ],
+
+  "skin": [
+    {
+      "name": "Calamine Lotion",
+      "purpose": "Soothes itching, cools skin, and dries weeping rashes, chickenpox spots, and insect bites.",
+      "general_info": "Classic topical suspension of zinc oxide and ferric oxide providing mild astringent, antiseptic, and antipruritic cooling action.",
+      "precautions": [
+        "Shake bottle well before applying with clean cotton wool.",
+        "For external cutaneous use only; keep away from eyes, mouth, and mucous membranes."
+      ],
+      "avoid_if": [
+        "Open, deeply ulcerated, or severely infected wounds.",
+        "Known sensitivity to calamine."
+      ],
+      "safety_note": "Extremely safe, gentle anti-itch lotion suitable for both children and adults."
+    },
+    {
+      "name": "Clotrimazole 1% Topical Antifungal Cream",
+      "purpose": "Treats superficial fungal skin infections including ringworm (tinea corporis), athlete's foot, and jock itch.",
+      "general_info": "Broad-spectrum imidazole antifungal that inhibits fungal ergosterol synthesis, destroying pathogen cell membranes.",
+      "precautions": [
+        "Wash and thoroughly dry the affected area before applying a thin layer twice daily.",
+        "Continue application for 1 to 2 weeks after symptoms disappear to prevent fungal recurrence.",
+        "Wash hands immediately after application."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to clotrimazole or azole antifungals.",
+        "Nail or scalp fungal infections (which require oral antifungal prescription)."
+      ],
+      "safety_note": "Keep skin folds dry and clean; avoid sharing towels while treating active fungal infections."
+    },
+    {
+      "name": "Hydrocortisone 1% Topical Cream",
+      "purpose": "Reduces redness, swelling, and severe itching from eczema, contact dermatitis, and mosquito/insect bites.",
+      "general_info": "Low-potency topical corticosteroid that suppresses localized inflammatory mediator release and capillary permeability.",
+      "precautions": [
+        "Apply sparingly in a thin film to affected areas once or twice daily.",
+        "Do not apply to face, groin, or underarms for longer than 7 days without medical direction.",
+        "Do not cover with airtight occlusive dressings unless advised."
+      ],
+      "avoid_if": [
+        "Untreated bacterial, fungal, or viral skin infections (such as herpes or cold sores).",
+        "Acne vulgaris or rosacea (can worsen condition)."
+      ],
+      "safety_note": "Use the lowest amount needed for short durations; consult a dermatologist if rash spreads."
+    },
+    {
+      "name": "Povidone-Iodine 5% / 10% Ointment (Betadine)",
+      "purpose": "Broad-spectrum antiseptic preventing infection in minor cuts, scrapes, burns, and abrasions.",
+      "general_info": "Topical iodophore releasing free elemental iodine to rapidly destroy bacteria, fungi, viruses, and bacterial spores on broken skin.",
+      "precautions": [
+        "Clean wound with sterile saline or water before gently applying ointment.",
+        "May cover with a sterile dry gauze bandage.",
+        "Stains can be washed from clothing with water."
+      ],
+      "avoid_if": [
+        "Known allergy to iodine.",
+        "Large deep puncture wounds, animal bites, or serious third-degree burns (require ER care).",
+        "Pre-term infants or patients with thyroid disease for large surface area use."
+      ],
+      "safety_note": "The gold standard home first-aid antiseptic for clean minor wound management."
+    },
+    {
+      "name": "Silver Sulfadiazine 1% / Burn Relief Cream",
+      "purpose": "Prevents and treats bacterial colonization in second-degree minor burns and scalds.",
+      "general_info": "Topical antimicrobial combining antibacterial sulfonamide and oligodynamic silver ions, promoting clean thermal wound healing.",
+      "precautions": [
+        "Immediately cool the burn under cool running tap water for 15-20 minutes before applying cream.",
+        "Apply a 1-2 mm thick layer under aseptic precautions.",
+        "Reapply every 24 hours after gently washing away old residue."
+      ],
+      "avoid_if": [
+        "Known sulfonamide (sulfa) drug hypersensitivity.",
+        "Pregnant women near term, nursing mothers, or infants under 2 months."
+      ],
+      "safety_note": "Always cool burns under cold tap water immediately; never apply ice, butter, or toothpaste."
+    },
+    {
+      "name": "Pure Petroleum Jelly (White Petrolatum)",
+      "purpose": "Provides intensive occlusive moisture barrier for cracked heels, severely chapped lips, and dry peeling skin.",
+      "general_info": "Triple-purified, hypoallergenic mineral hydrocarbon that prevents 98% of trans-epidermal water loss, accelerating natural stratum corneum repair.",
+      "precautions": [
+        "Apply generously to clean, slightly damp skin after washing.",
+        "For external application only."
+      ],
+      "avoid_if": [
+        "Fresh deep puncture wounds or animal bites.",
+        "Active active acne on oily facial areas."
+      ],
+      "safety_note": "Hypoallergenic, fragrance-free, and universally safe for sensitive barrier protection."
+    },
+    {
+      "name": "Zinc Oxide 10% - 20% Barrier Cream",
+      "purpose": "Creates a protective waterproof barrier preventing moisture irritation, diaper rash, and chafing.",
+      "general_info": "Mineral barrier ointment that repels urine, sweat, and external friction while soothing irritated infant or adult skin folds.",
+      "precautions": [
+        "Clean skin thoroughly and allow to dry completely before applying a thick protective layer.",
+        "Reapply after every diaper or pad change."
+      ],
+      "avoid_if": [
+        "Known allergy to zinc or mineral oils.",
+        "Deep infected weeping lesions."
+      ],
+      "safety_note": "Excellent preventive care for infant diaper rash and adult incontinence dermatitis."
+    },
+    {
+      "name": "Neomycin + Polymyxin B + Bacitracin (Triple Antibiotic Ointment)",
+      "purpose": "First-aid topical ointment preventing localized surface bacterial infections in minor cuts and scratches.",
+      "general_info": "Synergistic combination of three antibiotics providing broad-spectrum coverage against Gram-positive and Gram-negative skin bacteria.",
+      "precautions": [
+        "Apply a small pea-sized amount to cleaned wound 1 to 3 times daily.",
+        "Discontinue if skin redness, burning, or allergic contact dermatitis occurs."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to neomycin, polymyxin, or bacitracin.",
+        "Extensive deep puncture wounds or over large body surfaces."
+      ],
+      "safety_note": "For minor cuts only; not intended for deep animal bites or serious puncture wounds."
+    },
+    {
+      "name": "Benzoyl Peroxide 2.5% / 5% Gel",
+      "purpose": "Targets acne-causing Cutibacterium acnes bacteria, clears clogged pores, and reduces mild-to-moderate facial blemishes.",
+      "general_info": "Topical antibacterial and comedolytic agent that releases oxygen radicals in the sebaceous follicle, killing anaerobic acne bacteria.",
+      "precautions": [
+        "Start with once-daily application at night to test tolerance.",
+        "Use sunscreen daily as it can increase UV sensitivity.",
+        "Avoid contact with dark fabrics and towels as benzoyl peroxide bleaches colored textiles."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to benzoyl peroxide.",
+        "Severely sunburned, broken, or irritated skin."
+      ],
+      "safety_note": "Start with lower 2.5% concentration to minimize skin peeling and dryness."
+    },
+    {
+      "name": "Salicylic Acid 2% Ointment / Gel",
+      "purpose": "Exfoliates dead skin cells, unclogs pores, and softens rough calluses, keratosis, and blackheads.",
+      "general_info": "Lipophilic beta-hydroxy acid (BHA) that penetrates oily follicles, dissolving intercellular sebum and dead keratinocytes.",
+      "precautions": [
+        "Apply a thin layer to clean skin once or twice daily.",
+        "Moisturize well if excessive dryness occurs."
+      ],
+      "avoid_if": [
+        "Allergy to salicylates or aspirin.",
+        "Children with active viral infections."
+      ],
+      "safety_note": "Gentle keratolytic agent for clearing blackheads and dead surface skin buildup."
+    }
+  ],
+
+  "eye_ear": [
+    {
+      "name": "Carboxymethylcellulose (CMC 0.5%) Artificial Tears",
+      "purpose": "Lubricates dry, tired, irritated, burning eyes caused by screen time, dust, dry air, or wind.",
+      "general_info": "Viscous ophthalmic polymer that mimics natural mucin tears, prolonging tear film breakup time and protecting the corneal surface.",
+      "precautions": [
+        "Instill 1 to 2 drops in the affected eye(s) 3 to 4 times daily or as needed.",
+        "Do not touch dropper tip to eyelashes, fingers, or any surface to maintain sterility.",
+        "Temporary mild blurring of vision may occur for 1-2 minutes after instillation."
+      ],
+      "avoid_if": [
+        "Known allergy to carboxymethylcellulose or ophthalmic excipients.",
+        "Eye pain, sudden vision changes, or signs of acute bacterial infection (green/yellow pus discharge - requires ophthalmologist)."
+      ],
+      "safety_note": "Safe for long-term daily eye lubrication. Discard open bottle 30 days after first breaking seal."
+    },
+    {
+      "name": "Olopatadine / Ketotifen 0.025% Eye Drops",
+      "purpose": "Rapidly relieves itchy, red, watery eyes caused by seasonal pollen, pet dander, or environmental allergies.",
+      "general_info": "Dual-acting topical mast cell stabilizer and selective H1-antihistamine providing sustained ocular anti-allergic relief.",
+      "precautions": [
+        "Instill 1 drop in affected eye(s) once or twice daily.",
+        "Remove soft contact lenses before instilling; wait at least 10 minutes before reinserting."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to olopatadine or ketotifen.",
+        "Eye redness caused by viral/bacterial conjunctivitis or foreign body trauma."
+      ],
+      "safety_note": "Targeted relief for allergic pink eye (allergic conjunctivitis)."
+    },
+    {
+      "name": "Carbamide Peroxide / Mineral Oil Ear Drops",
+      "purpose": "Softens hardened, impacted ear wax (cerumen) to facilitate gentle natural expulsion.",
+      "general_info": "Cerumenolytic solution releasing micro-bubbles of oxygen when in contact with ear wax, breaking it into softer fragments.",
+      "precautions": [
+        "Tilt head sideways, place 3 to 5 drops into ear canal, and keep head tilted for 3 to 5 minutes.",
+        "Gently flush with warm water or wipe ear opening with a clean tissue.",
+        "NEVER insert cotton buds, hairpins, or sharp objects into the ear canal."
+      ],
+      "avoid_if": [
+        "Perforated eardrum, history of tympanoplasty, or active ear discharge/pus.",
+        "Ear surgery within the past 6 months."
+      ],
+      "safety_note": "Softens wax safely; never poke cotton buds into the ear canal as they push wax deeper."
+    },
+    {
+      "name": "Sterile Normal Saline Eye Wash",
+      "purpose": "Flushes out dust, grit, eyelashes, smoke, or mild irritants from the ocular surface.",
+      "general_info": "Sterile 0.9% sodium chloride buffered ophthalmic solution for emergency or hygienic eye irrigation.",
+      "precautions": [
+        "Flush eye gently holding eyelids open.",
+        "For chemical splashes, continue continuous gentle flushing for 15 minutes and seek immediate emergency ER care."
+      ],
+      "avoid_if": [
+        "Penetrating eye injuries or visible eyeball puncture."
+      ],
+      "safety_note": "Keep in first-aid kits for immediate flushing of dust, dirt, or foreign particles."
+    }
+  ],
+
+  "allergies": [
+    {
+      "name": "Fexofenadine (120mg / 180mg)",
+      "purpose": "High-potency non-drowsy relief for acute allergic rhinitis, pollen allergies, and urticaria (hives).",
+      "general_info": "Third-generation non-sedating antihistamine that does not cross the blood-brain barrier, ensuring zero daytime drowsiness.",
+      "precautions": [
+        "Take once daily with water.",
+        "Avoid taking with fruit juices (grapefruit, orange, apple) as they reduce drug absorption by up to 36%."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to fexofenadine.",
+        "Severe renal failure unless dose adjusted by doctor."
+      ],
+      "safety_note": "Gold standard non-sedating antihistamine for drivers, pilots, and office workers."
+    },
+    {
+      "name": "Levocetirizine (5mg)",
+      "purpose": "Provides powerful 24-hour relief from intense allergic itching, constant sneezing, and skin wheals.",
+      "general_info": "Purified R-enantiomer of cetirizine providing superior receptor affinity with smaller therapeutic dosing.",
+      "precautions": [
+        "Take once daily in the evening or at bedtime.",
+        "Avoid alcohol while taking antihistamines."
+      ],
+      "avoid_if": [
+        "Severe renal impairment (creatinine clearance < 10 ml/min)."
+      ],
+      "safety_note": "Fast-acting relief for acute allergic skin reactions and seasonal hay fever."
+    },
+    {
+      "name": "Dimenhydrinate (50mg)",
+      "purpose": "Prevents and treats motion sickness, dizziness, and nausea during road, air, or sea travel.",
+      "general_info": "Antiemetic antihistamine with central anticholinergic action reducing vestibular stimulation in the inner ear.",
+      "precautions": [
+        "Take 30 to 60 minutes BEFORE travel begins for maximum prevention.",
+        "Causes noticeable drowsiness; do not drive or operate machinery."
+      ],
+      "avoid_if": [
+        "Glaucoma or prostatic enlargement.",
+        "Concurrent alcohol or sedative intake."
+      ],
+      "safety_note": "Take prior to journey departure for effective motion sickness prevention."
+    },
+    {
+      "name": "Meclizine (25mg)",
+      "purpose": "Less-drowsy prevention of motion sickness, travel nausea, and mild positional vertigo.",
+      "general_info": "Long-acting antihistaminic antiemetic offering 24-hour vestibular protection with reduced sedation.",
+      "precautions": [
+        "Take 1 hour before travel once daily."
+      ],
+      "avoid_if": [
+        "Severe liver dysfunction.",
+        "Children under 12 years without doctor advice."
+      ],
+      "safety_note": "Preferred over dimenhydrinate when less sedation is desired during long journeys."
+    }
+  ],
+
+  "muscle_pain": [
+    {
+      "name": "Diclofenac Diethylamine 1.16% Topical Gel",
+      "purpose": "Relieves localized joint pain, muscular sprains, tendonitis, and lower back stiffness.",
+      "general_info": "Targeted transdermal NSAID gel that penetrates deep subcutaneous and joint tissues without high systemic blood levels.",
+      "precautions": [
+        "Gently massage into the affected painful joint or muscle 3 to 4 times daily.",
+        "Wash hands thoroughly after application unless treating hand joints.",
+        "Do not apply to open cuts, burns, or broken skin."
+      ],
+      "avoid_if": [
+        "Known allergy to diclofenac, aspirin, or other NSAIDs.",
+        "Third trimester of pregnancy."
+      ],
+      "safety_note": "Significantly safer on the stomach than oral painkillers while providing direct localized joint relief."
+    },
+    {
+      "name": "Methyl Salicylate & Menthol Liniment / Spray",
+      "purpose": "Produces soothing counter-irritant warmth and improves local blood flow for sore muscles and stiff joints.",
+      "general_info": "Topical rubefacient producing warm soothing sensations that distract brain pain sensors and relax tight muscle fibers.",
+      "precautions": [
+        "Apply to intact painful areas up to 3-4 times daily.",
+        "Do NOT apply a heating pad immediately over freshly applied menthol liniment (risk of skin blistering)."
+      ],
+      "avoid_if": [
+        "Broken, inflamed, or raw skin.",
+        "Children under 12 years.",
+        "Known salicylate allergy."
+      ],
+      "safety_note": "Great for post-workout muscle soreness, neck stiffness, and non-traumatic sprains."
+    },
+    {
+      "name": "Cryotherapy Cold Gel Ice Pack",
+      "purpose": "Reduces acute swelling, localized internal bleeding, and throbbing pain in fresh sprains and bruises.",
+      "general_info": "Non-pharmacological cold application causing local vasoconstriction, reducing edema and numbing sensory nerve endings within the first 48 hours.",
+      "precautions": [
+        "Wrap the ice pack in a thin towel; NEVER apply bare ice directly onto skin (prevents ice burns/frostbite).",
+        "Apply for 15 to 20 minutes at a time, allowing skin to warm back up between sessions.",
+        "Follow the R.I.C.E. protocol: Rest, Ice, Compression, Elevation."
+      ],
+      "avoid_if": [
+        "Raynaud's phenomenon, cold urticaria, or severe peripheral vascular disease."
+      ],
+      "safety_note": "The mandatory first-line therapy for acute sports injuries and ankle sprains in the first 48 hours."
+    },
+    {
+      "name": "Thermotherapy Hot Pack / Heating Pad",
+      "purpose": "Relieves chronic lower back stiffness, menstrual cramps, and persistent tight muscle spasms.",
+      "general_info": "Therapeutic heat application promoting vasodilation, increasing oxygenated blood flow, and relaxing contracted myofascial bands.",
+      "precautions": [
+        "Apply for 15 to 20 minutes with a protective fabric layer.",
+        "Do NOT sleep on an active electric heating pad to avoid accidental burns.",
+        "Do not use on fresh acute injuries (under 48 hours) where heat worsens inflammatory swelling."
+      ],
+      "avoid_if": [
+        "Acute traumatic injuries with active swelling.",
+        "Areas of sensory nerve loss or diabetic neuropathy."
+      ],
+      "safety_note": "Use heat for chronic stiffness and tight muscles; use ice for acute sprains."
+    },
+    {
+      "name": "Elastic Compression Crepe Bandage",
+      "purpose": "Provides stable mechanical joint support and limits inflammatory edema in sprained wrists, knees, or ankles.",
+      "general_info": "High-elastic woven cotton compression wrap designed to stabilize vulnerable ligaments without immobilizing joints completely.",
+      "precautions": [
+        "Wrap firmly in a figure-eight pattern starting from distal to proximal.",
+        "Do NOT wrap too tightly (check that toes/fingers stay warm, pink, and free of tingling).",
+        "Remove bandage before sleeping to allow normal circulation."
+      ],
+      "avoid_if": [
+        "Known deep vein thrombosis (DVT) without vascular consultation."
+      ],
+      "safety_note": "Loosen immediately if numbness, pins-and-needles, or cold blueness appears in fingers or toes."
+    }
+  ],
+
+  "general": [
+    {
+      "name": "Paracetamol (500mg)",
+      "purpose": "Reliable first-line remedy for general body ache, mild viral malaise, and elevated body temperature.",
+      "general_info": "Standard over-the-counter analgesic and antipyretic suitable for universal supportive comfort.",
+      "precautions": [
+        "Do not exceed packaging adult limits (max 4000 mg/day).",
+        "Maintain 4-6 hours between doses."
+      ],
+      "avoid_if": [
+        "Severe liver dysfunction or chronic heavy alcoholism."
+      ],
+      "safety_note": "A safe, dependable essential medicine for general home first-aid kits."
+    },
+    {
+      "name": "ORS (Oral Rehydration Salts)",
+      "purpose": "Restores vital electrolyte balance and cellular hydration during exhaustion, heat stress, or mild illness.",
+      "general_info": "WHO-standard electrolyte restoration formula that maintains intravascular volume and cellular energy.",
+      "precautions": [
+        "Mix with clean drinking water as directed.",
+        "Sip steadily across the day."
+      ],
+      "avoid_if": [
+        "Severe circulatory shock requiring emergency IV fluids."
+      ],
+      "safety_note": "Indispensable supportive recovery measure for hot summer days, physical fatigue, and illness."
+    },
+    {
+      "name": "Vitamin C (Ascorbic Acid 500mg Chewable)",
+      "purpose": "Essential water-soluble antioxidant supporting immune phagocyte activity, cellular defense, and collagen synthesis.",
+      "general_info": "Daily antioxidant nutritional supplement supporting epithelial barrier integrity and cellular defense mechanisms.",
+      "precautions": [
+        "Chew 1 tablet daily with or after meals.",
+        "Excess intake is safely excreted in urine, but very high doses can cause mild gastric acidity."
+      ],
+      "avoid_if": [
+        "History of recurrent calcium oxalate kidney stones.",
+        "Hemochromatosis (iron overload disorder)."
+      ],
+      "safety_note": "Widely used immune support during recovery from seasonal viral infections."
+    },
+    {
+      "name": "Zinc Sulfate / Gluconate (20mg - 50mg)",
+      "purpose": "Crucial trace mineral supporting T-lymphocyte function, wound healing, and respiratory mucosal integrity.",
+      "general_info": "Essential trace element required for over 300 metalloenzymes controlling DNA synthesis and infection resistance.",
+      "precautions": [
+        "Always take with a meal to prevent nausea.",
+        "Do not combine with oral antibiotics (such as ciprofloxacin or doxycycline) at the same time; separate by 2 hours."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to zinc salts."
+      ],
+      "safety_note": "Shown in clinical studies to help shorten the duration and severity of common colds when taken early."
+    },
+    {
+      "name": "Vitamin D3 (Cholecalciferol 1000 IU / 60,000 IU)",
+      "purpose": "Maintains calcium homeostasis, bone density, muscle strength, and modulates adaptive immune responses.",
+      "general_info": "Fat-soluble secosteroid hormone synthesized in skin on sunlight exposure, critical for skeletal and systemic immune health.",
+      "precautions": [
+        "Take with a meal containing dietary fats for optimal intestinal absorption.",
+        "For 60,000 IU high-dose capsules, take strictly on a weekly basis as advised."
+      ],
+      "avoid_if": [
+        "Hypercalcemia, hypervitaminosis D, or severe metastatic calcification."
+      ],
+      "safety_note": "A vital health supplement for individuals with limited sun exposure or indoor lifestyles."
+    },
+    {
+      "name": "Vitamin B-Complex with Methylcobalamin (B12)",
+      "purpose": "Supports cellular energy metabolism, peripheral nerve health, and red blood cell synthesis.",
+      "general_info": "Synergistic blend of B1 (Thiamine), B2 (Riboflavin), B3 (Niacinamide), B6 (Pyridoxine), B9 (Folate), and B12.",
+      "precautions": [
+        "Take 1 tablet daily in the morning with breakfast.",
+        "Harmless bright yellow discoloration of urine is completely normal due to riboflavin excretion."
+      ],
+      "avoid_if": [
+        "Known hypersensitivity to any component in the B-complex formula."
+      ],
+      "safety_note": "Excellent supportive therapy for general fatigue, tingling, and nutritional recovery."
+    },
+    {
+      "name": "Iron (Ferrous Ascorbate) with Folic Acid",
+      "purpose": "Supports hemoglobin synthesis, oxygen transport, and relieves mild fatigue caused by nutritional iron deficit.",
+      "general_info": "Well-tolerated oral iron formulation paired with ascorbic acid for superior duodenal absorption.",
+      "precautions": [
+        "Take on an empty stomach or with orange juice for best absorption; take with light meals if stomach upset occurs.",
+        "Darkening of stool is completely harmless and expected.",
+        "Separate from calcium supplements, antacids, tea, or coffee by at least 2 hours."
+      ],
+      "avoid_if": [
+        "Hemochromatosis, hemosiderosis, or hemolytic anemia without iron deficiency."
+      ],
+      "safety_note": "Keep strictly out of reach of children; accidental iron overdose in young children is a medical emergency."
+    }
+  ]
+}
+
+
+def seed_medicines():
+    """Seed the comprehensive medicines catalog to JSON, SQLite, and PostgreSQL."""
+    print("=" * 60)
+    print("AI HEALTH ASSISTANT: SEEDING COMPREHENSIVE MEDICINES CATALOG")
+    print("=" * 60)
+
+    # 1. Update knowledge_base/medicines.json
+    kb_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'knowledge_base', 'medicines.json'))
+    kb_dict = {
+        "version": "2.0",
+        "disclaimer": "This comprehensive catalog is for general educational awareness regarding widely available over-the-counter (OTC) supportive remedies. It does NOT constitute a personalized prescription, diagnosis, or clinical advice. Never administer medications to infants or children without consulting a registered pediatrician. Always read the package leaflet and consult a licensed doctor or pharmacist.",
+        "notice": "All medicines listed are non-prescription OTC supportive options only. No prescription-only medicines (POM) or controlled antibiotics are included. Always verify packaging instructions and contraindications.",
+        "categories": MEDICINES_DATA
+    }
+
+    with open(kb_path, 'w', encoding='utf-8') as f:
+        json.dump(kb_dict, f, indent=2, ensure_ascii=False)
+    
+    total_meds = sum(len(items) for items in MEDICINES_DATA.values())
+    print(f"[OK] Updated {kb_path} with {total_meds} medicines across {len(MEDICINES_DATA)} categories.")
+
+    # 2. Update SQLite database (health_assistant.db)
+    sqlite_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'health_assistant.db'))
+    import sqlite3
+    conn_sq = sqlite3.connect(sqlite_path)
+    cur_sq = conn_sq.cursor()
+    cur_sq.execute("""
+        CREATE TABLE IF NOT EXISTS medicines (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            category TEXT NOT NULL,
+            name TEXT NOT NULL,
+            purpose TEXT,
+            general_info TEXT,
+            precautions TEXT,
+            avoid_if TEXT,
+            safety_note TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    """)
+    cur_sq.execute("CREATE INDEX IF NOT EXISTS idx_medicines_category ON medicines(category);")
+    cur_sq.execute("DELETE FROM medicines;") # Fresh sync
+    
+    for cat, meds in MEDICINES_DATA.items():
+        for m in meds:
+            cur_sq.execute("""
+                INSERT INTO medicines (category, name, purpose, general_info, precautions, avoid_if, safety_note)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                cat,
+                m['name'],
+                m.get('purpose', ''),
+                m.get('general_info', ''),
+                json.dumps(m.get('precautions', [])),
+                json.dumps(m.get('avoid_if', [])),
+                m.get('safety_note', '')
+            ))
+    conn_sq.commit()
+    conn_sq.close()
+    print(f"[OK] Seeded {total_meds} medicines into SQLite database ({sqlite_path}).")
+
+    # 3. Update Supabase PostgreSQL database if configured
+    from backend.config import config
+    if config.DATABASE_URL:
+        try:
+            import psycopg2
+            print(f"[INFO] Connecting to Supabase Cloud PostgreSQL: {config.DATABASE_URL[:45]}...")
+            pg_conn = psycopg2.connect(config.DATABASE_URL)
+            pg_cur = pg_conn.cursor()
+
+            pg_cur.execute("""
+                CREATE TABLE IF NOT EXISTS medicines (
+                    id BIGSERIAL PRIMARY KEY,
+                    category TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    purpose TEXT,
+                    general_info TEXT,
+                    precautions TEXT,
+                    avoid_if TEXT,
+                    safety_note TEXT,
+                    created_at TIMESTAMPTZ DEFAULT NOW()
+                );
+                CREATE INDEX IF NOT EXISTS idx_medicines_category ON medicines(category);
+            """)
+
+            # Clear and repopulate
+            pg_cur.execute("DELETE FROM medicines;")
+            for cat, meds in MEDICINES_DATA.items():
+                for m in meds:
+                    pg_cur.execute("""
+                        INSERT INTO medicines (category, name, purpose, general_info, precautions, avoid_if, safety_note)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        cat,
+                        m['name'],
+                        m.get('purpose', ''),
+                        m.get('general_info', ''),
+                        json.dumps(m.get('precautions', [])),
+                        json.dumps(m.get('avoid_if', [])),
+                        m.get('safety_note', '')
+                    ))
+            pg_conn.commit()
+            pg_conn.close()
+            print(f"[OK] Seeded {total_meds} medicines into Cloud Supabase PostgreSQL database.")
+        except Exception as e:
+            print(f"[WARN] Supabase PostgreSQL seeding encountered an issue: {e}")
+    else:
+        print("[INFO] No DATABASE_URL configured; skipped PostgreSQL sync.")
+
+    print("=" * 60)
+    print("ALL MEDICINES SEEDED SUCCESSFULLY!")
+    print("=" * 60)
+
+if __name__ == '__main__':
+    seed_medicines()
