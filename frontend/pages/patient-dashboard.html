@@ -3,1458 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HealthPath AI – Patient Health & Care Dashboard</title>
+  <title>Patient Dashboard – AI Health Assistant</title>
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body style="background: #f8fafc; margin: 0; padding: 0;">
-
-  <!-- Offline status banner -->
-  <div id="offline-banner" class="offline-banner" style="display: none;">
+<body>
+  <div id="offline-banner" class="offline-banner">
     ⚠️ You are offline. Cached assessments and consultations remain readable.
   </div>
 
-  <div class="hp-app">
-    <!-- =========================================================================
-         LEFT DARK NAVY SIDEBAR (Matches Reference Design)
-         ========================================================================= -->
-    <aside id="hp-sidebar" class="hp-sidebar">
-      <!-- App Brand & Title -->
-      <div class="hp-sidebar-brand">
-        <div class="hp-brand-icon">🛡️</div>
-        <div class="hp-brand-text">
-          <h1>HealthPath AI</h1>
-          <p>Your Care Roadmap</p>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Patient Dashboard</span>
+      </div>
+
+      <!-- Welcome Header -->
+      <div class="card mb-6 flex justify-between items-center" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2>Hello, <span id="patient-greeting-name">Patient</span> 👋</h2>
+          <p class="text-sm text-muted mt-1">Review your recent symptom assessments, active doctor consultations, and health guides.</p>
         </div>
-      </div>
-
-      <!-- Navigation Section -->
-      <div class="hp-nav-section">
-        <div class="hp-nav-label">Core Navigation</div>
-
-        <!-- 1. Dashboard -->
-        <a class="hp-nav-item active" data-view="dashboard" onclick="HealthPath.switchView('dashboard')">
-          <span class="hp-nav-icon">📊</span>
-          <span>Dashboard</span>
-        </a>
-
-        <!-- 2. Patient Profile -->
-        <a class="hp-nav-item" data-view="profile" onclick="HealthPath.switchView('profile')">
-          <span class="hp-nav-icon">👤</span>
-          <span>My Profile</span>
-        </a>
-
-        <!-- 3. Health Concern Selection -->
-        <a class="hp-nav-item" data-view="concerns" onclick="HealthPath.switchView('concerns')">
-          <span class="hp-nav-icon">🩺</span>
-          <span>Select Health Concern</span>
-        </a>
-
-        <!-- 4. Health Gap Analysis -->
-        <a class="hp-nav-item" data-view="gap-analysis" onclick="HealthPath.switchView('gap-analysis')">
-          <span class="hp-nav-icon">🔬</span>
-          <span>Deficiency Gap Analysis</span>
-        </a>
-
-        <!-- 5. Learning & Health Hub -->
-        <a class="hp-nav-item" data-view="health-hub" onclick="HealthPath.switchView('health-hub')">
-          <span class="hp-nav-icon">📚</span>
-          <span>Self-Care &amp; Health Hub</span>
-        </a>
-
-        <!-- 6. Care Roadmap -->
-        <a class="hp-nav-item" data-view="roadmap" onclick="HealthPath.switchView('roadmap')">
-          <span class="hp-nav-icon">🗺️</span>
-          <span>Personalized Roadmap</span>
-        </a>
-
-        <!-- 7. Recommended Remedies -->
-        <a class="hp-nav-item" data-view="remedies" onclick="HealthPath.switchView('remedies')">
-          <span class="hp-nav-icon">💊</span>
-          <span>Recommended Remedies</span>
-        </a>
-
-        <!-- 8. Progress Tracking -->
-        <a class="hp-nav-item" data-view="progress" onclick="HealthPath.switchView('progress')">
-          <span class="hp-nav-icon">📈</span>
-          <span>Progress Tracking</span>
-        </a>
-
-        <!-- 9. Health Readiness Score -->
-        <a class="hp-nav-item" data-view="readiness" onclick="HealthPath.switchView('readiness')">
-          <span class="hp-nav-icon">🎯</span>
-          <span>Health Readiness Score</span>
-        </a>
-
-        <!-- 10. Doctor Matching -->
-        <a class="hp-nav-item" data-view="doctors" onclick="HealthPath.switchView('doctors')">
-          <span class="hp-nav-icon">🏥</span>
-          <span>Doctor Matching</span>
-        </a>
-      </div>
-
-      <!-- Sidebar Footer -->
-      <div class="hp-sidebar-footer">
-        <a href="/pages/profile.html" class="hp-nav-item">
-          <span class="hp-nav-icon">⚙️</span>
-          <span>Settings</span>
-        </a>
-        <a href="#" onclick="Auth.logout(); return false;" class="hp-nav-item" style="color: #f87171;">
-          <span class="hp-nav-icon">🚪</span>
-          <span>Logout</span>
-        </a>
-      </div>
-    </aside>
-
-    <!-- =========================================================================
-         MAIN CANVAS (Top bar + Dynamic 10-Screen Views)
-         ========================================================================= -->
-    <main class="hp-main">
-      <!-- Top Header Bar -->
-      <header class="hp-topbar">
-        <div class="hp-topbar-left">
-          <button class="hp-mobile-menu-btn" onclick="HealthPath.toggleMobileSidebar()" aria-label="Toggle Navigation">☰</button>
-          <div class="hp-breadcrumbs">
-            <a href="/">Home</a>
-            <span>&rsaquo;</span>
-            <span id="hp-crumb-current" style="font-weight: 600; color: #0f172a;">Dashboard</span>
-          </div>
-        </div>
-
-        <div class="hp-topbar-right">
-          <div class="hp-top-pill">
-            Your Health &rarr; Your Roadmap &rarr; Recovery
-          </div>
-          <a href="/pages/symptom-check.html" class="btn btn-primary btn-sm" style="text-decoration: none; padding: 6px 14px; font-size: 0.82rem;">
-            🩺 AI Checkup
+        <div class="flex gap-3">
+          <a href="/pages/symptom-check.html" class="btn btn-primary">
+            🩺 Check Symptoms Now
           </a>
-          <div class="hp-user-chip">
-            <div id="hp-user-avatar-initial" class="hp-user-avatar">P</div>
-            <span id="hp-user-display-name" class="hp-user-name">Patient</span>
+          <a href="/pages/doctors.html" class="btn btn-secondary">
+            👨‍⚕️ Find Doctors
+          </a>
+        </div>
+      </div>
+
+      <!-- Connected Quick Action Shortcuts -->
+      <div class="grid-5 mb-6" style="gap: 1rem;">
+        <a href="/pages/symptom-check.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">🩺</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Check Symptoms</strong>
+              <div class="text-xs text-muted">AI conversational triage</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/doctors.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">👨‍⚕️</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Find Doctors</strong>
+              <div class="text-xs text-muted">Locate nearby on map</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/self-care.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">💊</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Self-Care &amp; Meds</strong>
+              <div class="text-xs text-muted">Side effects &amp; direct buy</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/consultations.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">📋</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">My Consultations</strong>
+              <div class="text-xs text-muted">Track advice &amp; cases</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/profile.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">⚙️</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Health Profile</strong>
+              <div class="text-xs text-muted">History &amp; allergies</div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Past Assessments & Consultations Grid -->
+      <div class="grid-2">
+        <!-- Past Assessments -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Past Symptom Checks</h3>
+            <a href="/pages/symptom-check.html" class="text-xs text-primary font-semibold">+ New Check</a>
+          </div>
+          <div id="assessments-list">
+            <!-- Dynamic assessments list -->
           </div>
         </div>
-      </header>
 
-      <!-- View Containers Canvas -->
-      <div class="hp-canvas">
-
-        <!-- =====================================================================
-             SCREEN 1: DASHBOARD (Home Overview)
-             ===================================================================== -->
-        <section id="view-dashboard" class="hp-view active">
-          <!-- Top Welcome Card -->
-          <div class="hp-welcome-card">
-            <div class="hp-welcome-greeting">
-              <h2>Hello, <span id="dash-greeting-name">Patient</span> 👋</h2>
-              <p>Let's track your health recovery with AI-guided triage, custom roadmaps &amp; doctors!</p>
-            </div>
-
-            <!-- Header Metrics: Circular Gauge + Stat Pills -->
-            <div class="hp-metrics-group">
-              <!-- Readiness Circle Gauge -->
-              <div class="hp-metric-pill" onclick="HealthPath.switchView('readiness')" style="cursor: pointer;">
-                <div class="hp-circular-gauge">
-                  <svg viewBox="0 0 36 36">
-                    <path class="hp-circular-gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="hp-circular-gauge-val" stroke-dasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  </svg>
-                  <div class="hp-circular-gauge-text">78%</div>
-                </div>
-                <div>
-                  <div style="font-size: 0.72rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Readiness Score</div>
-                  <strong style="font-size: 0.95rem; color: #10b981;">Optimal Recovery</strong>
-                </div>
-              </div>
-
-              <!-- Areas to Improve -->
-              <div class="hp-metric-pill" onclick="HealthPath.switchView('gap-analysis')" style="cursor: pointer;">
-                <div style="font-size: 1.5rem;">🎯</div>
-                <div>
-                  <div style="font-size: 0.72rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Areas to Improve</div>
-                  <strong style="font-size: 1.05rem; color: #d97706;">3 Deficiencies</strong>
-                </div>
-              </div>
-
-              <!-- Completed Tasks -->
-              <div class="hp-metric-pill" onclick="HealthPath.switchView('progress')" style="cursor: pointer;">
-                <div style="font-size: 1.5rem;">📋</div>
-                <div>
-                  <div style="font-size: 0.72rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Completed Care Tasks</div>
-                  <strong style="font-size: 1.05rem; color: #0284c7;">7 / 12 Logged</strong>
-                </div>
-              </div>
-            </div>
+        <!-- Consultations Overview -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Doctor Consultations</h3>
+            <a href="/pages/consultations.html" class="text-xs text-primary font-semibold">View All</a>
           </div>
-
-          <!-- Quick Actions Grid (4 Cards) -->
-          <div style="margin-bottom: 0.75rem;">
-            <h3 style="font-size: 0.95rem; font-weight: 700; color: #334155; margin-bottom: 0.75rem;">⚡ Your Quick Actions</h3>
-            <div class="hp-quick-grid">
-              <!-- Action 1: View Roadmap -->
-              <div class="hp-action-card" onclick="HealthPath.switchView('roadmap')">
-                <div class="hp-action-icon blue">🗺️</div>
-                <h3>View My Roadmap</h3>
-                <p>Check your personalized day-by-day care &amp; recovery plan.</p>
-              </div>
-
-              <!-- Action 2: Check Symptoms -->
-              <a href="/pages/symptom-check.html" class="hp-action-card">
-                <div class="hp-action-icon cyan">🩺</div>
-                <h3>AI Symptom Check</h3>
-                <p>Start AI conversational triage with spelling auto-correction.</p>
-              </a>
-
-              <!-- Action 3: Go to Health Hub -->
-              <div class="hp-action-card" onclick="HealthPath.switchView('health-hub')">
-                <div class="hp-action-icon purple">📚</div>
-                <h3>Go to Health Hub</h3>
-                <p>Explore 77+ medicines, serums, lab tests &amp; direct buy links.</p>
-              </div>
-
-              <!-- Action 4: Track Progress -->
-              <div class="hp-action-card" onclick="HealthPath.switchView('progress')">
-                <div class="hp-action-icon emerald">📈</div>
-                <h3>Track Health Progress</h3>
-                <p>Log vitals, recovery milestones &amp; checkup progress.</p>
-              </div>
-            </div>
+          <div id="consultations-summary-list">
+            <!-- Dynamic consultations list -->
           </div>
-
-          <!-- Recommended Care Plans & Consultations -->
-          <div class="hp-card mb-6">
-            <div class="hp-card-header">
-              <h3 class="hp-card-title">🌟 Recommended Care &amp; Doctor Matching</h3>
-              <a href="#" onclick="HealthPath.switchView('concerns'); return false;" class="text-xs text-primary font-semibold">View All Categories &rarr;</a>
-            </div>
-
-            <div class="hp-recommend-grid">
-              <!-- Item 1: Facial Care -->
-              <div class="hp-rec-card">
-                <div>
-                  <div class="flex justify-between items-center mb-2">
-                    <span class="hp-badge hp-badge-info">✨ Facial Care</span>
-                    <span class="hp-badge hp-badge-success">96% Match</span>
-                  </div>
-                  <h4 style="margin: 0 0 4px; font-size: 0.98rem; font-weight: 700; color: #0f172a;">Acne &amp; Dark Spots Routine</h4>
-                  <p class="text-xs text-muted" style="margin: 0 0 10px;">Targeted 10% Niacinamide + Zinc serum, Salicylic Acid, and Vitamin D3 test.</p>
-                  <div class="hp-tags-wrap">
-                    <span class="hp-tag">Niacinamide</span>
-                    <span class="hp-tag">Vitamin D3</span>
-                    <span class="hp-tag">SPF 50</span>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-sm w-full" onclick="HealthPath.switchView('gap-analysis')">
-                  View Gap Analysis
-                </button>
-              </div>
-
-              <!-- Item 2: General Physician -->
-              <div class="hp-rec-card">
-                <div>
-                  <div class="flex justify-between items-center mb-2">
-                    <span class="hp-badge hp-badge-warning">🩺 General Physician</span>
-                    <span class="hp-badge hp-badge-success">92% Match</span>
-                  </div>
-                  <h4 style="margin: 0 0 4px; font-size: 0.98rem; font-weight: 700; color: #0f172a;">Dr. Rajesh Sharma</h4>
-                  <p class="text-xs text-muted" style="margin: 0 0 10px;">Max Super Speciality Hospital &bull; 14+ years exp in viral fever &amp; cold triage.</p>
-                  <div class="hp-tags-wrap">
-                    <span class="hp-tag">Internal Medicine</span>
-                    <span class="hp-tag">Fever Triage</span>
-                    <span class="hp-tag">Verified</span>
-                  </div>
-                </div>
-                <button class="btn btn-outline btn-sm w-full" onclick="HealthPath.switchView('doctors')">
-                  Consult Doctor
-                </button>
-              </div>
-
-              <!-- Item 3: Lab Diagnostic Test -->
-              <div class="hp-rec-card">
-                <div>
-                  <div class="flex justify-between items-center mb-2">
-                    <span class="hp-badge hp-badge-alert">🧪 Diagnostic Test</span>
-                    <span class="hp-badge hp-badge-success">90% Match</span>
-                  </div>
-                  <h4 style="margin: 0 0 4px; font-size: 0.98rem; font-weight: 700; color: #0f172a;">Complete Skin Deficiency Panel</h4>
-                  <p class="text-xs text-muted" style="margin: 0 0 10px;">Tests Vitamin D3, B12, Zinc, and Ferritin with 1-click home sample collection.</p>
-                  <div class="hp-tags-wrap">
-                    <span class="hp-tag">Apollo 24/7</span>
-                    <span class="hp-tag">Tata 1mg</span>
-                    <span class="hp-tag">Home Sample</span>
-                  </div>
-                </div>
-                <button class="btn btn-secondary btn-sm w-full" onclick="HealthPath.switchView('health-hub')">
-                  Explore Lab Tests
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Past Assessments & Active Doctor Consultations -->
-          <div class="grid-2">
-            <!-- Past Assessments -->
-            <div class="hp-card">
-              <div class="hp-card-header">
-                <h3 class="hp-card-title">🩺 Past Symptom Assessments</h3>
-                <a href="/pages/symptom-check.html" class="text-xs text-primary font-semibold">+ New Checkup</a>
-              </div>
-              <div id="dash-assessments-list">
-                <!-- Dynamically populated -->
-              </div>
-            </div>
-
-            <!-- Doctor Consultations -->
-            <div class="hp-card">
-              <div class="hp-card-header">
-                <h3 class="hp-card-title">👨‍⚕️ My Doctor Consultations</h3>
-                <a href="/pages/consultations.html" class="text-xs text-primary font-semibold">View All</a>
-              </div>
-              <div id="dash-consultations-list">
-                <!-- Dynamically populated -->
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 2: PATIENT PROFILE (My Profile)
-             ===================================================================== -->
-        <section id="view-profile" class="hp-view">
-          <div class="hp-card mb-6">
-            <h3 class="hp-card-title">👤 Patient Health Profile</h3>
-            <p class="text-sm text-muted mt-1">Review your personal demographic data, medical history, vitals, and verified health records.</p>
-          </div>
-
-          <div class="hp-profile-grid">
-            <!-- Left Profile Card -->
-            <div class="hp-card hp-profile-avatar-card">
-              <div id="profile-big-avatar" class="hp-profile-big-avatar">P</div>
-              <h3 id="profile-full-name" style="margin: 0 0 4px; font-size: 1.25rem; font-weight: 700; color: #0f172a;">Patient Name</h3>
-              <p id="profile-email-text" class="text-xs text-muted" style="margin: 0 0 1rem;">patient@example.com</p>
-
-              <div class="hp-badge hp-badge-success mb-4">
-                ✓ Verified Patient Account
-              </div>
-
-              <a href="/pages/profile.html" class="btn btn-outline btn-sm w-full">
-                ✏️ Edit Detailed Health Profile
-              </a>
-
-              <div class="w-full mt-6 text-left" style="border-top: 1px solid #f1f5f9; padding-top: 1rem;">
-                <div class="text-xs font-semibold text-muted uppercase mb-2">Primary Care Focus:</div>
-                <div class="flex gap-2 flex-wrap">
-                  <span class="hp-tag">Viral Fever Recovery</span>
-                  <span class="hp-tag">Facial Skincare</span>
-                  <span class="hp-tag">D3 Deficiency</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right Profile Summary -->
-            <div class="hp-card">
-              <div class="hp-card-header">
-                <h3 class="hp-card-title">📋 Health Profile Summary</h3>
-                <span class="hp-badge hp-badge-info">Local System Protected</span>
-              </div>
-
-              <div class="hp-info-row">
-                <span class="label">Patient Name</span>
-                <span id="prof-summary-name" class="val">Patient</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Primary Role</span>
-                <span class="val">Registered Patient</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Assigned Clinic City</span>
-                <span class="val">Dehradun / Uttarakhand (Default Hub)</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Blood Group</span>
-                <span class="val">B+ (Positive)</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Active Doctor Cases</span>
-                <span id="prof-active-cases" class="val">1 Active Consultation</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Known Drug Allergies</span>
-                <span class="val" style="color: #dc2626;">None Reported (Safe for Paracetamol &amp; Niacinamide)</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Active Prescriptions</span>
-                <span class="val">Paracetamol 500mg SOS, ORS Solution, Niacinamide 10%</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Local Database Isolation</span>
-                <span class="val" style="color: #10b981;">0 MB Supabase used for Medicine Data</span>
-              </div>
-
-              <div class="mt-6 flex gap-3">
-                <button class="btn btn-primary btn-sm" onclick="HealthPath.switchView('gap-analysis')">
-                  View Deficiency Gap Analysis &rarr;
-                </button>
-                <button class="btn btn-secondary btn-sm" onclick="HealthPath.switchView('roadmap')">
-                  View Care Roadmap
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 3: SELECT HEALTH CONCERN (Role / Specialty Selection)
-             ===================================================================== -->
-        <section id="view-concerns" class="hp-view">
-          <div class="hp-card mb-6">
-            <h3 class="hp-card-title">🩺 Select Health Concern Category</h3>
-            <p class="text-sm text-muted mt-1">Choose a health domain to activate targeted clinical guidance, deficiency gap analysis, and tailored roadmaps.</p>
-
-            <div class="mt-4">
-              <input type="text" id="concern-search-bar" class="form-control" placeholder="🔍 Search concern (e.g. fever, acne, dark spots, cough, headache)..." oninput="HealthPath.filterConcerns(this.value)">
-            </div>
-          </div>
-
-          <div id="concerns-grid" class="hp-concern-grid">
-            <!-- Concern 1: Facial Skincare -->
-            <div class="hp-concern-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-info">✨ Facial Care</span>
-                  <span class="hp-badge hp-badge-success">96% Match</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Facial Skincare &amp; Acne Triage</h4>
-                <p class="text-xs text-muted">Deficiency checkups (D3, B12, Zinc), 10% Niacinamide, Salicylic BHA, and SPF 50 direct buy links.</p>
-                <div class="hp-tags-wrap">
-                  <span class="hp-tag">Niacinamide</span>
-                  <span class="hp-tag">Vitamin C</span>
-                  <span class="hp-tag">Salicylic Acid</span>
-                  <span class="hp-tag">Lab Blood Tests</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full mt-3" onclick="HealthPath.selectConcern('skin')">
-                Select &amp; Analyze Gap &rarr;
-              </button>
-            </div>
-
-            <!-- Concern 2: Fever & Viral -->
-            <div class="hp-concern-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-alert">🌡️ Viral Care</span>
-                  <span class="hp-badge hp-badge-success">94% Match</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Fever, Chills &amp; Body Aches</h4>
-                <p class="text-xs text-muted">Paracetamol 500mg dosage schedule, hydration monitoring, temperature logging &amp; doctor connect.</p>
-                <div class="hp-tags-wrap">
-                  <span class="hp-tag">Paracetamol</span>
-                  <span class="hp-tag">ORS</span>
-                  <span class="hp-tag">Hydration</span>
-                  <span class="hp-tag">Triage</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full mt-3" onclick="HealthPath.selectConcern('fever')">
-                Select &amp; Analyze Gap &rarr;
-              </button>
-            </div>
-
-            <!-- Concern 3: Cold & Cough -->
-            <div class="hp-concern-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-info">🗣️ Respiratory</span>
-                  <span class="hp-badge hp-badge-success">88% Match</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Cough, Cold &amp; Allergies</h4>
-                <p class="text-xs text-muted">Cetirizine 10mg, steam inhalation guidance, sore throat lozenges &amp; chest tightness evaluation.</p>
-                <div class="hp-tags-wrap">
-                  <span class="hp-tag">Cetirizine</span>
-                  <span class="hp-tag">Steam</span>
-                  <span class="hp-tag">Lozenges</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full mt-3" onclick="HealthPath.selectConcern('cough')">
-                Select &amp; Analyze Gap &rarr;
-              </button>
-            </div>
-
-            <!-- Concern 4: Digestion -->
-            <div class="hp-concern-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-warning">🍽️ Gastrointestinal</span>
-                  <span class="hp-badge hp-badge-success">82% Match</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Stomach Pain, Acidity &amp; Digestion</h4>
-                <p class="text-xs text-muted">Gelusil antacid, Omeprazole 20mg morning protocol, oral rehydration salts &amp; dietary recommendations.</p>
-                <div class="hp-tags-wrap">
-                  <span class="hp-tag">Gelusil</span>
-                  <span class="hp-tag">Omeprazole</span>
-                  <span class="hp-tag">ORS</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full mt-3" onclick="HealthPath.selectConcern('stomach')">
-                Select &amp; Analyze Gap &rarr;
-              </button>
-            </div>
-
-            <!-- Concern 5: Headache -->
-            <div class="hp-concern-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-info">🧠 Neurological</span>
-                  <span class="hp-badge hp-badge-success">85% Match</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Headache &amp; Migraine Relief</h4>
-                <p class="text-xs text-muted">Ibuprofen / Paracetamol protocols, hydration, quiet dark room rest, and red-flag neurological screening.</p>
-                <div class="hp-tags-wrap">
-                  <span class="hp-tag">Ibuprofen</span>
-                  <span class="hp-tag">Rest</span>
-                  <span class="hp-tag">Hydration</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full mt-3" onclick="HealthPath.selectConcern('headache')">
-                Select &amp; Analyze Gap &rarr;
-              </button>
-            </div>
-
-            <!-- Concern 6: Cardiac Emergency -->
-            <div class="hp-concern-card" style="border-color: #fecaca; background: #fffdfd;">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-alert">🚨 Critical Emergency</span>
-                  <span class="hp-badge hp-badge-alert">Immediate</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #b91c1c;">Chest Pain &amp; Cardiac Triage</h4>
-                <p class="text-xs text-muted">Immediate triage for chest pressure radiating to left arm or shortness of breath. Instant 112 hotline access.</p>
-                <div class="hp-tags-wrap">
-                  <span class="hp-tag" style="color: #dc2626; background: #fee2e2;">Emergency 112</span>
-                  <span class="hp-tag">Cardiology</span>
-                </div>
-              </div>
-              <a href="/pages/symptom-check.html" class="btn btn-sm w-full mt-3" style="background: #dc2626; color: white;">
-                Instant Emergency Triage &rarr;
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 4: HEALTH & DEFICIENCY GAP ANALYSIS
-             ===================================================================== -->
-        <section id="view-gap-analysis" class="hp-view">
-          <div class="hp-card mb-6">
-            <div class="flex justify-between items-center flex-wrap gap-3">
-              <div>
-                <h3 class="hp-card-title">🔬 Health &amp; Deficiency Gap Analysis</h3>
-                <p class="text-sm text-muted mt-1">Comparing your reported symptoms &amp; biomarker levels against optimal healthy targets.</p>
-              </div>
-              <div class="flex gap-2">
-                <span class="hp-badge hp-badge-info" style="font-size: 0.85rem; padding: 6px 12px;">Active Focus: Skin &amp; Viral Recovery</span>
-                <button class="btn btn-outline btn-sm" onclick="HealthPath.switchView('concerns')">Change Focus</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="hp-gap-grid">
-            <!-- Left: Current Biomarkers -->
-            <div class="hp-card">
-              <div class="hp-card-header">
-                <h4 class="hp-card-title" style="font-size: 0.95rem;">👤 Your Current Biomarkers &amp; Symptoms</h4>
-                <span class="hp-badge hp-badge-warning">Needs Attention</span>
-              </div>
-
-              <!-- Bar 1: Vitamin D3 -->
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Vitamin D3 (Sun / Immunity)</span>
-                  <span style="color: #dc2626;">Low (18 ng/mL) 🔴</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 32%; background: #dc2626;"></div>
-                </div>
-              </div>
-
-              <!-- Bar 2: Serum Zinc -->
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Serum Zinc (Acne &amp; Barrier)</span>
-                  <span style="color: #d97706;">Borderline (65 mcg/dL) 🟡</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 55%; background: #d97706;"></div>
-                </div>
-              </div>
-
-              <!-- Bar 3: Daily Hydration -->
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Daily Hydration Level</span>
-                  <span style="color: #16a34a;">Good (2.2 Liters) 🟢</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 80%; background: #16a34a;"></div>
-                </div>
-              </div>
-
-              <!-- Bar 4: Body Temperature -->
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Body Temperature Stability</span>
-                  <span style="color: #16a34a;">Normal (98.6°F) 🟢</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 95%; background: #16a34a;"></div>
-                </div>
-              </div>
-
-              <!-- Bar 5: Skin Barrier Lipids -->
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Skin Barrier Lipids</span>
-                  <span style="color: #d97706;">Moderate Peeling (60%) 🟡</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 60%; background: #d97706;"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right: Optimal Targets -->
-            <div class="hp-card">
-              <div class="hp-card-header">
-                <h4 class="hp-card-title" style="font-size: 0.95rem;">🎯 Clinical Target Benchmarks</h4>
-                <span class="hp-badge hp-badge-success">Standard Baseline</span>
-              </div>
-
-              <div class="hp-info-row">
-                <span class="label">Vitamin D3 Baseline</span>
-                <span class="val" style="color: #16a34a;">50 – 70 ng/mL ✓</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Serum Zinc Target</span>
-                <span class="val" style="color: #16a34a;">80 – 120 mcg/dL ✓</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Daily Water Intake</span>
-                <span class="val" style="color: #16a34a;">2.5 – 3.0 Liters ✓</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Body Temperature</span>
-                <span class="val" style="color: #16a34a;">98.4°F – 98.8°F ✓</span>
-              </div>
-              <div class="hp-info-row">
-                <span class="label">Sun Protection (SPF)</span>
-                <span class="val" style="color: #16a34a;">Broad Spectrum SPF 50 PA++++ ✓</span>
-              </div>
-
-              <!-- Highlight Missing Care Alert Card -->
-              <div class="hp-gap-alert-card">
-                <strong style="color: #b91c1c; font-size: 0.88rem;">⚠️ Identified Deficiencies &amp; Missing Care:</strong>
-                <p class="text-xs text-muted mt-1 mb-2">Our AI recommends supplementing these 4 specific items to bridge your health gap:</p>
-                <div class="flex gap-2 flex-wrap">
-                  <span class="hp-badge hp-badge-alert">Vitamin D3 60,000 IU Weekly</span>
-                  <span class="hp-badge hp-badge-warning">Serum Zinc Diagnostic Blood Test</span>
-                  <span class="hp-badge hp-badge-info">10% Niacinamide + Zinc Serum</span>
-                  <span class="hp-badge hp-badge-success">Broad Spectrum SPF 50</span>
-                </div>
-                <div class="mt-3">
-                  <button class="btn btn-primary btn-sm" onclick="HealthPath.switchView('health-hub')">
-                    Direct Buy &amp; Book Tests in Health Hub &rarr;
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 5: LEARNING & CARE HUB (Self-Care & Medicines)
-             ===================================================================== -->
-        <section id="view-health-hub" class="hp-view">
-          <div class="hp-card mb-6">
-            <div class="flex justify-between items-center flex-wrap gap-3">
-              <div>
-                <h3 class="hp-card-title">📚 Self-Care &amp; Health Hub</h3>
-                <p class="text-sm text-muted mt-1">77+ OTC Medicines, Facial Serums &amp; Diagnostic Lab Tests stored locally on your system with 1-click buy links.</p>
-              </div>
-              <a href="/pages/self-care.html" class="btn btn-primary btn-sm">
-                Open Full Screen Catalog &rarr;
-              </a>
-            </div>
-
-            <!-- Category Pill Tabs -->
-            <div class="hp-pill-tabs mt-4">
-              <button class="hp-pill-tab active" onclick="HealthPath.filterHub('all', this)">All Products (77)</button>
-              <button class="hp-pill-tab" onclick="HealthPath.filterHub('skin', this)">✨ Facial Serums &amp; Skincare (12)</button>
-              <button class="hp-pill-tab" onclick="HealthPath.filterHub('fever', this)">🌡️ Fever &amp; Viral Relief (14)</button>
-              <button class="hp-pill-tab" onclick="HealthPath.filterHub('cough', this)">🗣️ Cough &amp; Cold (16)</button>
-              <button class="hp-pill-tab" onclick="HealthPath.filterHub('stomach', this)">🍽️ Digestion &amp; Acidity (15)</button>
-              <button class="hp-pill-tab" onclick="HealthPath.filterHub('headache', this)">🧠 Headache &amp; Pain (10)</button>
-            </div>
-          </div>
-
-          <!-- Product Cards Grid -->
-          <div id="hub-products-grid" class="hp-recommend-grid">
-            <!-- Dynamically populated from local SQLite DB -->
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 6: PERSONALIZED CARE ROADMAP
-             ===================================================================== -->
-        <section id="view-roadmap" class="hp-view">
-          <div class="hp-card mb-6">
-            <div class="flex justify-between items-center flex-wrap gap-3">
-              <div>
-                <h3 class="hp-card-title">🗺️ Your Personalized Health &amp; Recovery Roadmap</h3>
-                <p class="text-sm text-muted mt-1">Step-by-step clinical milestone tracker to guide you from initial symptoms to complete recovery.</p>
-              </div>
-              <div>
-                <span class="hp-badge hp-badge-info" style="font-size: 0.85rem; padding: 6px 14px;">Overall Progress: 4 / 8 Steps (50%)</span>
-              </div>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="hp-gap-bar-track mt-4" style="height: 10px;">
-              <div class="hp-gap-bar-fill" style="width: 50%; background: linear-gradient(90deg, #10b981, #0284c7);"></div>
-            </div>
-          </div>
-
-          <div class="hp-card">
-            <div class="hp-timeline">
-              <!-- Step 1 -->
-              <div class="hp-timeline-step completed">
-                <div class="hp-timeline-node">✓</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #0f172a;">1. AI Conversational Symptom Triage</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Completed via AI Assistant. Identified mild viral fever &amp; facial dullness.</p>
-                  </div>
-                  <span class="hp-badge hp-badge-success">Completed</span>
-                </div>
-              </div>
-
-              <!-- Step 2 -->
-              <div class="hp-timeline-step completed">
-                <div class="hp-timeline-node">✓</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #0f172a;">2. Emergency &amp; Red-Flag Rule-Out</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">No chest tightness, shortness of breath, or neurological red flags detected.</p>
-                  </div>
-                  <span class="hp-badge hp-badge-success">Completed</span>
-                </div>
-              </div>
-
-              <!-- Step 3 -->
-              <div class="hp-timeline-step completed">
-                <div class="hp-timeline-node">✓</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #0f172a;">3. Primary Symptom Relief (Paracetamol + Hydration)</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Paracetamol 500mg taken SOS. Daily hydration at 2.2L.</p>
-                  </div>
-                  <span class="hp-badge hp-badge-success">Completed</span>
-                </div>
-              </div>
-
-              <!-- Step 4 -->
-              <div class="hp-timeline-step completed">
-                <div class="hp-timeline-node">✓</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #0f172a;">4. Facial Skincare &amp; Barrier Repair Active Routine</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Applied 10% Niacinamide + Zinc Serum and SPF 50 daily.</p>
-                  </div>
-                  <span class="hp-badge hp-badge-success">Completed</span>
-                </div>
-              </div>
-
-              <!-- Step 5 -->
-              <div class="hp-timeline-step active">
-                <div class="hp-timeline-node">5</div>
-                <div class="hp-timeline-content" style="border-color: #38bdf8; background: #f0f9ff;">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #0284c7;">5. Diagnostic Deficiency Blood Test (Vitamin D3 &amp; Zinc)</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Schedule home sample collection with Apollo 24/7 or Tata 1mg Labs.</p>
-                  </div>
-                  <button class="btn btn-primary btn-sm" onclick="HealthPath.switchView('health-hub')">Book Test Now &rarr;</button>
-                </div>
-              </div>
-
-              <!-- Step 6 -->
-              <div class="hp-timeline-step">
-                <div class="hp-timeline-node">6</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #64748b;">6. Review Lab Reports &amp; AI Dosage Adjustment</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Upload test report PDF to verify exact D3 &amp; Zinc levels.</p>
-                  </div>
-                  <span class="hp-badge hp-badge-warning">Pending Lab</span>
-                </div>
-              </div>
-
-              <!-- Step 7 -->
-              <div class="hp-timeline-step">
-                <div class="hp-timeline-node">7</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #64748b;">7. Specialist Doctor Consultation &amp; Prescription Validation</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Verified doctor review with Dr. Rajesh Sharma / Dr. Priya Verma.</p>
-                  </div>
-                  <button class="btn btn-outline btn-sm" onclick="HealthPath.switchView('doctors')">Choose Doctor</button>
-                </div>
-              </div>
-
-              <!-- Step 8 -->
-              <div class="hp-timeline-step">
-                <div class="hp-timeline-node">8</div>
-                <div class="hp-timeline-content">
-                  <div>
-                    <h4 style="margin: 0 0 2px; font-size: 0.95rem; font-weight: 700; color: #64748b;">8. Complete 14-Day Recovery Cycle &amp; Vitality Check</h4>
-                    <p class="text-xs text-muted" style="margin: 0;">Achieve 100% Health Readiness Score with stable vitals.</p>
-                  </div>
-                  <span class="hp-badge" style="background: #f1f5f9; color: #64748b;">Final Stage</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 7: RECOMMENDED REMEDIES & SOLUTIONS
-             ===================================================================== -->
-        <section id="view-remedies" class="hp-view">
-          <div class="hp-card mb-6">
-            <h3 class="hp-card-title">💊 Recommended Remedies &amp; Recovery Protocols</h3>
-            <p class="text-sm text-muted mt-1">Structured clinical regimens designed by healthcare intelligence for your exact recovery stage.</p>
-          </div>
-
-          <div class="hp-recommend-grid">
-            <!-- Remedy 1 -->
-            <div class="hp-rec-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-info">Skin Barrier</span>
-                  <span class="hp-tag">Gentle / Beginner</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Ceramide Barrier Repair Routine</h4>
-                <p class="text-xs text-muted">Heals peeling, redness, and damaged skin moisture barrier with daily gentle ceramides.</p>
-                <div class="hp-info-row mt-3">
-                  <span class="label">Duration:</span>
-                  <span class="val">2 Weeks</span>
-                </div>
-                <div class="hp-info-row">
-                  <span class="label">Active Compounds:</span>
-                  <span class="val">Ceramides 1, 3, 6-II, Hyaluronic 2%</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full" onclick="HealthPath.openBuyModal('Ceramide Barrier Repair Cream')">
-                View Protocol &amp; Buy Online &rarr;
-              </button>
-            </div>
-
-            <!-- Remedy 2 -->
-            <div class="hp-rec-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-alert">Viral Relief</span>
-                  <span class="hp-tag">Standard Protocol</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Viral Fever Recovery Regimen</h4>
-                <p class="text-xs text-muted">Controlled Paracetamol schedule, electrolyte fluid replacement, and temperature tracking.</p>
-                <div class="hp-info-row mt-3">
-                  <span class="label">Duration:</span>
-                  <span class="val">3 – 5 Days</span>
-                </div>
-                <div class="hp-info-row">
-                  <span class="label">Active Compounds:</span>
-                  <span class="val">Paracetamol 500mg, WHO-ORS</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full" onclick="HealthPath.openBuyModal('Paracetamol 500mg')">
-                View Protocol &amp; Buy Online &rarr;
-              </button>
-            </div>
-
-            <!-- Remedy 3 -->
-            <div class="hp-rec-card">
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-warning">Deficiency</span>
-                  <span class="hp-tag">Clinical Strength</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Vitamin D3 60,000 IU Weekly Boost</h4>
-                <p class="text-xs text-muted">High-potency cholecalciferol capsules taken once weekly for 8 weeks to reverse deficiency.</p>
-                <div class="hp-info-row mt-3">
-                  <span class="label">Duration:</span>
-                  <span class="val">8 Weeks</span>
-                </div>
-                <div class="hp-info-row">
-                  <span class="label">Active Compounds:</span>
-                  <span class="val">Cholecalciferol 60k IU</span>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm w-full" onclick="HealthPath.openBuyModal('Vitamin D3 60,000 IU')">
-                View Protocol &amp; Buy Online &rarr;
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 8: HEALTH PROGRESS TRACKING (My Progress)
-             ===================================================================== -->
-        <section id="view-progress" class="hp-view">
-          <div class="hp-card mb-6">
-            <h3 class="hp-card-title">📈 Health &amp; Care Progress Tracking</h3>
-            <p class="text-sm text-muted mt-1">Track your daily wellness compliance, medicine schedules, vitals logs, and lab milestones.</p>
-          </div>
-
-          <div class="hp-progress-grid">
-            <!-- Item 1 -->
-            <div class="hp-card hp-progress-item">
-              <div class="flex justify-between items-center mb-2">
-                <span class="font-semibold text-sm">🌡️ Symptom Relief Milestones</span>
-                <strong style="color: #10b981;">5 / 7 Days Clear</strong>
-              </div>
-              <div class="hp-gap-bar-track">
-                <div class="hp-gap-bar-fill" style="width: 71%; background: #10b981;"></div>
-              </div>
-              <div class="text-xs text-muted mt-2">Fever subsided for 48 consecutive hours. Rest continues.</div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="hp-card hp-progress-item">
-              <div class="flex justify-between items-center mb-2">
-                <span class="font-semibold text-sm">💊 Medication Adherence</span>
-                <strong style="color: #0284c7;">4 / 5 Doses Taken</strong>
-              </div>
-              <div class="hp-gap-bar-track">
-                <div class="hp-gap-bar-fill" style="width: 80%; background: #0284c7;"></div>
-              </div>
-              <div class="text-xs text-muted mt-2">Morning and afternoon doses completed on time.</div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="hp-card hp-progress-item">
-              <div class="flex justify-between items-center mb-2">
-                <span class="font-semibold text-sm">✨ Skincare Routine Consistency</span>
-                <strong style="color: #7c3aed;">6 / 7 Days Logged</strong>
-              </div>
-              <div class="hp-gap-bar-track">
-                <div class="hp-gap-bar-fill" style="width: 85%; background: #7c3aed;"></div>
-              </div>
-              <div class="text-xs text-muted mt-2">10% Niacinamide + SPF 50 consistently applied.</div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="hp-card hp-progress-item">
-              <div class="flex justify-between items-center mb-2">
-                <span class="font-semibold text-sm">🧪 Diagnostic Lab Tests</span>
-                <strong style="color: #d97706;">1 / 2 Completed</strong>
-              </div>
-              <div class="hp-gap-bar-track">
-                <div class="hp-gap-bar-fill" style="width: 50%; background: #d97706;"></div>
-              </div>
-              <div class="text-xs text-muted mt-2">CBC Report logged. Vitamin D3 sample pending collection.</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 9: HEALTH READINESS SCORE (Readiness Tracker)
-             ===================================================================== -->
-        <section id="view-readiness" class="hp-view">
-          <div class="hp-card mb-6">
-            <h3 class="hp-card-title">🎯 Overall Health Readiness Score</h3>
-            <p class="text-sm text-muted mt-1">Dynamic composite score evaluating vital stability, deficiency risk, adherence, and clinical recovery.</p>
-          </div>
-
-          <div class="hp-readiness-layout">
-            <!-- Big Circular Gauge Card -->
-            <div class="hp-card hp-big-gauge-card">
-              <div class="hp-big-gauge">
-                <svg viewBox="0 0 36 36">
-                  <path class="hp-circular-gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke-width="4.5" />
-                  <path class="hp-circular-gauge-val" stroke-dasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke-width="4.5" />
-                </svg>
-                <div class="hp-big-gauge-text">78%</div>
-              </div>
-              <h4 style="margin: 0 0 4px; font-size: 1.15rem; font-weight: 700; color: #10b981;">Good Health &amp; Recovery</h4>
-              <p class="text-xs text-muted" style="margin: 0;">You are on track to achieve full 100% readiness in 6 days.</p>
-            </div>
-
-            <!-- Priority Improvements & Breakdown -->
-            <div class="hp-card">
-              <h4 class="hp-card-title" style="font-size: 0.95rem; margin-bottom: 0.75rem;">⚡ What to Improve Next</h4>
-
-              <!-- Priority 1 -->
-              <div class="p-3 mb-3" style="background: #fef2f2; border: 1px solid #fee2e2; border-radius: 8px;">
-                <div class="flex justify-between items-center">
-                  <strong style="font-size: 0.85rem; color: #b91c1c;">🔴 High Priority: Vitamin D3 Supplement</strong>
-                  <span class="hp-badge hp-badge-alert">+12% Score</span>
-                </div>
-                <div class="text-xs text-muted mt-1">Take 1 capsule of Cholecalciferol 60k IU weekly with milk.</div>
-              </div>
-
-              <!-- Priority 2 -->
-              <div class="p-3 mb-4" style="background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px;">
-                <div class="flex justify-between items-center">
-                  <strong style="font-size: 0.85rem; color: #b45309;">🟡 Medium Priority: Maintain 2.5L Water Intake</strong>
-                  <span class="hp-badge hp-badge-warning">+6% Score</span>
-                </div>
-                <div class="text-xs text-muted mt-1">Crucial for electrolyte balance and skin cell plumpness.</div>
-              </div>
-
-              <h4 class="hp-card-title" style="font-size: 0.95rem; margin-bottom: 0.75rem;">📊 Readiness Breakdown</h4>
-
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Vitals Stability</span>
-                  <span>88%</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 88%; background: #10b981;"></div>
-                </div>
-              </div>
-
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Micronutrients &amp; Vitamins</span>
-                  <span>62%</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 62%; background: #d97706;"></div>
-                </div>
-              </div>
-
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Symptom Recovery Rate</span>
-                  <span>85%</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 85%; background: #10b981;"></div>
-                </div>
-              </div>
-
-              <div class="hp-gap-bar-wrap">
-                <div class="hp-gap-bar-label">
-                  <span>Medication Consistency</span>
-                  <span>78%</span>
-                </div>
-                <div class="hp-gap-bar-track">
-                  <div class="hp-gap-bar-fill" style="width: 78%; background: #0284c7;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- =====================================================================
-             SCREEN 10: DOCTOR & SPECIALIST MATCHING
-             ===================================================================== -->
-        <section id="view-doctors" class="hp-view">
-          <div class="hp-card mb-6">
-            <div class="flex justify-between items-center flex-wrap gap-3">
-              <div>
-                <h3 class="hp-card-title">🏥 Verified Doctor &amp; Specialist Matching</h3>
-                <p class="text-sm text-muted mt-1">Nearby board-certified specialists matched to your exact symptoms, consultation history &amp; severity.</p>
-              </div>
-              <a href="/pages/doctors.html" class="btn btn-primary btn-sm">
-                View Interactive City Map &rarr;
-              </a>
-            </div>
-          </div>
-
-          <div id="doctors-list-grid" class="hp-doctor-grid">
-            <!-- Doctor 1 -->
-            <div class="hp-doctor-card">
-              <div class="hp-doctor-avatar">👨‍⚕️</div>
-              <div style="flex: 1;">
-                <div class="flex justify-between items-center mb-1">
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Dr. Rajesh Sharma</h4>
-                  <span class="hp-badge hp-badge-success">96% Match</span>
-                </div>
-                <div class="text-xs text-primary font-semibold">MD, Internal Medicine &bull; 14 Yrs Exp</div>
-                <div class="text-xs text-muted mt-1">Max Super Speciality Hospital, Dehradun</div>
-                <div class="text-xs text-muted mt-1">Specialist in viral fevers, infection management &amp; general triage.</div>
-                <div class="mt-3 flex gap-2">
-                  <a href="/pages/consultations.html" class="btn btn-primary btn-sm">Request Consultation</a>
-                  <a href="tel:01352750000" class="btn btn-outline btn-sm">Call Hospital</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Doctor 2 -->
-            <div class="hp-doctor-card">
-              <div class="hp-doctor-avatar">👩‍⚕️</div>
-              <div style="flex: 1;">
-                <div class="flex justify-between items-center mb-1">
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Dr. Priya Verma</h4>
-                  <span class="hp-badge hp-badge-success">98% Match</span>
-                </div>
-                <div class="text-xs text-primary font-semibold">MD, Dermatology &amp; Venereology &bull; 10 Yrs Exp</div>
-                <div class="text-xs text-muted mt-1">Apollo Clinic, Rajpur Road, Dehradun</div>
-                <div class="text-xs text-muted mt-1">Specialist in acne marks, barrier damage, serum routines &amp; lab tests.</div>
-                <div class="mt-3 flex gap-2">
-                  <a href="/pages/consultations.html" class="btn btn-primary btn-sm">Request Consultation</a>
-                  <a href="tel:01352740000" class="btn btn-outline btn-sm">Call Hospital</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Doctor 3 -->
-            <div class="hp-doctor-card">
-              <div class="hp-doctor-avatar">👨‍⚕️</div>
-              <div style="flex: 1;">
-                <div class="flex justify-between items-center mb-1">
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Dr. Amit Patel</h4>
-                  <span class="hp-badge hp-badge-info">91% Match</span>
-                </div>
-                <div class="text-xs text-primary font-semibold">MBBS, General Physician &bull; 8 Yrs Exp</div>
-                <div class="text-xs text-muted mt-1">Dehradun Medical Centre, Astley Hall</div>
-                <div class="text-xs text-muted mt-1">Specialist in cold, cough, allergic rhinitis &amp; bronchitis.</div>
-                <div class="mt-3 flex gap-2">
-                  <a href="/pages/consultations.html" class="btn btn-primary btn-sm">Request Consultation</a>
-                  <a href="tel:01352650000" class="btn btn-outline btn-sm">Call Hospital</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Doctor 4 -->
-            <div class="hp-doctor-card">
-              <div class="hp-doctor-avatar">👩‍⚕️</div>
-              <div style="flex: 1;">
-                <div class="flex justify-between items-center mb-1">
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Dr. Sneha Rao</h4>
-                  <span class="hp-badge hp-badge-info">94% Match</span>
-                </div>
-                <div class="text-xs text-primary font-semibold">DM, Cardiology &bull; 16 Yrs Exp</div>
-                <div class="text-xs text-muted mt-1">Fortis Escorts Hospital, Dehradun</div>
-                <div class="text-xs text-muted mt-1">Emergency cardiac care, chest tightness &amp; hypertension.</div>
-                <div class="mt-3 flex gap-2">
-                  <a href="/pages/consultations.html" class="btn btn-primary btn-sm">Request Consultation</a>
-                  <a href="tel:112" class="btn btn-sm" style="background: #dc2626; color: white;">Emergency 112</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </main>
-  </div>
-
-  <!-- Buy Modal -->
-  <div id="buy-modal" class="modal-backdrop" style="display: none;" onclick="if(event.target === this) HealthPath.closeBuyModal()">
-    <div class="modal" style="max-width: 500px;">
-      <div class="modal-header">
-        <h3 id="buy-modal-title" style="margin: 0; font-size: 1.15rem;">Buy Online</h3>
-        <button class="modal-close" onclick="HealthPath.closeBuyModal()">&times;</button>
-      </div>
-      <div id="buy-modal-body" class="p-4">
-        <!-- Injected buy links -->
+        </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- Footer Disclaimer -->
-  <footer class="footer-disclaimer" style="background: #0f172a; color: #94a3b8; border-top: 1px solid #1e293b; padding: 1rem; text-align: center; font-size: 0.78rem;">
-    ⚠️ HealthPath AI provides informational health triaging and does not replace emergency clinical diagnosis. In case of severe emergency, immediately call 112 or 108.
+  <footer class="footer-disclaimer">
+    ⚠️ This tool gives general information, not a medical diagnosis. In an emergency call 112 or 108.
   </footer>
 
-  <!-- Scripts -->
   <script src="/js/api.js"></script>
   <script src="/js/ui.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/notifications.js"></script>
   <script src="/js/offline.js"></script>
-
-  <!-- HealthPath SaaS Controller -->
   <script>
-    const HealthPath = {
-      currentView: 'dashboard',
-      userData: null,
-      medicinesCache: [],
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAuth(['patient']);
+      if (!user) return;
+      Auth.setupNavbar(user);
 
-      async init() {
-        this.userData = await Auth.requireAuth(['patient']);
-        if (!this.userData) return;
+      const nameEl = document.getElementById('patient-greeting-name');
+      if (nameEl) nameEl.textContent = user.name;
 
-        Auth.setupNavbar(this.userData);
+      loadAssessments();
+      loadConsultations();
+    });
 
-        // Populate User Info
-        const name = this.userData.name || 'Patient';
-        const initial = name.charAt(0).toUpperCase();
+    async function loadAssessments() {
+      const container = document.getElementById('assessments-list');
+      UI.showLoading(container, 2);
 
-        const dashGreeting = document.getElementById('dash-greeting-name');
-        if (dashGreeting) dashGreeting.textContent = name;
-
-        const userDisplay = document.getElementById('hp-user-display-name');
-        if (userDisplay) userDisplay.textContent = name;
-
-        const avatarInitial = document.getElementById('hp-user-avatar-initial');
-        if (avatarInitial) avatarInitial.textContent = initial;
-
-        const profAvatar = document.getElementById('profile-big-avatar');
-        if (profAvatar) profAvatar.textContent = initial;
-
-        const profName = document.getElementById('profile-full-name');
-        if (profName) profName.textContent = name;
-
-        const profSummaryName = document.getElementById('prof-summary-name');
-        if (profSummaryName) profSummaryName.textContent = name;
-
-        const profEmail = document.getElementById('profile-email-text');
-        if (profEmail) profEmail.textContent = this.userData.email || 'patient@example.com';
-
-        // Check hash in URL for direct navigation
-        const hash = window.location.hash.replace('#', '');
-        if (hash && document.getElementById(`view-${hash}`)) {
-          this.switchView(hash);
-        } else {
-          this.switchView('dashboard');
-        }
-
-        // Load background data
-        this.loadDashboardData();
-        this.loadHubMedicines();
-      },
-
-      switchView(viewName) {
-        this.currentView = viewName;
-        window.location.hash = viewName;
-
-        // Hide all views
-        document.querySelectorAll('.hp-view').forEach(el => el.classList.remove('active'));
-
-        // Show active view
-        const targetView = document.getElementById(`view-${viewName}`);
-        if (targetView) targetView.classList.add('active');
-
-        // Update active sidebar item
-        document.querySelectorAll('.hp-nav-item').forEach(el => {
-          if (el.getAttribute('data-view') === viewName) {
-            el.classList.add('active');
-          } else {
-            el.classList.remove('active');
-          }
-        });
-
-        // Update breadcrumb
-        const crumb = document.getElementById('hp-crumb-current');
-        if (crumb) {
-          const titles = {
-            'dashboard': 'Dashboard',
-            'profile': 'My Profile',
-            'concerns': 'Select Health Concern',
-            'gap-analysis': 'Deficiency Gap Analysis',
-            'health-hub': 'Self-Care & Health Hub',
-            'roadmap': 'Care Roadmap',
-            'remedies': 'Recommended Remedies',
-            'progress': 'Progress Tracking',
-            'readiness': 'Health Readiness Score',
-            'doctors': 'Doctor Matching'
-          };
-          crumb.textContent = titles[viewName] || 'Dashboard';
-        }
-
-        // Close mobile sidebar if open
-        const sidebar = document.getElementById('hp-sidebar');
-        if (sidebar) sidebar.classList.remove('open');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      },
-
-      toggleMobileSidebar() {
-        const sidebar = document.getElementById('hp-sidebar');
-        if (sidebar) sidebar.classList.toggle('open');
-      },
-
-      selectConcern(category) {
-        this.switchView('gap-analysis');
-      },
-
-      filterConcerns(query) {
-        const q = (query || '').toLowerCase().trim();
-        const cards = document.querySelectorAll('.hp-concern-card');
-        cards.forEach(card => {
-          const text = card.textContent.toLowerCase();
-          card.style.display = text.includes(q) ? 'flex' : 'none';
-        });
-      },
-
-      async loadDashboardData() {
-        // Load past assessments
-        const assessContainer = document.getElementById('dash-assessments-list');
-        if (assessContainer) {
-          const res = await API.get('/api/assessments');
-          if (res.ok && res.data && res.data.length > 0) {
-            assessContainer.innerHTML = res.data.slice(0, 3).map(a => `
-              <div class="p-3 mb-2" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <div class="flex justify-between items-center">
-                  <div>
-                    <strong style="text-transform: capitalize; font-size: 0.9rem;">${UI.escapeHtml(a.category || 'General')}</strong>
-                    <div class="text-xs text-muted">${new Date(a.created_at).toLocaleDateString()}</div>
-                  </div>
-                  <div>${UI.riskBadge(a.risk_level || 'low')}</div>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
-                  <span class="text-xs text-muted">Status: ${a.status}</span>
-                  <a href="/pages/result.html?id=${a.id}" class="text-xs text-primary font-semibold">View Result &rarr;</a>
-                </div>
-              </div>
-            `).join('');
-          } else {
-            assessContainer.innerHTML = `
-              <div class="text-center p-4 text-xs text-muted">
-                🩺 No past checks yet. <a href="/pages/symptom-check.html" class="text-primary font-semibold">Start AI Symptom Checkup &rarr;</a>
-              </div>
-            `;
-          }
-        }
-
-        // Load consultations
-        const consultContainer = document.getElementById('dash-consultations-list');
-        if (consultContainer) {
-          const res = await API.get('/api/consultations');
-          if (res.ok && res.data && res.data.length > 0) {
-            consultContainer.innerHTML = res.data.slice(0, 3).map(c => `
-              <div class="p-3 mb-2" style="background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <div class="flex justify-between items-center">
-                  <strong style="font-size: 0.9rem;">${UI.escapeHtml(c.doctor_name || 'Dr. Specialist')}</strong>
-                  ${UI.statusBadge(c.status)}
-                </div>
-                <div class="text-xs text-muted mt-1">
-                  ${UI.escapeHtml(c.specialization || 'General Physician')} &bull; ${new Date(c.created_at).toLocaleDateString()}
-                </div>
-              </div>
-            `).join('');
-          } else {
-            consultContainer.innerHTML = `
-              <div class="text-center p-4 text-xs text-muted">
-                👨‍⚕️ No consultation requests yet. <a href="/pages/doctors.html" class="text-primary font-semibold">Find Nearby Doctors &rarr;</a>
-              </div>
-            `;
-          }
-        }
-      },
-
-      async loadHubMedicines() {
-        const grid = document.getElementById('hub-products-grid');
-        if (!grid) return;
-
-        // Fetch from local database via API
-        const res = await API.get('/api/medicines/all');
-        if (res.ok && res.data) {
-          this.medicinesCache = res.data;
-          this.renderHub(res.data.slice(0, 9));
-        }
-      },
-
-      filterHub(category, tabBtn) {
-        if (tabBtn) {
-          document.querySelectorAll('.hp-pill-tab').forEach(b => b.classList.remove('active'));
-          tabBtn.classList.add('active');
-        }
-
-        if (category === 'all') {
-          this.renderHub(this.medicinesCache.slice(0, 9));
-        } else {
-          const filtered = this.medicinesCache.filter(m => m.category === category);
-          this.renderHub(filtered.length > 0 ? filtered : this.medicinesCache.slice(0, 6));
-        }
-      },
-
-      renderHub(items) {
-        const grid = document.getElementById('hub-products-grid');
-        if (!grid) return;
-
-        if (!items || items.length === 0) {
-          grid.innerHTML = '<div class="text-muted text-sm p-4 col-span-3 text-center">No products found.</div>';
-          return;
-        }
-
-        grid.innerHTML = items.map(item => {
-          const buy = item.buy_links || {};
-          const tataLink = buy.tata_1mg || 'https://www.1mg.com';
-          const apolloLink = buy.apollo || 'https://www.apollopharmacy.in';
-
-          return `
-            <div class="hp-rec-card">
+      const res = await API.get('/api/assessments');
+      if (res.ok && res.data && res.data.length > 0) {
+        container.innerHTML = res.data.map(a => `
+          <div class="p-3 mb-3" style="background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+            <div class="flex justify-between items-center">
               <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="hp-badge hp-badge-info">${UI.escapeHtml(item.category || 'OTC')}</span>
-                  <span class="text-xs font-semibold" style="color: #0284c7;">${UI.escapeHtml(item.price_estimate || '₹120')}</span>
-                </div>
-                <h4 style="margin: 0 0 4px; font-size: 0.98rem; font-weight: 700; color: #0f172a;">${UI.escapeHtml(item.name)}</h4>
-                <p class="text-xs text-muted" style="margin: 0 0 8px; line-height: 1.4;">
-                  ${UI.escapeHtml((item.description || item.dosage_guide || '').substring(0, 90))}...
-                </p>
-                ${item.side_effects && item.side_effects.common ? `
-                  <div class="text-xs" style="color: #d97706; margin-bottom: 8px;">
-                    ⚠️ Side Effects: ${UI.escapeHtml(item.side_effects.common.slice(0, 2).join(', '))}
-                  </div>
-                ` : ''}
+                <strong style="text-transform: capitalize;">${UI.escapeHtml(a.category || 'General')}</strong>
+                <div class="text-xs text-muted">${new Date(a.created_at).toLocaleDateString()}</div>
               </div>
-              <div class="flex gap-2">
-                <a href="${tataLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm flex-1 text-center" style="font-size: 0.75rem; padding: 6px 8px;">
-                  🛒 Tata 1mg
-                </a>
-                <a href="${apolloLink}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm flex-1 text-center" style="font-size: 0.75rem; padding: 6px 8px;">
-                  Apollo
-                </a>
+              <div>
+                ${UI.riskBadge(a.risk_level || 'low')}
               </div>
             </div>
-          `;
-        }).join('');
-      },
+            <div class="mt-3 flex justify-between items-center">
+              <span class="text-xs text-muted">Status: ${a.status}</span>
+              <a href="/pages/result.html?id=${a.id}" class="btn btn-outline btn-sm">
+                View Result &rarr;
+              </a>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        UI.showEmpty(container, '🩺', 'No symptom checks yet', 'Click "Check Symptoms Now" above to begin your first check.');
+      }
+    }
 
-      openBuyModal(productName) {
-        const modal = document.getElementById('buy-modal');
-        const title = document.getElementById('buy-modal-title');
-        const body = document.getElementById('buy-modal-body');
-        if (!modal || !title || !body) return;
+    async function loadConsultations() {
+      const container = document.getElementById('consultations-summary-list');
+      UI.showLoading(container, 2);
 
-        title.textContent = `Buy Online: ${productName}`;
-        const query = encodeURIComponent(productName);
-
-        body.innerHTML = `
-          <p class="text-sm text-muted mb-4">Click below to purchase genuine formulations with direct doorstep delivery:</p>
-          <div class="flex flex-col gap-3">
-            <a href="https://www.1mg.com/search/all?name=${query}" target="_blank" rel="noopener" class="btn btn-primary w-full text-center">
-              🛒 Order on Tata 1mg
-            </a>
-            <a href="https://www.apollopharmacy.in/search-medicines/${query}" target="_blank" rel="noopener" class="btn btn-secondary w-full text-center">
-              🏥 Order on Apollo Pharmacy
-            </a>
-            <a href="https://www.netmeds.com/catalogsearch/result/${query}/all" target="_blank" rel="noopener" class="btn btn-outline w-full text-center">
-              💊 Order on Netmeds
-            </a>
-            <a href="https://pharmeasy.in/search/all?name=${query}" target="_blank" rel="noopener" class="btn btn-outline w-full text-center">
-              📦 Order on PharmEasy
-            </a>
+      const res = await API.get('/api/consultations');
+      if (res.ok && res.data && res.data.length > 0) {
+        container.innerHTML = res.data.slice(0, 3).map(c => `
+          <div class="p-3 mb-3" style="background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+            <div class="flex justify-between items-center">
+              <strong>${UI.escapeHtml(c.doctor_name || 'Doctor')}</strong>
+              ${UI.statusBadge(c.status)}
+            </div>
+            <div class="text-xs text-muted mt-1">
+              ${UI.escapeHtml(c.specialization || 'General Physician')} &bull; ${new Date(c.created_at).toLocaleDateString()}
+            </div>
+            ${c.doctor_advice ? `
+              <div class="text-xs text-success mt-2" style="font-weight: 500;">
+                ✓ Advice Received: "${UI.escapeHtml(c.doctor_advice.substring(0, 60))}..."
+              </div>
+            ` : ''}
+          </div>
+        `).join('') + `
+          <div class="text-center mt-2">
+            <a href="/pages/consultations.html" class="text-xs text-primary font-semibold">View all consultations &rarr;</a>
           </div>
         `;
-
-        modal.style.display = 'flex';
-      },
-
-      closeBuyModal() {
-        const modal = document.getElementById('buy-modal');
-        if (modal) modal.style.display = 'none';
+      } else {
+        UI.showEmpty(container, '📋', 'No consultations requested yet', 'If an assessment is marked Medium risk, you can request a consultation.');
       }
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      HealthPath.init();
-    });
+    }
   </script>
 </body>
 </html>
