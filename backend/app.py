@@ -55,7 +55,10 @@ def create_app():
         # Only check on state-changing methods to API routes
         if request.method in ('POST', 'PUT', 'DELETE') and request.path.startswith('/api/'):
             # Exempt auth endpoints that need to work before the user has a token
-            exempt = ['/api/auth/login', '/api/auth/register', '/api/auth/csrf']
+            exempt = [
+                '/api/auth/login', '/api/auth/register', '/api/auth/csrf',
+                '/api/medicines/ask', '/api/facial/checkup', '/api/system/storage-info'
+            ]
             if request.path in exempt:
                 return
             

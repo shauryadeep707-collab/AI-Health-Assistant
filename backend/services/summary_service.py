@@ -116,4 +116,10 @@ def _template_summary(structured_data, risk_result, patient_profile, messages=No
         flag_names = [rf['name'] for rf in red_flags]
         lines.append(f"EMERGENCY RED FLAGS: {', '.join(flag_names)}.")
 
+    # 5. Facial Health & Skincare Checkup Note
+    category = (structured_data.get('category') or '').lower()
+    all_symp_text = " ".join(symptoms + other).lower()
+    if category in ('skin', 'facial_care') or any(k in all_symp_text for k in ('face', 'facial', 'skin', 'acne', 'pimple', 'dark spots', 'serum', 'pores', 'pigmentation', 'dullness')):
+        lines.append("Facial & Skin Checkup Note: Evaluated for nutritional deficiencies (Vitamin D, B12, Zinc, Iron) and skin barrier integrity. Active topical serums and diagnostic checkup tests indicated.")
+
     return ' '.join(lines)

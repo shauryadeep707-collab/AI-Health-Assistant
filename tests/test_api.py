@@ -364,4 +364,104 @@ def test_automatic_dialogue_summary_and_doctor_routing(client):
     assert len(doc_data['messages']) >= 1
 
 
+def test_medicines_catalog_with_side_effects_and_buy_links(client):
+    """Test fetching medicines returns enriched side effects, dosage, price and online buy links."""
+    res = client.get('/api/medicines')
+    assert res.status_code == 200
+    json_data = res.get_json()
+    assert json_data['ok'] is True
+    assert json_data['count'] > 0
+    
+    first_med = json_data['data'][0]
+    assert 'name' in first_med
+    assert 'side_effects' in first_med
+    assert 'common' in first_med['side_effects']
+    assert 'serious' in first_med['side_effects']
+    assert 'management' in first_med['side_effects']
+    assert 'buy_links' in first_med
+    assert 'tata_1mg' in first_med['buy_links']
+    assert 'apollo' in first_med['buy_links']
+    assert 'netmeds' in first_med['buy_links']
+    assert 'pharmeasy' in first_med['buy_links']
+    assert 'price_estimate' in first_med
+    assert 'dosage_guide' in first_med
+
+
+def test_medicines_search_endpoint(client):
+    """Test searching medicine catalog by product name or symptom."""
+    res = client.get('/api/medicines/search?q=paracetamol')
+    assert res.status_code == 200
+    json_data = res.get_json()
+    assert json_data['ok'] is True
+    assert json_data['count'] >= 1
+    names = [m['name'].lower() for m in json_data['data']]
+    assert any('paracetamol' in n for n in names)
+
+
+def test_medicines_ask_side_effects_endpoint(client):
+    """Test asking about medicine side effects returns structured answer, warnings and direct buy links."""
+    # Test POST
+    post_res = client.post('/api/medicines/ask', json={
+        'query': 'What are the side effects of Cetirizine?'
+    })
+    assert post_res.status_code == 200
+    post_data = post_res.get_json()
+    assert post_data['ok'] is True
+    assert 'answer' in post_data
+    assert 'Side Effects' in post_data['answer']
+    assert len(post_data['matched_medicines']) >= 1
+    matched = post_data['matched_medicines'][0]
+    assert 'Cetirizine' in matched['name']
+    assert 'buy_links' in matched
+    assert '1mg.com' in matched['buy_links']['tata_1mg']
+
+    # Test GET
+    get_res = client.get('/api/medicines/ask?q=Does+paracetamol+have+side+effects%3F')
+    assert get_res.status_code == 200
+    get_data = get_res.get_json()
+    assert get_data['ok'] is True
+    assert 'Paracetamol' in get_data['matched_medicines'][0]['name']
+
+
+def test_facial_checkup_and_serums_recommendations(client):
+    """Test AI facial skincare assessment identifies deficiencies, recommends serums and diagnostic lab tests."""
+    res = client.get('/api/facial/checkup?concerns=I+have+acne+dark+spots+and+oily+skin')
+    assert res.status_code == 200
+    data = res.get_json()
+    assert data['ok'] is True
+    assert data['is_facial_checkup'] is True
+    assert len(data['concerns']) >= 1
+    assert len(data['deficiencies']) >= 1
+    assert len(data['recommended_serums']) >= 1
+    
+    # Check that recommended serums have direct buy links
+    first_serum = data['recommended_serums'][0]
+    assert 'buy_links' in first_serum
+    assert 'tata_1mg' in first_serum['buy_links']
+    assert 'apollo' in first_serum['buy_links']
+    assert 'netmeds' in first_serum['buy_links']
+    assert 'pharmeasy' in first_serum['buy_links']
+
+
+def test_system_storage_architecture_info(client):
+    """Test system storage info confirms local laptop database for medicines (0 MB cloud memory) and cloud metrics."""
+    res = client.get('/api/system/storage-info')
+    assert res.status_code == 200
+    data = res.get_json()['data']
+    arch = data['architecture']
+    
+    # Verify local laptop database
+    assert 'local_laptop_database' in arch
+    assert arch['local_laptop_database']['total_medicines_and_products'] >= 75
+    assert '0 MB' in arch['local_laptop_database']['cloud_memory_used']
+    
+    # Verify cloud database metrics
+    assert 'cloud_database' in arch
+    assert 'total_patients_joined' in arch['cloud_database']
+    assert 'total_doctors_uploaded' in arch['cloud_database']
+    assert 'total_consultations_conducted' in arch['cloud_database']
+
+
+
+
 

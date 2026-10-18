@@ -307,18 +307,61 @@ const Result = {
       if (medicines.length === 0) {
         medsContainer.innerHTML = '<p class="text-sm text-muted">No specific OTC medications indicated. Maintain rest and hydration.</p>';
       } else {
-        medsContainer.innerHTML = medicines.map(m => `
+        medsContainer.innerHTML = medicines.map(m => {
+          const se = m.side_effects || {};
+          const common = Array.isArray(se.common) ? se.common : [];
+          const serious = Array.isArray(se.serious) ? se.serious : [];
+          const management = se.management || 'Take with water as directed.';
+          const buyLinks = m.buy_links || {};
+
+          return `
           <div class="medicine-card">
-            <div class="medicine-notice">
-              ⚠️ Not a prescription — For general information only. Always read the package label or ask a pharmacist.
+            <div class="medicine-header">
+              <div>
+                <div class="medicine-name">${UI.escapeHtml(m.name)}</div>
+                <div class="medicine-purpose">${UI.escapeHtml(m.purpose || '')}</div>
+              </div>
+              <div class="medicine-price-badge">
+                <span>🏷️</span> ${UI.escapeHtml(m.price_estimate || '₹25 – ₹50')}
+              </div>
             </div>
-            <div class="medicine-name">${UI.escapeHtml(m.name)}</div>
-            <div class="medicine-purpose">${UI.escapeHtml(m.purpose)}</div>
-            <p class="text-sm" style="color: var(--gray-600); margin-bottom: 0.5rem;">${UI.escapeHtml(m.general_info || '')}</p>
+
+            <p class="text-sm" style="color: var(--gray-600); margin-bottom: 0.5rem; line-height: 1.5;">${UI.escapeHtml(m.general_info || '')}</p>
             
+            ${m.dosage_guide ? `
+              <div class="p-2 mb-2" style="background: #f8fafc; border-radius: 6px; font-size: 0.85rem; border-left: 3px solid var(--primary);">
+                <strong>Dosage:</strong> ${UI.escapeHtml(m.dosage_guide)}
+              </div>
+            ` : ''}
+
+            <!-- Side Effects Breakdown -->
+            <div class="side-effects-container">
+              <div class="se-section-title" style="color: var(--gray-700);">
+                <span>⚡ Common Side Effects (Usually Mild):</span>
+              </div>
+              <div class="se-tags-wrapper">
+                ${common.length > 0 ? common.map(c => `
+                  <span class="se-tag se-tag-common">✓ ${UI.escapeHtml(c)}</span>
+                `).join('') : '<span class="text-xs text-muted">Rarely reported at standard dosages.</span>'}
+              </div>
+
+              <div class="se-section-title" style="color: var(--error);">
+                <span>🚨 Serious Warnings (Stop &amp; Consult Doctor If Occurs):</span>
+              </div>
+              <div class="se-tags-wrapper">
+                ${serious.length > 0 ? serious.map(s => `
+                  <span class="se-tag se-tag-serious">⚠️ ${UI.escapeHtml(s)}</span>
+                `).join('') : '<span class="text-xs text-muted">Discontinue if allergic hives or swelling develops.</span>'}
+              </div>
+
+              <div class="se-management-box">
+                <strong>💡 How to manage &amp; avoid side effects:</strong> ${UI.escapeHtml(management)}
+              </div>
+            </div>
+
             <div style="font-size: 0.85rem; margin-top: 0.5rem;">
               <strong>Precautions:</strong>
-              <ul style="padding-left: 1.25rem; color: var(--gray-600);">
+              <ul style="padding-left: 1.25rem; color: var(--gray-600); margin-top: 0.25rem;">
                 ${(m.precautions || []).map(p => `<li>${UI.escapeHtml(p)}</li>`).join('')}
               </ul>
             </div>
@@ -326,12 +369,32 @@ const Result = {
             <div style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--error);">
               <strong>Avoid If:</strong> ${(m.avoid_if || []).map(a => UI.escapeHtml(a)).join(', ')}
             </div>
-            
-            <div class="text-xs text-muted mt-2">
-              <em>${UI.escapeHtml(m.note || 'Follow package directions carefully.')}</em>
+
+            <!-- Direct Buy Online Pharmacy Buttons -->
+            <div class="direct-buy-section">
+              <div class="direct-buy-title">
+                <span>🛒 <strong>Direct Buy Online (Verified Pharmacies):</strong></span>
+                <a href="/pages/self-care.html?product=${encodeURIComponent(m.search_term || m.name)}" class="text-xs text-primary font-semibold" style="text-decoration: underline;">
+                  Ask Side Effects AI &rarr;
+                </a>
+              </div>
+              <div class="direct-buy-buttons">
+                <a href="${buyLinks.tata_1mg || '#'}" target="_blank" rel="noopener noreferrer" class="pharmacy-buy-btn btn-1mg" title="Buy on Tata 1mg">
+                  🛒 Tata 1mg
+                </a>
+                <a href="${buyLinks.apollo || '#'}" target="_blank" rel="noopener noreferrer" class="pharmacy-buy-btn btn-apollo" title="Buy on Apollo Pharmacy">
+                  🏥 Apollo
+                </a>
+                <a href="${buyLinks.netmeds || '#'}" target="_blank" rel="noopener noreferrer" class="pharmacy-buy-btn btn-netmeds" title="Buy on Netmeds">
+                  💊 Netmeds
+                </a>
+                <a href="${buyLinks.pharmeasy || '#'}" target="_blank" rel="noopener noreferrer" class="pharmacy-buy-btn btn-pharmeasy" title="Buy on PharmEasy">
+                  📦 PharmEasy
+                </a>
+              </div>
             </div>
           </div>
-        `).join('');
+        `}).join('');
       }
     }
   },

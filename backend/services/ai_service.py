@@ -63,6 +63,12 @@ DEMO_FOLLOWUPS = {
         {'question': 'Any other symptoms?', 'chips': ['Fever', 'Vomiting', 'Loss of appetite', 'None']},
         {'question': 'Have you taken anything for it?', 'chips': ['Antacid', 'ORS', 'Nothing yet', 'Other']},
     ],
+    'skin': [
+        {'question': 'Where is your skin or facial concern primarily located?', 'chips': ['Entire face', 'T-Zone (Forehead & Nose)', 'Cheeks & Jawline', 'Under-eye area', 'Body/Arms/Legs']},
+        {'question': 'What best describes your primary concern?', 'chips': ['Acne & Pimples', 'Dark spots & Dullness', 'Extreme Dryness & Peeling', 'Dark Circles & Puffiness', 'Itchy Red Rash']},
+        {'question': 'Have you noticed any related signs of nutritional deficiency?', 'chips': ['Fatigue & Low Energy (Vitamin D/B12)', 'Pale skin & Dark circles (Iron)', 'Slow healing & Breakouts (Zinc)', 'None of these']},
+        {'question': 'What type of product or guidance are you seeking?', 'chips': ['Facial serum recommendations', 'Deficiency lab checkup test', 'Safe routine & precautions', 'Dermatologist consultation']},
+    ],
     'general': [
         {'question': 'How long have you been experiencing these symptoms?', 'chips': ['1-2 days', '3-5 days', 'About a week', 'More than a week']},
         {'question': 'How would you rate the severity?', 'chips': ['Mild', 'Moderate', 'Severe']},
@@ -81,7 +87,12 @@ CATEGORY_KEYWORDS = {
     'sore_throat': ['sore throat', 'throat pain', 'gala dard', 'gale mein dard', 'gala kharab', 'tonsil', 'pharyngitis', 'difficulty swallowing'],
     'stomach': ['stomach', 'pet dard', 'diarrhea', 'vomit', 'nausea', 'acidity', 'pet me dard', 'ulti', 'dast', 'kabz', 'abdominal', 'belly pain', 'loose motion'],
     'cardiac': ['chest', 'heart', 'palpitation', 'seene', 'chhati', 'pressure', 'sine me dard'],
-    'skin': ['rash', 'itching', 'khujli', 'skin', 'allergy', 'daane', 'redness', 'boils'],
+    'skin': [
+        'rash', 'itching', 'khujli', 'skin', 'allergy', 'daane', 'redness', 'boils',
+        'face', 'chehra', 'facial', 'acne', 'pimple', 'pimples', 'dark spots', 'serum',
+        'pigmentation', 'melasma', 'dull skin', 'dark circles', 'pores', 'blemish', 'wrinkles',
+        'skincare', 'dry skin', 'flaky'
+    ],
 }
 
 

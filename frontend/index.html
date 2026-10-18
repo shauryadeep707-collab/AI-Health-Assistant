@@ -27,6 +27,9 @@
       <button class="menu-toggle" onclick="UI.toggleMenu()" aria-label="Toggle Navigation">☰</button>
       <ul id="nav-links" class="navbar-nav">
         <li><a href="/">Home</a></li>
+        <li><a href="/pages/symptom-check.html">Symptom Checker</a></li>
+        <li><a href="/pages/doctors.html">Find Doctors</a></li>
+        <li><a href="/pages/self-care.html">Self-Care &amp; Medicines</a></li>
         <li><a href="/pages/login.html">Login</a></li>
         <li><a href="/pages/register.html" class="btn btn-primary btn-sm" style="color: white;">Get Started</a></li>
       </ul>
@@ -58,6 +61,9 @@
         <a href="/pages/doctors.html" class="btn btn-outline btn-lg">
           👨‍⚕️ Find Nearby Doctors on Map
         </a>
+        <a href="/pages/self-care.html" class="btn btn-secondary btn-lg">
+          💊 Self-Care &amp; Medicine Guide
+        </a>
       </div>
 
       <!-- Quick Symptom Selector -->
@@ -79,7 +85,7 @@
 
   <!-- Connected Portals Gateway -->
   <section class="container" style="margin-top: -2rem; margin-bottom: 3rem; position: relative; z-index: 10;">
-    <div class="grid-3">
+    <div class="grid-4">
       <a href="/pages/patient-dashboard.html" class="portal-card">
         <div>
           <div class="portal-icon">👤</div>
@@ -93,9 +99,22 @@
         </div>
       </a>
 
+      <a href="/pages/self-care.html" class="portal-card">
+        <div>
+          <div class="portal-icon" style="background: #e0f2fe; color: #0284c7;">💊</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Self-Care &amp; Meds</h3>
+          <p class="text-sm text-muted">
+            Inspect side effects, check safe dosages, ask medication questions, and buy directly online from licensed Indian pharmacies.
+          </p>
+        </div>
+        <div class="text-sm text-primary font-semibold mt-4">
+          Open Medicine Guide &rarr;
+        </div>
+      </a>
+
       <a href="/pages/doctor-dashboard.html" class="portal-card">
         <div>
-          <div class="portal-icon" style="background: #e0f2fe; color: #0284c7;">👨‍⚕️</div>
+          <div class="portal-icon" style="background: #ecfdf5; color: #059669;">👨‍⚕️</div>
           <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Doctor Portal &amp; Queue</h3>
           <p class="text-sm text-muted">
             Review incoming patient FIFO requests, inspect AI-generated dialogue summaries, and submit clinical advice &amp; prescriptions.
@@ -217,6 +236,7 @@
           <h5>Patient Portals</h5>
           <ul class="footer-links">
             <li><a href="/pages/symptom-check.html">🩺 Free Symptom Checker</a></li>
+            <li><a href="/pages/self-care.html">💊 Self-Care &amp; Medicine Guide</a></li>
             <li><a href="/pages/patient-dashboard.html">👤 Patient Dashboard</a></li>
             <li><a href="/pages/consultations.html">📋 My Consultations</a></li>
             <li><a href="/pages/doctors.html">📍 Find Nearby Doctors</a></li>

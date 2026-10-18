@@ -18,7 +18,26 @@
           "Severe active liver failure, acute hepatitis, or advanced cirrhosis.",
           "Chronic severe alcohol dependency."
         ],
-        "safety_note": "First choice antipyretic. Always consult a pediatrician for age-appropriate dosage in children."
+        "safety_note": "First choice antipyretic. Always consult a pediatrician for age-appropriate dosage in children.",
+        "search_term": "Paracetamol 650mg",
+        "price_estimate": "₹15 – ₹35",
+        "dosage_guide": "Adults: 500mg - 650mg every 4 to 6 hours as needed. Do not exceed 4000mg in 24 hours.",
+        "side_effects": {
+          "common": [
+            "Mild nausea",
+            "Headache",
+            "Slight stomach upset",
+            "Constipation or loose stool (rare)"
+          ],
+          "serious": [
+            "Skin rash or hives",
+            "Swelling of lips, tongue or face",
+            "Jaundice (yellow eyes/skin)",
+            "Dark tea-colored urine"
+          ],
+          "management": "Take with a glass of water, with or without food. Never combine with other paracetamol-containing cold medicines. If allergic rash occurs, stop immediately."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Ibuprofen (200mg / 400mg)",
@@ -35,7 +54,26 @@
           "Third trimester of pregnancy.",
           "Aspirin-exacerbated respiratory disease (aspirin-sensitive asthma)."
         ],
-        "safety_note": "Avoid combining with other NSAIDs (such as naproxen, diclofenac, or aspirin)."
+        "safety_note": "Avoid combining with other NSAIDs (such as naproxen, diclofenac, or aspirin).",
+        "search_term": "Ibuprofen 400mg",
+        "price_estimate": "₹20 – ₹45",
+        "dosage_guide": "Adults: 200mg - 400mg every 6 to 8 hours with or after food. Maximum 1200mg/day OTC.",
+        "side_effects": {
+          "common": [
+            "Heartburn or acid indigestion",
+            "Mild stomach pain",
+            "Nausea",
+            "Dizziness or headache"
+          ],
+          "serious": [
+            "Black or tarry stools",
+            "Vomiting blood or coffee-ground material",
+            "Severe swelling in ankles",
+            "Sudden shortness of breath"
+          ],
+          "management": "Always take strictly with meals or a glass of milk to protect stomach lining. Discontinue immediately if stomach burning or black stools occur."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Mefenamic Acid (250mg / 500mg)",
@@ -51,7 +89,25 @@
           "Severe kidney or liver impairment.",
           "Pregnancy, especially in the third trimester."
         ],
-        "safety_note": "Discontinue immediately if heartburn, dark tarry stools, or severe stomach pain develops."
+        "safety_note": "Discontinue immediately if heartburn, dark tarry stools, or severe stomach pain develops.",
+        "search_term": "Meftal Spas Mefenamic Acid",
+        "price_estimate": "₹35 – ₹70",
+        "dosage_guide": "Adults: 250mg - 500mg up to 3 times daily after food. Short duration use only (under 5 days).",
+        "side_effects": {
+          "common": [
+            "Abdominal cramping or pain",
+            "Heartburn",
+            "Nausea or vomiting",
+            "Mild drowsiness"
+          ],
+          "serious": [
+            "Severe gastrointestinal bleeding",
+            "Skin blistering",
+            "Kidney pain or decreased urination"
+          ],
+          "management": "Consume immediately after a substantial meal. Do not use for more than 5 consecutive days without physician advice."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Lukewarm Sponge Hydrotherapy",
@@ -66,7 +122,21 @@
           "Shivering, severe chills, or hypothermia.",
           "Uncooperative or highly agitated individuals."
         ],
-        "safety_note": "An excellent drug-free adjunctive measure, especially in children while waiting for oral antipyretics to take effect."
+        "safety_note": "An excellent drug-free adjunctive measure, especially in children while waiting for oral antipyretics to take effect.",
+        "search_term": "Cooling Gel Sheet Forehead",
+        "price_estimate": "₹50 – ₹150",
+        "dosage_guide": "Apply lukewarm (not cold) damp cloth to forehead, neck, armpits for 15-20 minutes.",
+        "side_effects": {
+          "common": [
+            "Transient shivering if water is too cold",
+            "Mild skin goosebumps"
+          ],
+          "serious": [
+            "Hypothermic shivering (if ice water is mistakenly used)"
+          ],
+          "management": "Ensure water is lukewarm (around 30°C / 85°F). Stop immediately if the patient begins shivering."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Oral Electrolyte Rehydration Fluid",
@@ -81,7 +151,21 @@
           "Severe persistent vomiting requiring intravenous fluids.",
           "Anuria or severe kidney failure without medical clearance."
         ],
-        "safety_note": "Crucial supportive therapy for prolonged fever to prevent weakness and orthostatic lightheadedness."
+        "safety_note": "Crucial supportive therapy for prolonged fever to prevent weakness and orthostatic lightheadedness.",
+        "search_term": "Electral ORS Powder",
+        "price_estimate": "₹22 – ₹45",
+        "dosage_guide": "Dissolve 1 sachet in exactly 1 liter of clean drinking water. Sip 200-400ml after each fever spike or loose motion.",
+        "side_effects": {
+          "common": [
+            "Mild fullness",
+            "Salt taste fatigue"
+          ],
+          "serious": [
+            "Fluid overload or puffy eyes if mixed too concentrated with inadequate water"
+          ],
+          "management": "Mix with the exact recommended water quantity. Do not add extra sugar, salt, or boiling water."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "cold_cough": [
@@ -98,7 +182,22 @@
           "Unsupervised young children.",
           "Severe reactive bronchospasm or acute asthma attacks triggered by warm vapor."
         ],
-        "safety_note": "Plain water steam is safest. Avoid adding concentrated essential oils which can trigger bronchial irritation."
+        "safety_note": "Plain water steam is safest. Avoid adding concentrated essential oils which can trigger bronchial irritation.",
+        "search_term": "Facial Steamer Inhaler Vaporizer",
+        "price_estimate": "₹250 – ₹550",
+        "dosage_guide": "Inhale warm plain steam for 5 to 10 minutes, 2 to 3 times daily from 25-30cm safe distance.",
+        "side_effects": {
+          "common": [
+            "Facial redness from heat",
+            "Mild eye tearing"
+          ],
+          "serious": [
+            "Scalding burns if container tips over",
+            "Bronchospasm if strong aromatic additives used"
+          ],
+          "management": "Use plain water only. Keep hot steam unit on a stable surface far out of children's reach."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Saline Nasal Drops / Spray (0.9% NaCl)",
@@ -112,7 +211,21 @@
         "avoid_if": [
           "Severe nasal trauma or suspected skull base injury."
         ],
-        "safety_note": "Completely safe for daily use; does not cause rebound nasal congestion."
+        "safety_note": "Completely safe for daily use; does not cause rebound nasal congestion.",
+        "search_term": "Saline Nasal Spray Otrivin S",
+        "price_estimate": "₹45 – ₹90",
+        "dosage_guide": "2 to 3 drops or 1-2 sprays into each nostril 3 to 4 times daily as needed.",
+        "side_effects": {
+          "common": [
+            "Transient mild nasal stinging",
+            "Sneezing immediately after spray"
+          ],
+          "serious": [
+            "None reported with sterile isotonic saline"
+          ],
+          "management": "Blow nose gently 2-3 minutes after application. Wipe nozzle clean and never share spray bottles."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Cetirizine (10mg)",
@@ -127,7 +240,25 @@
           "Severe end-stage renal disease (eGFR < 10 ml/min).",
           "Known hypersensitivity to cetirizine or hydroxyzine."
         ],
-        "safety_note": "Highly effective for acute seasonal allergic rhinitis and histamine-driven runny nose."
+        "safety_note": "Highly effective for acute seasonal allergic rhinitis and histamine-driven runny nose.",
+        "search_term": "Cetirizine 10mg Cetzine",
+        "price_estimate": "₹18 – ₹40",
+        "dosage_guide": "Adults: 10mg once daily, preferably at bedtime with a glass of water.",
+        "side_effects": {
+          "common": [
+            "Mild drowsiness or fatigue",
+            "Dry mouth",
+            "Mild headache",
+            "Throat dryness"
+          ],
+          "serious": [
+            "Severe allergic swelling",
+            "Difficulty urinating (urinary retention)",
+            "Rapid irregular heartbeat"
+          ],
+          "management": "Take at night to avoid daytime grogginess. Do not drive or consume alcohol while on this medication."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Loratadine (10mg)",
@@ -141,7 +272,23 @@
           "Severe hepatic impairment unless dosage adjusted by doctor.",
           "Known hypersensitivity to loratadine."
         ],
-        "safety_note": "Ideal choice for daytime allergic cold symptoms where alertness is required."
+        "safety_note": "Ideal choice for daytime allergic cold symptoms where alertness is required.",
+        "search_term": "Loratadine 10mg Lorfast",
+        "price_estimate": "₹30 – ₹65",
+        "dosage_guide": "Adults: 10mg once daily in the morning with or without food.",
+        "side_effects": {
+          "common": [
+            "Headache",
+            "Dry mouth",
+            "Mild fatigue or nervousness"
+          ],
+          "serious": [
+            "Severe hypersensitivity rash",
+            "Liver tenderness (very rare)"
+          ],
+          "management": "Ideal for daytime use. Stay hydrated by sipping water throughout the day."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Dextromethorphan HBr (Syrup / Lozenges)",
@@ -156,7 +303,24 @@
           "Concurrent use with monoamine oxidase inhibitors (MAOIs) or within 14 days of stopping them.",
           "Chronic bronchitis, emphysema, or wet mucus-filled productive cough."
         ],
-        "safety_note": "Reserved specifically for non-productive dry coughs."
+        "safety_note": "Reserved specifically for non-productive dry coughs.",
+        "search_term": "Dextromethorphan Cough Syrup Benadryl DR",
+        "price_estimate": "₹75 – ₹130",
+        "dosage_guide": "Adults: 10ml (15mg-30mg) every 6 to 8 hours for dry hacking cough. Max 120mg/day.",
+        "side_effects": {
+          "common": [
+            "Drowsiness",
+            "Dizziness",
+            "Mild nausea",
+            "Constipation"
+          ],
+          "serious": [
+            "Severe respiratory depression if overdosed",
+            "Serotonin syndrome if combined with MAOI antidepressants"
+          ],
+          "management": "Only use for non-productive dry cough. Do NOT use if coughing up thick green/yellow phlegm."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Guaifenesin Expectorant (Syrup)",
@@ -170,7 +334,22 @@
           "Known allergy to guaifenesin or syrup inactive excipients.",
           "Children under 4 years without pediatrician supervision."
         ],
-        "safety_note": "Hydration is key: drinking warm water significantly enhances guaifenesin's mucus-clearing efficacy."
+        "safety_note": "Hydration is key: drinking warm water significantly enhances guaifenesin's mucus-clearing efficacy.",
+        "search_term": "Guaifenesin Expectorant Syrup Grilinctus",
+        "price_estimate": "₹80 – ₹140",
+        "dosage_guide": "Adults: 200mg - 400mg (10ml-20ml) every 4 hours with a full glass of water. Max 2400mg/day.",
+        "side_effects": {
+          "common": [
+            "Mild stomach discomfort",
+            "Nausea",
+            "Dizziness"
+          ],
+          "serious": [
+            "Kidney stones (with massive prolonged overuse)"
+          ],
+          "management": "Drink plenty of warm fluids; hydration significantly enhances guaifenesin's mucus-thinning effect."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Chlorpheniramine Maleate (CPM 4mg)",
@@ -186,7 +365,24 @@
           "Benign prostatic hyperplasia (BPH) with urinary retention.",
           "Severe asthma exacerbation."
         ],
-        "safety_note": "Very effective for drying excessive nasal drip, but causes sedation."
+        "safety_note": "Very effective for drying excessive nasal drip, but causes sedation.",
+        "search_term": "Chlorpheniramine Maleate 4mg Cadistin",
+        "price_estimate": "₹10 – ₹25",
+        "dosage_guide": "Adults: 4mg every 4 to 6 hours as needed. Maximum 24mg in 24 hours.",
+        "side_effects": {
+          "common": [
+            "Pronounced drowsiness and sedation",
+            "Dry mouth and nose",
+            "Blurred vision",
+            "Coordination loss"
+          ],
+          "serious": [
+            "Severe confusion in elderly",
+            "Urinary retention"
+          ],
+          "management": "Strictly avoid driving or operating machinery. Best taken before sleep."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Xylometazoline 0.1% Nasal Spray",
@@ -202,7 +398,23 @@
           "History of trans-sphenoidal hypophysectomy or dry rhinitis.",
           "Young children under 6 years (use pediatric strength 0.05% under doctor advice)."
         ],
-        "safety_note": "For short-term emergency unblocking only; never use continuously for prolonged periods."
+        "safety_note": "For short-term emergency unblocking only; never use continuously for prolonged periods.",
+        "search_term": "Otrivin Adult Nasal Spray 0.1%",
+        "price_estimate": "₹70 – ₹110",
+        "dosage_guide": "1 spray into each nostril 2 to 3 times daily. Maximum 3 to 5 consecutive days only.",
+        "side_effects": {
+          "common": [
+            "Nasal dryness or burning",
+            "Sneezing",
+            "Temporary bitter taste in throat"
+          ],
+          "serious": [
+            "Rebound congestion (rhinitis medicamentosa) if used over 5 days",
+            "Elevated blood pressure"
+          ],
+          "management": "Strictly limit use to maximum 5 consecutive days to prevent severe rebound nasal blockage."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Honey & Ginger Warm Demulcent",
@@ -215,7 +427,21 @@
         "avoid_if": [
           "Infants under 12 months of age (STRICT CONTRAINDICATION: risk of infant botulism)."
         ],
-        "safety_note": "Supported by WHO guidelines as an effective home demulcent for cough relief in adults and children older than 1 year."
+        "safety_note": "Supported by WHO guidelines as an effective home demulcent for cough relief in adults and children older than 1 year.",
+        "search_term": "Dabur Honitus Herbal Cough Syrup",
+        "price_estimate": "₹60 – ₹120",
+        "dosage_guide": "1-2 teaspoons of warm honey-ginger extract 3 to 4 times daily as needed.",
+        "side_effects": {
+          "common": [
+            "Mild gastric warmth",
+            "Sweet aftertaste"
+          ],
+          "serious": [
+            "Infant botulism risk (NEVER give honey to infants under 12 months)"
+          ],
+          "management": "Completely safe for adults and children over 1 year. Sip slowly to coat and soothe throat walls."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "headache": [
@@ -233,7 +459,21 @@
           "Known hypersensitivity to paracetamol.",
           "Heavy alcohol consumption."
         ],
-        "safety_note": "Gentle on the stomach; ideal for patients with acid reflux or gastritis."
+        "safety_note": "Gentle on the stomach; ideal for patients with acid reflux or gastritis.",
+        "search_term": "Dolo 650 Paracetamol",
+        "price_estimate": "₹15 – ₹35",
+        "dosage_guide": "Adults: 1 tablet (500-650mg) every 4-6 hours with water. Max 4000mg/day.",
+        "side_effects": {
+          "common": [
+            "Mild nausea",
+            "Headache recurrence if overused (medication overuse headache)"
+          ],
+          "serious": [
+            "Liver damage if taken with alcohol or overdosed"
+          ],
+          "management": "Take with water. Limit painkiller usage to under 10 days per month to avoid rebound headaches."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Ibuprofen (400mg)",
@@ -249,7 +489,23 @@
           "Third trimester of pregnancy.",
           "Aspirin-sensitive asthma."
         ],
-        "safety_note": "Provides fast relief for inflammatory or sinus-associated headaches."
+        "safety_note": "Provides fast relief for inflammatory or sinus-associated headaches.",
+        "search_term": "Brufen 400 Ibuprofen",
+        "price_estimate": "₹20 – ₹45",
+        "dosage_guide": "Adults: 400mg once or twice daily after food. Max 1200mg/day OTC.",
+        "side_effects": {
+          "common": [
+            "Stomach burning",
+            "Indigestion",
+            "Nausea"
+          ],
+          "serious": [
+            "Gastric ulceration",
+            "Kidney strain"
+          ],
+          "management": "Always ingest with food or milk. Avoid if you have a history of gastritis or acid reflux."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Aspirin + Paracetamol + Caffeine Combination",
@@ -265,7 +521,23 @@
           "Active stomach ulcers, bleeding disorders, or anticoagulant use.",
           "Severe uncontrolled hypertension."
         ],
-        "safety_note": "Do not give to children or teenagers recovering from chickenpox or flu symptoms."
+        "safety_note": "Do not give to children or teenagers recovering from chickenpox or flu symptoms.",
+        "search_term": "Saridon Headache Tablet",
+        "price_estimate": "₹25 – ₹50",
+        "dosage_guide": "Adults: 1 tablet with a full glass of water. Do not repeat sooner than 6 hours.",
+        "side_effects": {
+          "common": [
+            "Restlessness or jitters from caffeine",
+            "Increased heart rate",
+            "Stomach irritation"
+          ],
+          "serious": [
+            "Gastric bleeding",
+            "Tinnitus (ringing in ears from aspirin)"
+          ],
+          "management": "Avoid additional coffee, tea, or energy drinks while taking this medication. Never give to children/teens."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Peppermint & Menthol Essential Oil Roll-On",
@@ -280,7 +552,22 @@
           "Broken, inflamed, or eczematous skin on the face.",
           "Known allergy to menthol or peppermint oil."
         ],
-        "safety_note": "Safe, non-pharmacological topical therapy for tension headaches."
+        "safety_note": "Safe, non-pharmacological topical therapy for tension headaches.",
+        "search_term": "Amrutanjan Roll On Headache",
+        "price_estimate": "₹45 – ₹85",
+        "dosage_guide": "Apply gently across forehead and temples. Keep away from eyes.",
+        "side_effects": {
+          "common": [
+            "Cooling sensation",
+            "Mild skin tingling"
+          ],
+          "serious": [
+            "Eye irritation if touched with fingers after application",
+            "Skin redness/contact allergy"
+          ],
+          "management": "Wash hands thoroughly after applying. Keep strictly away from eyes, nostrils, and broken skin."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Magnesium Glycinate / Citrate (250mg)",
@@ -294,7 +581,22 @@
           "Severe renal impairment (risk of hypermagnesemia).",
           "Heart block or severe bradycardia."
         ],
-        "safety_note": "A beneficial supportive nutritional supplement for recurrent stress and tension headaches."
+        "safety_note": "A beneficial supportive nutritional supplement for recurrent stress and tension headaches.",
+        "search_term": "Magnesium Glycinate 250mg",
+        "price_estimate": "₹280 – ₹550",
+        "dosage_guide": "Adults: 250mg - 350mg once daily with evening meal.",
+        "side_effects": {
+          "common": [
+            "Mild loose stools or soft bowel movements",
+            "Stomach rumbling"
+          ],
+          "serious": [
+            "Severe diarrhea (with excess dose)",
+            "Muscle weakness (if kidney impaired)"
+          ],
+          "management": "Take with dinner to minimize bowel loosening and enhance muscle relaxation for sleep."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "sore_throat": [
@@ -311,7 +613,21 @@
           "Young children who cannot spit reliably.",
           "Severe swallowing impairment."
         ],
-        "safety_note": "Highly effective, universally recommended supportive measure for throat irritation."
+        "safety_note": "Highly effective, universally recommended supportive measure for throat irritation.",
+        "search_term": "Betadine Gargle Mint",
+        "price_estimate": "₹20 – ₹60",
+        "dosage_guide": "Dissolve 1/2 teaspoon table salt in 1 glass of warm water. Gargle for 30 seconds, 3-4 times daily.",
+        "side_effects": {
+          "common": [
+            "Slight salty aftertaste",
+            "Mild mucosal dryness if overdone"
+          ],
+          "serious": [
+            "Nausea if swallowed in large quantities"
+          ],
+          "management": "Always spit out the gargle solution completely; do not swallow."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Antiseptic Throat Lozenges (Amylmetacresol & Dichlorobenzyl Alcohol)",
@@ -326,7 +642,22 @@
           "Children under 6 years due to choking hazard.",
           "Known allergy to excipients or colorings."
         ],
-        "safety_note": "Provides soothing symptomatic relief for early scratchy throat discomfort."
+        "safety_note": "Provides soothing symptomatic relief for early scratchy throat discomfort.",
+        "search_term": "Strepsils Honey Lemon Lozenges",
+        "price_estimate": "₹35 – ₹70",
+        "dosage_guide": "Dissolve 1 lozenge slowly in the mouth every 2 to 3 hours as needed. Max 8-12 per day.",
+        "side_effects": {
+          "common": [
+            "Temporary tongue numbness or tingling",
+            "Mouth irritation if chewed rapidly"
+          ],
+          "serious": [
+            "Allergic mouth ulcers (rare)",
+            "Choking hazard in young children"
+          ],
+          "management": "Allow to dissolve slowly in the mouth without chewing or swallowing whole."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Povidone-Iodine 0.5% - 1% Gargle & Rinse",
@@ -342,7 +673,22 @@
           "Hyperthyroidism, active thyroid disorders, or radioactive iodine treatment.",
           "Pregnancy and breastfeeding (avoid prolonged gargling due to systemic iodine absorption)."
         ],
-        "safety_note": "Potent antimicrobial gargle for acute inflamed throat conditions."
+        "safety_note": "Potent antimicrobial gargle for acute inflamed throat conditions.",
+        "search_term": "Betadine 2% Gargle 50ml",
+        "price_estimate": "₹80 – ₹140",
+        "dosage_guide": "Dilute with equal parts warm water. Gargle for 30 seconds and spit out, twice daily.",
+        "side_effects": {
+          "common": [
+            "Temporary brown staining of tongue (washes off)",
+            "Iodine taste"
+          ],
+          "serious": [
+            "Thyroid dysfunction if swallowed repeatedly",
+            "Iodine allergy rash"
+          ],
+          "management": "Spit out thoroughly after gargling. Do not use for more than 7 days or if allergic to iodine."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Benzocaine / Lidocaine Throat Spray",
@@ -358,7 +704,22 @@
           "Children under 2 years.",
           "Severe dysphagia or impaired airway reflexes."
         ],
-        "safety_note": "Provides fast temporary numbness for sharp swallowing pain."
+        "safety_note": "Provides fast temporary numbness for sharp swallowing pain.",
+        "search_term": "Throat Numbing Spray Benzocaine",
+        "price_estimate": "₹120 – ₹220",
+        "dosage_guide": "1-2 sprays directly towards back of throat. Wait at least 2 hours before repeating.",
+        "side_effects": {
+          "common": [
+            "Marked numbness of throat and tongue",
+            "Altered taste"
+          ],
+          "serious": [
+            "Difficulty swallowing leading to choking on food",
+            "Methemoglobinemia (rare with excessive benzocaine)"
+          ],
+          "management": "Do not eat or drink hot liquids for 1 hour after spraying to avoid biting tongue or choking."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Chlorhexidine Gluconate 0.2% Oral Rinse",
@@ -373,7 +734,22 @@
           "Known hypersensitivity to chlorhexidine.",
           "Children under 6 years."
         ],
-        "safety_note": "Great supportive rinse for inflamed gums, canker sores, and pharyngeal irritation."
+        "safety_note": "Great supportive rinse for inflamed gums, canker sores, and pharyngeal irritation.",
+        "search_term": "Clohex Chlorhexidine Mouthwash",
+        "price_estimate": "₹60 – ₹110",
+        "dosage_guide": "Swish 10ml in mouth for 60 seconds and spit out, twice daily after brushing.",
+        "side_effects": {
+          "common": [
+            "Temporary superficial teeth staining",
+            "Bitter aftertaste",
+            "Transient dry mouth"
+          ],
+          "serious": [
+            "Oral mucosa desquamation if used undiluted for weeks"
+          ],
+          "management": "Do not rinse with water or drink tea/coffee for 30 minutes following use."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "stomach": [
@@ -391,7 +767,20 @@
           "Severe paralytic ileus or intractable mechanical intestinal obstruction.",
           "Severe hypovolemic shock requiring emergency IV resuscitation."
         ],
-        "safety_note": "The single most critical life-saving supportive treatment for acute gastrointestinal fluid loss."
+        "safety_note": "The single most critical life-saving supportive treatment for acute gastrointestinal fluid loss.",
+        "search_term": "Electral WHO ORS Powder",
+        "price_estimate": "₹22 – ₹45",
+        "dosage_guide": "Mix 1 packet in exactly 1000ml clean water. Drink after every loose stool.",
+        "side_effects": {
+          "common": [
+            "Slightly salty taste"
+          ],
+          "serious": [
+            "Swelling of eyelids if mixed in too little water"
+          ],
+          "management": "Always dissolve in the full 1 liter volume. Discard any unused solution after 24 hours."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Liquid Antacid (Magnesium + Aluminum Hydroxide + Simethicone)",
@@ -406,7 +795,21 @@
           "Severe kidney failure (risk of aluminum/magnesium systemic accumulation).",
           "Severe acute undiagnosed abdominal pain."
         ],
-        "safety_note": "Provides quick symptomatic relief for episodic acidity, sour burps, and gastric fullness."
+        "safety_note": "Provides quick symptomatic relief for episodic acidity, sour burps, and gastric fullness.",
+        "search_term": "Gelusil Antacid Liquid Digene",
+        "price_estimate": "₹80 – ₹150",
+        "dosage_guide": "1-2 teaspoons (5-10ml) 15-30 minutes after meals and at bedtime.",
+        "side_effects": {
+          "common": [
+            "Chalky mouth taste",
+            "Mild constipation (from aluminum) or loose stools (from magnesium)"
+          ],
+          "serious": [
+            "Electrolyte imbalances if used chronically with kidney disease"
+          ],
+          "management": "Shake bottle well before pouring. Leave a 2-hour gap before taking other prescription medications."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Chewable Calcium Carbonate / Sodium Bicarbonate",
@@ -420,7 +823,23 @@
           "Hypercalcemia, kidney stones, or severe renal impairment.",
           "Strict low-sodium diets (for sodium bicarbonate formulations)."
         ],
-        "safety_note": "Ideal for fast portable relief after heavy, spicy, or greasy meals."
+        "safety_note": "Ideal for fast portable relief after heavy, spicy, or greasy meals.",
+        "search_term": "Eno Fruit Salt Antacid",
+        "price_estimate": "₹10 – ₹60",
+        "dosage_guide": "Dissolve 1 sachet in a glass of water, or chew 1-2 tablets during acute acidity.",
+        "side_effects": {
+          "common": [
+            "Burping or belching",
+            "Mild bloating",
+            "Flatulence"
+          ],
+          "serious": [
+            "Acid rebound if overused",
+            "Sodium overload in hypertensive patients"
+          ],
+          "management": "Use for occasional breakthrough acidity. Patients on low-sodium diets should avoid sodium bicarbonate."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Omeprazole (20mg OTC)",
@@ -436,7 +855,24 @@
           "Known hypersensitivity to omeprazole or other PPIs.",
           "Immediate relief needed (takes 1-4 days for peak effect; use antacid for instant relief)."
         ],
-        "safety_note": "Consult a gastroenterologist if heartburn persists beyond 14 days or is accompanied by difficulty swallowing."
+        "safety_note": "Consult a gastroenterologist if heartburn persists beyond 14 days or is accompanied by difficulty swallowing.",
+        "search_term": "Omee 20mg Omeprazole",
+        "price_estimate": "₹35 – ₹70",
+        "dosage_guide": "Adults: 20mg once daily in the morning, 30 to 60 minutes before breakfast.",
+        "side_effects": {
+          "common": [
+            "Headache",
+            "Abdominal discomfort",
+            "Gas or bloating",
+            "Nausea"
+          ],
+          "serious": [
+            "Severe persistent diarrhea (C. diff)",
+            "Bone density reduction with chronic year-long use"
+          ],
+          "management": "Swallow capsule whole with water. Do not crush or chew. Limit OTC self-treatment to 14 days."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Famotidine (20mg)",
@@ -450,7 +886,23 @@
           "Known hypersensitivity to famotidine or other H2 blockers.",
           "Severe renal insufficiency unless dose adjusted by doctor."
         ],
-        "safety_note": "Effective for preventing nocturnal acid breakthrough and meal-induced reflux."
+        "safety_note": "Effective for preventing nocturnal acid breakthrough and meal-induced reflux.",
+        "search_term": "Famocid 20mg Famotidine",
+        "price_estimate": "₹25 – ₹55",
+        "dosage_guide": "Adults: 10mg - 20mg once or twice daily, 15 to 60 minutes before meals or at bedtime.",
+        "side_effects": {
+          "common": [
+            "Headache",
+            "Dizziness",
+            "Constipation or diarrhea"
+          ],
+          "serious": [
+            "Arrhythmia (extremely rare)",
+            "Confusion in elderly with renal failure"
+          ],
+          "management": "Fast onset within 1 hour. Ideal for meal-triggered or nighttime heartburn."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Loperamide (2mg)",
@@ -466,7 +918,24 @@
           "Acute ulcerative colitis or bacterial enterocolitis (Salmonella, Shigella, C. difficile).",
           "Children under 12 years without pediatrician direction."
         ],
-        "safety_note": "Do not use if stool contains blood, pus, or if diarrhea is accompanied by high fever."
+        "safety_note": "Do not use if stool contains blood, pus, or if diarrhea is accompanied by high fever.",
+        "search_term": "Imodium 2mg Loperamide",
+        "price_estimate": "₹25 – ₹55",
+        "dosage_guide": "Adults: 4mg initially, then 2mg after each unformed stool. Max 8mg/day OTC.",
+        "side_effects": {
+          "common": [
+            "Constipation",
+            "Mild abdominal cramps",
+            "Dizziness",
+            "Dry mouth"
+          ],
+          "serious": [
+            "Toxic megacolon if used with bacterial dysentery",
+            "Heart rhythm issues if severely overdosed"
+          ],
+          "management": "DO NOT USE if diarrhea is accompanied by high fever or bloody stools. Rehydrate aggressively."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Psyllium Husk (Isabgol)",
@@ -481,7 +950,21 @@
           "Intestinal obstruction, fecal impaction, or difficulty swallowing.",
           "Taking without sufficient water (can swell and cause choking or esophageal blockage)."
         ],
-        "safety_note": "Safest non-habit-forming long-term natural solution for smooth daily bowel habits."
+        "safety_note": "Safest non-habit-forming long-term natural solution for smooth daily bowel habits.",
+        "search_term": "Baidyanath Isabgol Psyllium Husk",
+        "price_estimate": "₹120 – ₹240",
+        "dosage_guide": "1 to 2 tablespoons stirred into a large glass of water or milk once daily at night.",
+        "side_effects": {
+          "common": [
+            "Abdominal fullness",
+            "Increased flatulence during first 2-3 days"
+          ],
+          "serious": [
+            "Esophageal or bowel obstruction if swallowed without adequate liquid"
+          ],
+          "management": "CRITICAL: Drink immediately after stirring, followed by a second full glass of water."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Probiotics (Lactobacillus & Saccharomyces boulardii)",
@@ -494,7 +977,20 @@
         "avoid_if": [
           "Severely immunocompromised patients, central venous lines, or critical ICU illness."
         ],
-        "safety_note": "Excellent supportive gut restoration therapy during recovery from gastroenteritis or antibiotic therapy."
+        "safety_note": "Excellent supportive gut restoration therapy during recovery from gastroenteritis or antibiotic therapy.",
+        "search_term": "Sporlac Plus Probiotic Capsule",
+        "price_estimate": "₹80 – ₹180",
+        "dosage_guide": "1 capsule 1 to 2 times daily with meals or as directed on the label.",
+        "side_effects": {
+          "common": [
+            "Mild initial bloating or intestinal gas for 24-48 hours"
+          ],
+          "serious": [
+            "Systemic infection in severely immunocompromised individuals"
+          ],
+          "management": "Take consistently with meals. If taking antibiotics, separate by at least 2 hours."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Simethicone (80mg / 125mg)",
@@ -508,7 +1004,21 @@
           "Known hypersensitivity to simethicone.",
           "Suspected bowel perforation or intestinal obstruction."
         ],
-        "safety_note": "Completely non-systemic; acts strictly physically within the intestinal lumen."
+        "safety_note": "Completely non-systemic; acts strictly physically within the intestinal lumen.",
+        "search_term": "Gasex Simethicone Tablets",
+        "price_estimate": "₹40 – ₹90",
+        "dosage_guide": "1 to 2 tablets (80-125mg) chewed thoroughly after meals and at bedtime.",
+        "side_effects": {
+          "common": [
+            "Mild belching",
+            "Passing of trapped flatus (expected therapeutic effect)"
+          ],
+          "serious": [
+            "None known; simethicone is biologically inert and not absorbed into bloodstream"
+          ],
+          "management": "Chew tablets thoroughly before swallowing for optimal bubble-collapsing action."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Dicyclomine / Mebeverine",
@@ -522,7 +1032,24 @@
           "Severe paralytic ileus or toxic megacolon.",
           "Glaucoma or myasthenia gravis (for antimuscarinic agents)."
         ],
-        "safety_note": "Helpful supportive therapy for smooth muscle abdominal cramping."
+        "safety_note": "Helpful supportive therapy for smooth muscle abdominal cramping.",
+        "search_term": "Colimex Mebeverine Tablets",
+        "price_estimate": "₹45 – ₹95",
+        "dosage_guide": "10mg - 20mg 30 minutes before meals for intestinal colic or spasms.",
+        "side_effects": {
+          "common": [
+            "Dry mouth",
+            "Blurred vision",
+            "Drowsiness",
+            "Mild dizziness"
+          ],
+          "serious": [
+            "Glaucoma flare-up",
+            "Urinary retention"
+          ],
+          "management": "Avoid if you have glaucoma or an enlarged prostate. Drink water to alleviate dry mouth."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Milk of Magnesia (Magnesium Hydroxide)",
@@ -536,7 +1063,21 @@
           "Severe kidney failure or hypermagnesemia.",
           "Undiagnosed acute abdominal pain or suspected appendicitis."
         ],
-        "safety_note": "Gentle short-term saline laxative; maintain hydration."
+        "safety_note": "Gentle short-term saline laxative; maintain hydration.",
+        "search_term": "Cremaffin Milk of Magnesia",
+        "price_estimate": "₹85 – ₹160",
+        "dosage_guide": "15ml - 30ml with a full glass of water at bedtime for constipation relief.",
+        "side_effects": {
+          "common": [
+            "Watery loose stools or diarrhea",
+            "Abdominal cramps"
+          ],
+          "serious": [
+            "Hypermagnesemia in patients with severe kidney disease"
+          ],
+          "management": "Follow dose with a full 250ml glass of water. Works within 30 minutes to 6 hours."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "skin": [
@@ -552,7 +1093,21 @@
           "Open, deeply ulcerated, or severely infected wounds.",
           "Known sensitivity to calamine."
         ],
-        "safety_note": "Extremely safe, gentle anti-itch lotion suitable for both children and adults."
+        "safety_note": "Extremely safe, gentle anti-itch lotion suitable for both children and adults.",
+        "search_term": "Lacto Calamine Lotion 120ml",
+        "price_estimate": "₹90 – ₹180",
+        "dosage_guide": "Shake well and dab onto itchy, irritated, or sunburned skin using cotton wool 2-3 times daily.",
+        "side_effects": {
+          "common": [
+            "Skin dryness after lotion dries",
+            "Mild powdery flaking"
+          ],
+          "serious": [
+            "Contact dermatitis (rare)"
+          ],
+          "management": "External use only. Avoid applying directly to open oozing cuts or mucous membranes."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Clotrimazole 1% Topical Antifungal Cream",
@@ -567,7 +1122,21 @@
           "Known hypersensitivity to clotrimazole or azole antifungals.",
           "Nail or scalp fungal infections (which require oral antifungal prescription)."
         ],
-        "safety_note": "Keep skin folds dry and clean; avoid sharing towels while treating active fungal infections."
+        "safety_note": "Keep skin folds dry and clean; avoid sharing towels while treating active fungal infections.",
+        "search_term": "Candid 1% Clotrimazole Cream",
+        "price_estimate": "₹55 – ₹110",
+        "dosage_guide": "Clean and dry affected area. Apply a thin film 2 to 3 times daily for 2 to 4 weeks.",
+        "side_effects": {
+          "common": [
+            "Mild burning sensation",
+            "Slight redness or irritation at application site"
+          ],
+          "serious": [
+            "Allergic contact dermatitis, blistering, or skin peeling"
+          ],
+          "management": "Continue applying for 1-2 weeks after symptoms disappear to prevent fungal relapse."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Hydrocortisone 1% Topical Cream",
@@ -582,7 +1151,21 @@
           "Untreated bacterial, fungal, or viral skin infections (such as herpes or cold sores).",
           "Acne vulgaris or rosacea (can worsen condition)."
         ],
-        "safety_note": "Use the lowest amount needed for short durations; consult a dermatologist if rash spreads."
+        "safety_note": "Use the lowest amount needed for short durations; consult a dermatologist if rash spreads.",
+        "search_term": "Hydrocortisone 1% Topical Cream",
+        "price_estimate": "₹60 – ₹130",
+        "dosage_guide": "Apply sparingly in a thin layer to inflamed itchy patch 1 to 2 times daily. Max 7 days.",
+        "side_effects": {
+          "common": [
+            "Transient skin tingling or dryness"
+          ],
+          "serious": [
+            "Skin thinning (atrophy) or stretch marks with chronic overuse",
+            "Secondary skin infection"
+          ],
+          "management": "Never apply to the face, groin, or infected wounds without a dermatologist's clearance."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Povidone-Iodine 5% / 10% Ointment (Betadine)",
@@ -598,7 +1181,22 @@
           "Large deep puncture wounds, animal bites, or serious third-degree burns (require ER care).",
           "Pre-term infants or patients with thyroid disease for large surface area use."
         ],
-        "safety_note": "The gold standard home first-aid antiseptic for clean minor wound management."
+        "safety_note": "The gold standard home first-aid antiseptic for clean minor wound management.",
+        "search_term": "Betadine 10% Ointment 20g",
+        "price_estimate": "₹65 – ₹120",
+        "dosage_guide": "Apply to clean minor cut, scrape, or burn and cover with sterile dressing 1-2 times daily.",
+        "side_effects": {
+          "common": [
+            "Temporary yellow-brown skin discoloration",
+            "Mild local stinging"
+          ],
+          "serious": [
+            "Systemic iodine absorption if applied to massive open wounds",
+            "Iodine hypersensitivity"
+          ],
+          "management": "Staining washes off skin with water. Do not bandage airtight over massive body areas."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Silver Sulfadiazine 1% / Burn Relief Cream",
@@ -613,7 +1211,21 @@
           "Known sulfonamide (sulfa) drug hypersensitivity.",
           "Pregnant women near term, nursing mothers, or infants under 2 months."
         ],
-        "safety_note": "Always cool burns under cold tap water immediately; never apply ice, butter, or toothpaste."
+        "safety_note": "Always cool burns under cold tap water immediately; never apply ice, butter, or toothpaste.",
+        "search_term": "Silverex Burn Relief Cream 20g",
+        "price_estimate": "₹75 – ₹150",
+        "dosage_guide": "Apply a 1.5mm layer over superficial clean minor burns 1-2 times daily using sterile gloves.",
+        "side_effects": {
+          "common": [
+            "Cooling sensation",
+            "Temporary greyish skin discoloration"
+          ],
+          "serious": [
+            "Sulfa allergy reaction (rash, hives, swelling)"
+          ],
+          "management": "Avoid if allergic to sulfa medications. For second/third degree burns, go to hospital immediately."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Pure Petroleum Jelly (White Petrolatum)",
@@ -627,7 +1239,21 @@
           "Fresh deep puncture wounds or animal bites.",
           "Active active acne on oily facial areas."
         ],
-        "safety_note": "Hypoallergenic, fragrance-free, and universally safe for sensitive barrier protection."
+        "safety_note": "Hypoallergenic, fragrance-free, and universally safe for sensitive barrier protection.",
+        "search_term": "Vaseline Pure Petroleum Jelly",
+        "price_estimate": "₹40 – ₹110",
+        "dosage_guide": "Apply liberally to clean dry skin, cracked lips, or minor wounds as needed.",
+        "side_effects": {
+          "common": [
+            "Greasy residue",
+            "Mild pore clogging if applied to acne-prone face"
+          ],
+          "serious": [
+            "Lipoid pneumonia if inhaled into lungs (never put inside nostrils)"
+          ],
+          "management": "Clean skin before applying to lock in moisture. Do not apply inside nasal passages."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Zinc Oxide 10% - 20% Barrier Cream",
@@ -641,7 +1267,20 @@
           "Known allergy to zinc or mineral oils.",
           "Deep infected weeping lesions."
         ],
-        "safety_note": "Excellent preventive care for infant diaper rash and adult incontinence dermatitis."
+        "safety_note": "Excellent preventive care for infant diaper rash and adult incontinence dermatitis.",
+        "search_term": "Sudo Cream Zinc Oxide Barrier",
+        "price_estimate": "₹150 – ₹320",
+        "dosage_guide": "Apply thick layer over diaper rash or friction chafing after cleaning and drying skin.",
+        "side_effects": {
+          "common": [
+            "White opaque film residue"
+          ],
+          "serious": [
+            "Contact sensitivity (very rare)"
+          ],
+          "management": "Creates an impenetrable physical shield against urine, feces, and wet friction."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Neomycin + Polymyxin B + Bacitracin (Triple Antibiotic Ointment)",
@@ -655,7 +1294,21 @@
           "Known hypersensitivity to neomycin, polymyxin, or bacitracin.",
           "Extensive deep puncture wounds or over large body surfaces."
         ],
-        "safety_note": "For minor cuts only; not intended for deep animal bites or serious puncture wounds."
+        "safety_note": "For minor cuts only; not intended for deep animal bites or serious puncture wounds.",
+        "search_term": "Neosporin Antibiotic Ointment",
+        "price_estimate": "₹60 – ₹115",
+        "dosage_guide": "Apply small amount (fingertip) to minor scrape or cut 1 to 3 times daily for up to 7 days.",
+        "side_effects": {
+          "common": [
+            "Mild skin redness"
+          ],
+          "serious": [
+            "Neomycin contact allergy causing itchy red weeping rash",
+            "Hearing/kidney toxicity if massive overuse"
+          ],
+          "management": "Discontinue immediately if the wound gets redder or itchier after application."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Benzoyl Peroxide 2.5% / 5% Gel",
@@ -670,7 +1323,22 @@
           "Known hypersensitivity to benzoyl peroxide.",
           "Severely sunburned, broken, or irritated skin."
         ],
-        "safety_note": "Start with lower 2.5% concentration to minimize skin peeling and dryness."
+        "safety_note": "Start with lower 2.5% concentration to minimize skin peeling and dryness.",
+        "search_term": "Benzac AC 2.5% Gel",
+        "price_estimate": "₹110 – ₹240",
+        "dosage_guide": "Apply thin dab to acne pimples once daily at night. Wash face with gentle cleanser first.",
+        "side_effects": {
+          "common": [
+            "Skin dryness, peeling, flaking",
+            "Mild stinging or burning",
+            "Bleaches towels and clothing"
+          ],
+          "serious": [
+            "Severe contact swelling and redness"
+          ],
+          "management": "Start with 2.5% every alternate night. Use non-comedogenic moisturizer and protect pillowcases."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Salicylic Acid 2% Ointment / Gel",
@@ -684,7 +1352,21 @@
           "Allergy to salicylates or aspirin.",
           "Children with active viral infections."
         ],
-        "safety_note": "Gentle keratolytic agent for clearing blackheads and dead surface skin buildup."
+        "safety_note": "Gentle keratolytic agent for clearing blackheads and dead surface skin buildup.",
+        "search_term": "Salicylix 2% Ointment",
+        "price_estimate": "₹90 – ₹190",
+        "dosage_guide": "Apply thin layer to rough calluses, blackheads, or scaly patches once daily.",
+        "side_effects": {
+          "common": [
+            "Local skin peeling",
+            "Mild warmth or irritation"
+          ],
+          "serious": [
+            "Salicylate toxicity if used over large body surfaces"
+          ],
+          "management": "Apply only to localized target skin areas. Use sunscreen during the day."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "eye_ear": [
@@ -701,7 +1383,21 @@
           "Known allergy to carboxymethylcellulose or ophthalmic excipients.",
           "Eye pain, sudden vision changes, or signs of acute bacterial infection (green/yellow pus discharge - requires ophthalmologist)."
         ],
-        "safety_note": "Safe for long-term daily eye lubrication. Discard open bottle 30 days after first breaking seal."
+        "safety_note": "Safe for long-term daily eye lubrication. Discard open bottle 30 days after first breaking seal.",
+        "search_term": "Refresh Tears Lubricant Eye Drops",
+        "price_estimate": "₹130 – ₹240",
+        "dosage_guide": "Instill 1 to 2 drops in the affected eye(s) 3 to 4 times daily or as needed for dryness.",
+        "side_effects": {
+          "common": [
+            "Brief blurred vision for 1-2 minutes after instillation",
+            "Mild sticky feeling"
+          ],
+          "serious": [
+            "Eye pain, ongoing redness, or vision changes"
+          ],
+          "management": "Remove contact lenses before use. Do not touch dropper tip to eyelashes or hands."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Olopatadine / Ketotifen 0.025% Eye Drops",
@@ -715,7 +1411,22 @@
           "Known hypersensitivity to olopatadine or ketotifen.",
           "Eye redness caused by viral/bacterial conjunctivitis or foreign body trauma."
         ],
-        "safety_note": "Targeted relief for allergic pink eye (allergic conjunctivitis)."
+        "safety_note": "Targeted relief for allergic pink eye (allergic conjunctivitis).",
+        "search_term": "Olopat Eye Drops Olopatadine",
+        "price_estimate": "₹120 – ₹210",
+        "dosage_guide": "1 drop in each affected eye once or twice daily for allergic itchy eyes.",
+        "side_effects": {
+          "common": [
+            "Transient eye stinging",
+            "Mild dry eyes",
+            "Slight bitter taste in throat"
+          ],
+          "serious": [
+            "Corneal inflammation or severe hypersensitivity"
+          ],
+          "management": "Keep eyes closed for 1 minute after drop and press lightly on tear duct to reduce throat drainage."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Carbamide Peroxide / Mineral Oil Ear Drops",
@@ -730,7 +1441,21 @@
           "Perforated eardrum, history of tympanoplasty, or active ear discharge/pus.",
           "Ear surgery within the past 6 months."
         ],
-        "safety_note": "Softens wax safely; never poke cotton buds into the ear canal as they push wax deeper."
+        "safety_note": "Softens wax safely; never poke cotton buds into the ear canal as they push wax deeper.",
+        "search_term": "Waxsol Ear Drops 10ml",
+        "price_estimate": "₹70 – ₹130",
+        "dosage_guide": "Tilt head sideways. Place 3-5 drops into ear canal twice daily for up to 4 days.",
+        "side_effects": {
+          "common": [
+            "Bubbling or crackling sound in ear",
+            "Temporary ear fullness as wax expands"
+          ],
+          "serious": [
+            "Severe ear pain (never use if eardrum is ruptured or punctured)"
+          ],
+          "management": "Lie on your side for 5 minutes. DO NOT insert cotton buds/Q-tips into the ear canal."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Sterile Normal Saline Eye Wash",
@@ -743,7 +1468,20 @@
         "avoid_if": [
           "Penetrating eye injuries or visible eyeball puncture."
         ],
-        "safety_note": "Keep in first-aid kits for immediate flushing of dust, dirt, or foreign particles."
+        "safety_note": "Keep in first-aid kits for immediate flushing of dust, dirt, or foreign particles.",
+        "search_term": "Sterile Eye Wash Saline Solution",
+        "price_estimate": "₹50 – ₹110",
+        "dosage_guide": "Flush eye gently using sterile eye cup or squeeze bottle to rinse out dust or grit.",
+        "side_effects": {
+          "common": [
+            "Mild temporary reflex tearing"
+          ],
+          "serious": [
+            "None with sterile 0.9% saline"
+          ],
+          "management": "If eye pain or foreign body sensation persists after rinsing, consult an ophthalmologist immediately."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "allergies": [
@@ -759,7 +1497,22 @@
           "Known hypersensitivity to fexofenadine.",
           "Severe renal failure unless dose adjusted by doctor."
         ],
-        "safety_note": "Gold standard non-sedating antihistamine for drivers, pilots, and office workers."
+        "safety_note": "Gold standard non-sedating antihistamine for drivers, pilots, and office workers.",
+        "search_term": "Allegra 120mg Fexofenadine",
+        "price_estimate": "₹120 – ₹230",
+        "dosage_guide": "Adults: 120mg once daily for allergic rhinitis; 180mg for urticaria (hives).",
+        "side_effects": {
+          "common": [
+            "Headache",
+            "Drowsiness (very low compared to older antihistamines)",
+            "Nausea"
+          ],
+          "serious": [
+            "Hypersensitivity reaction, chest tightness"
+          ],
+          "management": "Take with plain water. Avoid fruit juices (apple, orange, grapefruit) within 4 hours as they block absorption."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Levocetirizine (5mg)",
@@ -772,7 +1525,23 @@
         "avoid_if": [
           "Severe renal impairment (creatinine clearance < 10 ml/min)."
         ],
-        "safety_note": "Fast-acting relief for acute allergic skin reactions and seasonal hay fever."
+        "safety_note": "Fast-acting relief for acute allergic skin reactions and seasonal hay fever.",
+        "search_term": "Levocet 5mg Levocetirizine",
+        "price_estimate": "₹35 – ₹75",
+        "dosage_guide": "Adults: 5mg once daily in the evening with or without food.",
+        "side_effects": {
+          "common": [
+            "Mild drowsiness",
+            "Fatigue",
+            "Dry mouth",
+            "Nasal congestion"
+          ],
+          "serious": [
+            "Severe sleepiness, urinary retention"
+          ],
+          "management": "Take at bedtime. Do not drive or drink alcohol until personal response is known."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Dimenhydrinate (50mg)",
@@ -786,7 +1555,24 @@
           "Glaucoma or prostatic enlargement.",
           "Concurrent alcohol or sedative intake."
         ],
-        "safety_note": "Take prior to journey departure for effective motion sickness prevention."
+        "safety_note": "Take prior to journey departure for effective motion sickness prevention.",
+        "search_term": "Dramamine Motion Sickness 50mg",
+        "price_estimate": "₹50 – ₹110",
+        "dosage_guide": "Adults: 50mg to 100mg taken 30 to 60 minutes before travel. Repeat every 4-6 hours. Max 400mg/day.",
+        "side_effects": {
+          "common": [
+            "Significant drowsiness",
+            "Dry mouth",
+            "Blurred vision",
+            "Dizziness"
+          ],
+          "serious": [
+            "Confusion in elderly",
+            "Tachycardia or palpitations"
+          ],
+          "management": "DO NOT drive while taking. Take with food or water before embarkation."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Meclizine (25mg)",
@@ -799,7 +1585,23 @@
           "Severe liver dysfunction.",
           "Children under 12 years without doctor advice."
         ],
-        "safety_note": "Preferred over dimenhydrinate when less sedation is desired during long journeys."
+        "safety_note": "Preferred over dimenhydrinate when less sedation is desired during long journeys.",
+        "search_term": "Diligan Meclizine 25mg",
+        "price_estimate": "₹40 – ₹90",
+        "dosage_guide": "Adults: 25mg to 50mg once daily 1 hour before travel or for vertigo.",
+        "side_effects": {
+          "common": [
+            "Drowsiness",
+            "Dry mouth",
+            "Headache",
+            "Fatigue"
+          ],
+          "serious": [
+            "Urinary retention, acute narrow-angle glaucoma flare"
+          ],
+          "management": "Less sedating than dimenhydrinate, but precautions against driving still apply."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "muscle_pain": [
@@ -816,7 +1618,22 @@
           "Known allergy to diclofenac, aspirin, or other NSAIDs.",
           "Third trimester of pregnancy."
         ],
-        "safety_note": "Significantly safer on the stomach than oral painkillers while providing direct localized joint relief."
+        "safety_note": "Significantly safer on the stomach than oral painkillers while providing direct localized joint relief.",
+        "search_term": "Volini Pain Relief Gel 30g",
+        "price_estimate": "₹80 – ₹160",
+        "dosage_guide": "Apply 2g to 4g gently over the painful joint or muscle 3 to 4 times daily.",
+        "side_effects": {
+          "common": [
+            "Mild skin redness",
+            "Dryness or tingling at application site"
+          ],
+          "serious": [
+            "Contact dermatitis",
+            "Systemic NSAID side effects if applied over huge body areas"
+          ],
+          "management": "Wash hands immediately after rubbing in. Do not apply under airtight heat wraps or to broken skin."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Methyl Salicylate & Menthol Liniment / Spray",
@@ -831,7 +1648,22 @@
           "Children under 12 years.",
           "Known salicylate allergy."
         ],
-        "safety_note": "Great for post-workout muscle soreness, neck stiffness, and non-traumatic sprains."
+        "safety_note": "Great for post-workout muscle soreness, neck stiffness, and non-traumatic sprains.",
+        "search_term": "Moov Pain Relief Spray 50g",
+        "price_estimate": "₹95 – ₹180",
+        "dosage_guide": "Spray from 5cm distance onto painful area 2 to 3 times daily. Do not massage aggressively.",
+        "side_effects": {
+          "common": [
+            "Intense warming/cooling counter-irritation sensation",
+            "Skin redness"
+          ],
+          "serious": [
+            "Chemical burns if covered with tight heating pads",
+            "Salicylate toxicity if overused"
+          ],
+          "management": "Never apply a heating pad over methyl salicylate. Keep away from eyes and broken skin."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Cryotherapy Cold Gel Ice Pack",
@@ -845,7 +1677,21 @@
         "avoid_if": [
           "Raynaud's phenomenon, cold urticaria, or severe peripheral vascular disease."
         ],
-        "safety_note": "The mandatory first-line therapy for acute sports injuries and ankle sprains in the first 48 hours."
+        "safety_note": "The mandatory first-line therapy for acute sports injuries and ankle sprains in the first 48 hours.",
+        "search_term": "Flamingo Cool Gel Pack",
+        "price_estimate": "₹150 – ₹300",
+        "dosage_guide": "Wrap cold pack in a thin towel and apply to sprain/strain for 15-20 minutes every 2-3 hours.",
+        "side_effects": {
+          "common": [
+            "Initial discomfort from intense cold",
+            "Skin redness"
+          ],
+          "serious": [
+            "Frostbite or ice burn if applied directly to bare skin without towel barrier"
+          ],
+          "management": "NEVER place frozen pack directly on bare skin. Limit each session to maximum 20 minutes."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Thermotherapy Hot Pack / Heating Pad",
@@ -860,7 +1706,20 @@
           "Acute traumatic injuries with active swelling.",
           "Areas of sensory nerve loss or diabetic neuropathy."
         ],
-        "safety_note": "Use heat for chronic stiffness and tight muscles; use ice for acute sprains."
+        "safety_note": "Use heat for chronic stiffness and tight muscles; use ice for acute sprains.",
+        "search_term": "Orthopedic Electric Heating Pad",
+        "price_estimate": "₹350 – ₹750",
+        "dosage_guide": "Apply comfortably warm pack to chronic stiff muscles for 15 to 20 minutes.",
+        "side_effects": {
+          "common": [
+            "Flushing of skin from vasodilation"
+          ],
+          "serious": [
+            "Thermal skin burns if set too hot or if falling asleep on pad"
+          ],
+          "management": "Never sleep on an active heating pad. Do not apply heat to acute fresh injuries under 48 hours."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Elastic Compression Crepe Bandage",
@@ -874,7 +1733,20 @@
         "avoid_if": [
           "Known deep vein thrombosis (DVT) without vascular consultation."
         ],
-        "safety_note": "Loosen immediately if numbness, pins-and-needles, or cold blueness appears in fingers or toes."
+        "safety_note": "Loosen immediately if numbness, pins-and-needles, or cold blueness appears in fingers or toes.",
+        "search_term": "Crepe Bandage 10cm",
+        "price_estimate": "₹50 – ₹120",
+        "dosage_guide": "Wrap firmly with 50% overlap from fingers/toes upwards. Loosen before sleeping.",
+        "side_effects": {
+          "common": [
+            "Mild skin indentation"
+          ],
+          "serious": [
+            "Circulation cut-off (numbness, tingling, pale or blue cold toes/fingers) if wrapped too tight"
+          ],
+          "management": "If toes or fingers become numb, tingly, cold, or pale, unwrap and re-wrap more loosely immediately."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       }
     ],
     "general": [
@@ -889,7 +1761,22 @@
         "avoid_if": [
           "Severe liver dysfunction or chronic heavy alcoholism."
         ],
-        "safety_note": "A safe, dependable essential medicine for general home first-aid kits."
+        "safety_note": "A safe, dependable essential medicine for general home first-aid kits.",
+        "search_term": "Crocin 500mg Paracetamol",
+        "price_estimate": "₹15 – ₹30",
+        "dosage_guide": "Adults: 500mg every 4-6 hours as needed. Do not exceed 4000mg per day.",
+        "side_effects": {
+          "common": [
+            "Nausea",
+            "Headache",
+            "Stomach comfort change"
+          ],
+          "serious": [
+            "Liver damage if combined with alcohol or exceeding max daily dose"
+          ],
+          "management": "Check all cold medication packaging to ensure you aren't doubling up on paracetamol."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "ORS (Oral Rehydration Salts)",
@@ -902,7 +1789,20 @@
         "avoid_if": [
           "Severe circulatory shock requiring emergency IV fluids."
         ],
-        "safety_note": "Indispensable supportive recovery measure for hot summer days, physical fatigue, and illness."
+        "safety_note": "Indispensable supportive recovery measure for hot summer days, physical fatigue, and illness.",
+        "search_term": "Electral ORS Liquid Tetrapack",
+        "price_estimate": "₹30 – ₹60",
+        "dosage_guide": "Ready-to-drink or mix as directed. Sip frequently during exercise, heat exhaustion, or illness.",
+        "side_effects": {
+          "common": [
+            "Pleasant light sweet-salt taste"
+          ],
+          "serious": [
+            "Excess sodium in severe kidney disease"
+          ],
+          "management": "Ideal for replenishing minerals during hot summer days and routine rehydration."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Vitamin C (Ascorbic Acid 500mg Chewable)",
@@ -916,7 +1816,22 @@
           "History of recurrent calcium oxalate kidney stones.",
           "Hemochromatosis (iron overload disorder)."
         ],
-        "safety_note": "Widely used immune support during recovery from seasonal viral infections."
+        "safety_note": "Widely used immune support during recovery from seasonal viral infections.",
+        "search_term": "Limcee 500mg Chewable Vitamin C",
+        "price_estimate": "₹25 – ₹55",
+        "dosage_guide": "Chew 1 tablet (500mg) daily after food.",
+        "side_effects": {
+          "common": [
+            "Mild heartburn",
+            "Tart or sour taste",
+            "Mild stomach rumble"
+          ],
+          "serious": [
+            "Kidney stones (oxalate) with megadoses > 2000mg/day"
+          ],
+          "management": "Chew after a meal. Water-soluble vitamin; excess is safely excreted in urine."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Zinc Sulfate / Gluconate (20mg - 50mg)",
@@ -929,7 +1844,21 @@
         "avoid_if": [
           "Known hypersensitivity to zinc salts."
         ],
-        "safety_note": "Shown in clinical studies to help shorten the duration and severity of common colds when taken early."
+        "safety_note": "Shown in clinical studies to help shorten the duration and severity of common colds when taken early.",
+        "search_term": "Zincovit Zinc Multivitamin Tablets",
+        "price_estimate": "₹85 – ₹160",
+        "dosage_guide": "Adults: 1 tablet daily with a substantial meal. Do not take on an empty stomach.",
+        "side_effects": {
+          "common": [
+            "Nausea or metallic taste if taken on empty stomach",
+            "Mild indigestion"
+          ],
+          "serious": [
+            "Copper deficiency and anemia with chronic months of high-dose zinc"
+          ],
+          "management": "Always ingest in the middle of a full meal to completely avoid the classic zinc nausea."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Vitamin D3 (Cholecalciferol 1000 IU / 60,000 IU)",
@@ -942,7 +1871,20 @@
         "avoid_if": [
           "Hypercalcemia, hypervitaminosis D, or severe metastatic calcification."
         ],
-        "safety_note": "A vital health supplement for individuals with limited sun exposure or indoor lifestyles."
+        "safety_note": "A vital health supplement for individuals with limited sun exposure or indoor lifestyles.",
+        "search_term": "Calcirol 60000 IU Vitamin D3 Sachet",
+        "price_estimate": "₹35 – ₹110",
+        "dosage_guide": "60,000 IU once weekly for 8 weeks (deficiency), or 1000-2000 IU daily with a fatty meal.",
+        "side_effects": {
+          "common": [
+            "None at standard replacement dosages"
+          ],
+          "serious": [
+            "Hypercalcemia (nausea, weakness, confusion, kidney stones) with massive chronic overdose"
+          ],
+          "management": "Vitamin D is fat-soluble. Take with milk, yogurt, or main meal for optimal absorption."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Vitamin B-Complex with Methylcobalamin (B12)",
@@ -955,7 +1897,21 @@
         "avoid_if": [
           "Known hypersensitivity to any component in the B-complex formula."
         ],
-        "safety_note": "Excellent supportive therapy for general fatigue, tingling, and nutritional recovery."
+        "safety_note": "Excellent supportive therapy for general fatigue, tingling, and nutritional recovery.",
+        "search_term": "Becosules Performance B Complex Capsules",
+        "price_estimate": "₹45 – ₹95",
+        "dosage_guide": "1 capsule daily after breakfast or lunch with water.",
+        "side_effects": {
+          "common": [
+            "Bright neon-yellow urine (completely harmless riboflavin excretion)",
+            "Mild flushing"
+          ],
+          "serious": [
+            "Peripheral neuropathy only with massive mega-doses of B6 (>200mg/day for months)"
+          ],
+          "management": "Harmless bright yellow urine is normal. Take with food to prevent mild vitamin burps."
+        },
+        "otc_status": "100% Non-Prescription OTC"
       },
       {
         "name": "Iron (Ferrous Ascorbate) with Folic Acid",
@@ -969,7 +1925,359 @@
         "avoid_if": [
           "Hemochromatosis, hemosiderosis, or hemolytic anemia without iron deficiency."
         ],
-        "safety_note": "Keep strictly out of reach of children; accidental iron overdose in young children is a medical emergency."
+        "safety_note": "Keep strictly out of reach of children; accidental iron overdose in young children is a medical emergency.",
+        "search_term": "Orofer XT Iron Folic Acid Tablets",
+        "price_estimate": "₹120 – ₹240",
+        "dosage_guide": "1 tablet daily after food with orange juice or water. Avoid taking with tea, coffee, or milk.",
+        "side_effects": {
+          "common": [
+            "Dark or black stools (harmless unabsorbed iron)",
+            "Constipation",
+            "Nausea",
+            "Stomach cramps"
+          ],
+          "serious": [
+            "Accidental iron poisoning if swallowed by small children (medical emergency)"
+          ],
+          "management": "Black stools are completely normal with iron. Take with vitamin C (lemonade) to boost absorption."
+        },
+        "otc_status": "100% Non-Prescription OTC"
+      }
+    ],
+    "facial_care": [
+      {
+        "name": "Niacinamide 10% + Zinc 1% Blemish & Pore Serum",
+        "purpose": "Reduces active facial blemishes, balances excess sebum/oil, minimizes enlarged pores, and strengthens skin barrier.",
+        "general_info": "High-strength clinical serum combining Vitamin B3 (Niacinamide 10%) with Zinc PCA 1% to regulate sebum production and reduce post-acne redness.",
+        "precautions": [
+          "Perform a 24-hour patch test behind ear or on inner arm before first facial application.",
+          "Do not combine directly with pure L-Ascorbic Acid (Vitamin C) in the same immediate routine step (alternate AM/PM).",
+          "Apply onto slightly damp skin followed by a gentle moisturizer."
+        ],
+        "avoid_if": [
+          "Known hypersensitivity to topical niacinamide or zinc salts.",
+          "Severely broken skin or open bleeding wounds."
+        ],
+        "safety_note": "First-line dermatological serum for oily, acne-prone, or blemish-prone skin. Safe for daily morning and evening use.",
+        "search_term": "Minimalist Niacinamide 10% Zinc Serum",
+        "price_estimate": "₹550 – ₹600",
+        "dosage_guide": "Apply 2 to 3 drops across entire face morning and evening after cleansing, before heavier creams.",
+        "side_effects": {
+          "common": [
+            "Mild temporary tingling sensation upon initial use",
+            "Slight redness during first 3-5 days of adaptation"
+          ],
+          "serious": [
+            "Allergic facial swelling or severe contact dermatitis (rare)"
+          ],
+          "management": "If initial tingling occurs, introduce gradually (3 times a week) before moving to daily use. Always follow with moisturizer."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Vitamin C 10% - 16% + Ferulic Acid Glow & Dark Spot Serum",
+        "purpose": "Fades stubborn dark spots, evens skin tone, brightens dull fatigued face, and protects against environmental free radicals.",
+        "general_info": "Potent antioxidant face serum containing stabilized Vitamin C (Ethyl Ascorbic Acid / L-Ascorbic Acid) boosted with Ferulic Acid to inhibit tyrosinase and stimulate collagen.",
+        "precautions": [
+          "Always follow with a broad-spectrum SPF 50 sunscreen during the daytime.",
+          "Store in an opaque bottle away from direct heat and sunlight to avoid oxidation.",
+          "If serum turns deep dark brown, it has oxidized and should be replaced."
+        ],
+        "avoid_if": [
+          "Active inflamed cystic acne flare-ups or severely impaired weeping skin barrier.",
+          "Known ascorbic acid allergy."
+        ],
+        "safety_note": "Gold standard for facial glow and post-inflammatory hyperpigmentation. Recommended for morning use.",
+        "search_term": "Minimalist 10% Vitamin C Serum",
+        "price_estimate": "₹600 – ₹700",
+        "dosage_guide": "Dispense 3-4 drops onto palms and gently pat into clean, dry facial skin in the morning. Follow with SPF 50.",
+        "side_effects": {
+          "common": [
+            "Mild initial stinging on freshly washed skin",
+            "Temporary warm sensation"
+          ],
+          "serious": [
+            "Severe contact dermatitis or skin peeling if used with harsh scrubs"
+          ],
+          "management": "Apply only onto dry skin to reduce stinging. Do not layer simultaneously with AHA/BHA exfoliants."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Hyaluronic Acid 2% + Vitamin B5 Deep Hydration Serum",
+        "purpose": "Replenishes deep skin moisture, plumps fine dehydration lines, repairs tight flaking face, and restores elasticity.",
+        "general_info": "Multi-molecular weight hyaluronic acid that penetrates multiple epidermal layers, drawing up to 1000x its weight in water, paired with soothing Provitamin B5 (D-Panthenol).",
+        "precautions": [
+          "ALWAYS apply to damp skin (after washing or misting) to draw water into the skin rather than pulling from deep tissues.",
+          "Lock in immediately with an emollient moisturizer to prevent moisture evaporation.",
+          "Suitable for all skin types, including sensitive and eczema-prone faces."
+        ],
+        "avoid_if": [
+          "Known allergy to hyaluronic acid or panthenol (extremely rare)."
+        ],
+        "safety_note": "Crucial foundational hydration for dry, dehydrated, or barrier-compromised facial skin.",
+        "search_term": "Minimalist Hyaluronic Acid 2% B5 Serum",
+        "price_estimate": "₹500 – ₹600",
+        "dosage_guide": "Apply 2-3 drops to damp face and neck morning and evening. Seal immediately with moisturizer.",
+        "side_effects": {
+          "common": [
+            "Mild temporary tackiness before fully absorbed"
+          ],
+          "serious": [
+            "None reported; naturally occurring biocompatible humectant"
+          ],
+          "management": "Ensure skin is damp before application and follow with a cream to lock in the hydration."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Salicylic Acid 2% BHA Pore-Clearing Serum",
+        "purpose": "Unclogs deep congested facial pores, dissolves blackheads and whiteheads, and prevents active acne breakouts.",
+        "general_info": "Oil-soluble Beta Hydroxy Acid (BHA) that penetrates deep into sebaceous follicles to dissolve sebum plugs, exfoliate dead skin cells, and calm inflammation.",
+        "precautions": [
+          "Start by using 2 nights per week to assess tolerance before increasing frequency.",
+          "Do not combine on the same evening with Retinol or strong Vitamin C.",
+          "Always apply broad-spectrum sunscreen every morning."
+        ],
+        "avoid_if": [
+          "Known allergy to salicylates or aspirin.",
+          "Active eczema flares or sunburned facial skin."
+        ],
+        "safety_note": "Highly effective dermatological treatment for blackheads, whiteheads, and comedonal acne.",
+        "search_term": "Minimalist Salicylic Acid 2% Serum",
+        "price_estimate": "₹500 – ₹550",
+        "dosage_guide": "Apply 1 to 2 drops onto targeted T-zone, nose, or breakout areas 2-3 nights per week after cleansing.",
+        "side_effects": {
+          "common": [
+            "Mild dryness or localized flaking",
+            "Mild purging (temporary breakout) in weeks 1-2 as pores clear"
+          ],
+          "serious": [
+            "Excessive peeling or chemical burn if overapplied or layered with harsh acids"
+          ],
+          "management": "Limit use to 2 nights weekly initially. Use a ceramide moisturizer to prevent excessive dryness."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Alpha Arbutin 2% + Kojic Acid Dark Spot & Melasma Serum",
+        "purpose": "Fades dark brown patches, melasma, sun spots, and stubborn acne discoloration by safely reducing melanin synthesis.",
+        "general_info": "Safe, gentle derivative of hydroquinone that inhibits tyrosinase activity to fade localized hyperpigmentation and uneven pigmentation without bleaching healthy skin.",
+        "precautions": [
+          "Strict daytime sun protection (SPF 50+) is mandatory as sun exposure can reactivate melanocytes.",
+          "Consistent daily use for 6 to 8 weeks is required for noticeable lightening.",
+          "Can be safely paired with Niacinamide or Hyaluronic Acid."
+        ],
+        "avoid_if": [
+          "Known hypersensitivity to arbutin.",
+          "Pregnancy or breastfeeding without physician clearance."
+        ],
+        "safety_note": "Safe, non-irritating alternative to harsh prescription bleaching creams for dark facial spots.",
+        "search_term": "Minimalist Alpha Arbutin 2% Face Serum",
+        "price_estimate": "₹500 – ₹550",
+        "dosage_guide": "Apply 2-3 drops morning and evening onto hyperpigmented areas or full face before moisturizing.",
+        "side_effects": {
+          "common": [
+            "Mild skin dryness",
+            "Slight tingling upon application"
+          ],
+          "serious": [
+            "Paradoxical hyperpigmentation if exposed to heavy sun without sunscreen"
+          ],
+          "management": "Wear broad-spectrum sunscreen religiously every single day during and after treatment."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Retinol 0.3% / Granactive Retinoid Anti-Aging & Texture Serum",
+        "purpose": "Accelerates cellular skin turnover, stimulates collagen production, reduces fine lines, and refines rough bumpy skin texture.",
+        "general_info": "Vitamin A derivative that communicates with skin cells to boost renewal, unclog micro-comedones, and reverse signs of premature photo-aging.",
+        "precautions": [
+          "Use strictly at NIGHT only; Vitamin A is degraded by sunlight and increases sun sensitivity.",
+          "Begin with 'retinol sandwich' technique (moisturizer -> retinol -> moisturizer) 2 nights a week.",
+          "Never apply around delicate eye corners or lips without a protective vaseline barrier."
+        ],
+        "avoid_if": [
+          "PREGNANCY or breastfeeding (Vitamin A derivatives are strictly contraindicated).",
+          "Acute rosacea or active dermatitis flare-ups."
+        ],
+        "safety_note": "Clinically proven gold standard anti-aging and skin smoothing molecule. Requires patient introduction.",
+        "search_term": "Minimalist Retinol 0.3% Anti Aging Face Serum",
+        "price_estimate": "₹600 – ₹700",
+        "dosage_guide": "Apply pea-sized amount onto completely dry face at night only, 2-3 times weekly. Follow with night cream.",
+        "side_effects": {
+          "common": [
+            "Retinization dryness, flakiness, and mild peeling during weeks 2 to 4",
+            "Mild redness"
+          ],
+          "serious": [
+            "Severe dermatitis or chemical burn if used on wet skin or combined with AHAs/BHAs"
+          ],
+          "management": "Wait 15 minutes after washing face until skin is bone-dry before applying. Use ceramide cream generously."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Ceramide 0.3% + Bisabolol Skin Barrier Repair Cream",
+        "purpose": "Heals damaged, burning, red, or peeling facial skin barrier, prevents moisture loss, and calms sensitivity.",
+        "general_info": "Biomimetic barrier cream formulated with essential ceramides (EOP, NP, AP), cholesterol, and soothing German Chamomile Bisabolol to repair the lipid matrix of irritated skin.",
+        "precautions": [
+          "Essential after using chemical exfoliants, retinol, or experiencing weather-induced dry patches.",
+          "Can be applied multiple times a day as needed.",
+          "Non-comedogenic and fragrance-free."
+        ],
+        "avoid_if": [
+          "Known allergy to bisabolol or botanical extracts."
+        ],
+        "safety_note": "The ultimate dermatological reset cream when the skin barrier is damaged, stinging, or peeling.",
+        "search_term": "Minimalist Ceramide Moisturizer",
+        "price_estimate": "₹550 – ₹650",
+        "dosage_guide": "Apply generously over face and neck as the final skincare step in morning and evening.",
+        "side_effects": {
+          "common": [
+            "Rich protective layer feeling"
+          ],
+          "serious": [
+            "Extremely safe with zero common adverse reactions"
+          ],
+          "management": "Use morning and night. Can be applied generously as an overnight repair sleeping mask."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Caffeine 5% + Peptides Under-Eye Dark Circle Serum",
+        "purpose": "Reduces stubborn dark under-eye circles, constricts dilated capillaries, and diminishes morning puffy eye bags.",
+        "general_info": "Targeted ocular serum with 5% high-solubility caffeine and EGCG green tea extract that promotes lymphatic drainage and relieves fluid accumulation under the eyes.",
+        "precautions": [
+          "Apply strictly to orbital bone (eye socket boundary); do not get directly into eyeball.",
+          "If under-eye dark circles are due to genetic bone structure or fat loss, topical caffeine will provide supportive drainage only."
+        ],
+        "avoid_if": [
+          "Known sensitivity to topical caffeine.",
+          "Conjunctivitis or active eye infection."
+        ],
+        "safety_note": "Excellent supportive serum for fatigue-induced dark circles and morning puffy eye swelling.",
+        "search_term": "Minimalist Caffeine 5% Under Eye Serum",
+        "price_estimate": "₹550 – ₹600",
+        "dosage_guide": "Dispense 1 drop onto ring finger and gently tap along under-eye bone morning and night.",
+        "side_effects": {
+          "common": [
+            "Mild temporary skin tightness around under-eye area"
+          ],
+          "serious": [
+            "Eye stinging if accidentally introduced into the conjunctival sac"
+          ],
+          "management": "Flush with sterile water if it gets into eyes. Follow with a gentle under-eye moisturizer."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Broad Spectrum SPF 50+ PA++++ Fluid Sunscreen",
+        "purpose": "Shields facial skin from UVA/UVB rays, prevents tanning, prevents dark spot darkening, and halts premature photo-aging.",
+        "general_info": "Next-generation lightweight, non-greasy sunscreen with Tinosorb M and Uvinul filters providing maximum broad-spectrum UV protection without leaving a white cast.",
+        "precautions": [
+          "Apply 15 to 20 minutes before stepping into outdoor daylight.",
+          "Reapply every 2 to 3 hours during continuous sun exposure or sweating.",
+          "Essential daily companion for anyone using active serums (Vitamin C, Retinol, Niacinamide, AHA/BHA)."
+        ],
+        "avoid_if": [
+          "Known allergy to specific chemical UV filters (switch to physical zinc oxide sunscreen if allergic)."
+        ],
+        "safety_note": "The single most important anti-aging and facial health product recommended by all dermatologists worldwide.",
+        "search_term": "Derma Co 1% Hyaluronic Sunscreen SPF 50",
+        "price_estimate": "₹450 – ₹550",
+        "dosage_guide": "Apply 2 full finger lengths of sunscreen across face, ears, and neck every single morning.",
+        "side_effects": {
+          "common": [
+            "Mild eye stinging if rubbed into eyes",
+            "Requires evening cleansing to wash off completely"
+          ],
+          "serious": [
+            "Allergic contact dermatitis to specific UV filters (rare)"
+          ],
+          "management": "Wash face at night with a gentle foaming cleanser to keep pores clear."
+        },
+        "otc_status": "100% Non-Prescription Dermatological OTC"
+      },
+      {
+        "name": "Vitamin D3 & B12 Diagnostic Deficiency Blood Test Panel",
+        "purpose": "Clinically detects underlying Vitamin D and B12 deficiencies that cause chronic dullness, dark circles, and impaired skin immunity.",
+        "general_info": "Comprehensive diagnostic blood checkup measuring 25-Hydroxy Vitamin D and Serum Cobalamin (B12). Deficiencies in these vitamins directly impair skin cell proliferation, wound healing, and collagen repair.",
+        "precautions": [
+          "Overnight fasting (8 to 10 hours) is recommended before sample collection.",
+          "Certified phlebotomist collects venous blood sample conveniently at your home.",
+          "Digital diagnostic report generated within 12 to 24 hours."
+        ],
+        "avoid_if": [
+          "Severe active phlebitis at the puncture site."
+        ],
+        "safety_note": "Recommended diagnostic checkup if experiencing persistent dull skin, dark under-eye circles, fatigue, or unexplainable hair thinning.",
+        "search_term": "Vitamin D and B12 Test Tata 1mg Labs",
+        "price_estimate": "₹700 – ₹1200",
+        "dosage_guide": "Diagnostic blood test. Order online for home sample collection; consult doctor with lab results.",
+        "side_effects": {
+          "common": [
+            "Minor momentary pinprick at needle insertion site",
+            "Small temporary bruise"
+          ],
+          "serious": [
+            "None; safe routine diagnostic venipuncture"
+          ],
+          "management": "Press sterile cotton pad over puncture site for 3 minutes after collection."
+        },
+        "otc_status": "Diagnostic Blood Test (Direct Home Collection)"
+      },
+      {
+        "name": "Serum Iron & Ferritin Anemia Profile Test",
+        "purpose": "Tests for latent iron deficiency that causes pale lifeless facial complexion, extreme fatigue, and severe dark circles.",
+        "general_info": "Complete diagnostic profile measuring Serum Ferritin, Serum Iron, and Total Iron Binding Capacity (TIBC) to diagnose cellular iron depletion before full anemia sets in.",
+        "precautions": [
+          "Morning sample preferred as iron levels fluctuate diurnally.",
+          "Inform phlebotomist if currently taking oral iron supplements."
+        ],
+        "avoid_if": [
+          "Bleeding disorders without informing phlebotomist."
+        ],
+        "safety_note": "Crucial diagnostic checkup for pale skin, sallow yellowish complexion, chronic fatigue, and brittle nails.",
+        "search_term": "Iron Deficiency Ferritin Test Apollo Diagnostics",
+        "price_estimate": "₹500 – ₹900",
+        "dosage_guide": "Home sample diagnostic blood draw. Report available in 12 hours.",
+        "side_effects": {
+          "common": [
+            "Minor temporary skin prick discomfort"
+          ],
+          "serious": [
+            "None"
+          ],
+          "management": "Keep arm straight for a few minutes after blood draw."
+        },
+        "otc_status": "Diagnostic Blood Test (Direct Home Collection)"
+      },
+      {
+        "name": "Serum Zinc & Micronutrient Health Checkup",
+        "purpose": "Identifies zinc deficiency responsible for stubborn inflammatory facial acne, delayed healing of spots, and skin inflammation.",
+        "general_info": "Diagnostic blood test measuring Serum Zinc levels. Zinc is a vital cofactor for over 300 enzymes, regulating immune defense and skin epithelial repair.",
+        "precautions": [
+          "Fasting sample recommended.",
+          "Avoid taking zinc supplements 24 hours prior to blood test to get accurate baseline."
+        ],
+        "avoid_if": [
+          "None"
+        ],
+        "safety_note": "Essential checkup for persistent, cystic, non-healing adult acne and repeated skin infections.",
+        "search_term": "Zinc Test Tata 1mg Labs",
+        "price_estimate": "₹650 – ₹1100",
+        "dosage_guide": "Routine diagnostic venipuncture with home collection.",
+        "side_effects": {
+          "common": [
+            "Minor momentary pinprick"
+          ],
+          "serious": [
+            "None"
+          ],
+          "management": "Rest arm comfortably after draw."
+        },
+        "otc_status": "Diagnostic Blood Test (Direct Home Collection)"
       }
     ]
   }

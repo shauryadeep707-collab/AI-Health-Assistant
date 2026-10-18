@@ -830,19 +830,49 @@ input, select, textarea { font-family: inherit; font-size: var(--font-size-base)
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.medicine-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.medicine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  flex-wrap: wrap;
 }
 
 .medicine-name {
   font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--gray-800);
+  font-weight: 700;
+  color: var(--gray-900);
   margin-bottom: var(--space-1);
+}
+
+.medicine-price-badge {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .medicine-purpose {
   font-size: var(--font-size-sm);
   color: var(--primary);
+  font-weight: 600;
   margin-bottom: var(--space-3);
 }
 
@@ -858,6 +888,239 @@ input, select, textarea { font-family: inherit; font-size: var(--font-size-base)
   align-items: center;
   gap: var(--space-2);
 }
+
+/* === Side Effects Box & Chips === */
+.side-effects-container {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin: var(--space-3) 0;
+}
+
+.se-section-title {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.se-tags-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-3);
+}
+
+.se-tag {
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.3;
+}
+
+.se-tag-common {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.se-tag-serious {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-weight: 600;
+}
+
+.se-management-box {
+  background: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  padding: var(--space-3);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: var(--font-size-xs);
+  color: #1e40af;
+  margin-top: var(--space-2);
+  line-height: 1.5;
+}
+
+/* === Direct Buy Online Pharmacy Buttons === */
+.direct-buy-section {
+  border-top: 1px dashed var(--gray-200);
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.direct-buy-title {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--gray-600);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.direct-buy-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pharmacy-buy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.pharmacy-buy-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+}
+
+.btn-1mg {
+  background: #fff1f0;
+  color: #ff523b;
+  border-color: #ffd0cc;
+}
+.btn-1mg:hover {
+  background: #ff523b;
+  color: white;
+}
+
+.btn-apollo {
+  background: #e6f7f5;
+  color: #008779;
+  border-color: #b3e7e2;
+}
+.btn-apollo:hover {
+  background: #008779;
+  color: white;
+}
+
+.btn-netmeds {
+  background: #e9f8f9;
+  color: #1a9aa0;
+  border-color: #c0edf0;
+}
+.btn-netmeds:hover {
+  background: #1a9aa0;
+  color: white;
+}
+
+.btn-pharmeasy {
+  background: #e8f5e9;
+  color: #10847e;
+  border-color: #c8e6c9;
+}
+.btn-pharmeasy:hover {
+  background: #10847e;
+  color: white;
+}
+
+/* === Self-Care Page Specific === */
+.selfcare-hero {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: white;
+  padding: 3rem 1.5rem 3.5rem;
+  border-radius: var(--radius-xl);
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+}
+
+.selfcare-search-box {
+  max-width: 680px;
+  margin: 1.5rem auto 0;
+  position: relative;
+}
+
+.selfcare-search-input {
+  width: 100%;
+  padding: 1rem 3.5rem 1rem 1.25rem;
+  border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: white;
+  font-size: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  color: var(--gray-900);
+}
+
+.selfcare-search-input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.35);
+}
+
+.selfcare-search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.selfcare-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.selfcare-category-pill {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--gray-200);
+  background: white;
+  color: var(--gray-700);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.selfcare-category-pill:hover,
+.selfcare-category-pill.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.ai-answer-panel {
+  background: white;
+  border: 2px solid #38bdf8;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 
 /* === Urgent Screen === */
 .urgent-panel {
@@ -1161,6 +1424,18 @@ input, select, textarea { font-family: inherit; font-size: var(--font-size-base)
 .grid-3 {
   display: grid;
   grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.grid-5 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: var(--space-4);
 }
 

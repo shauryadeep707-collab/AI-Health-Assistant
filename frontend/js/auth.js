@@ -77,6 +77,7 @@ const Auth = {
         <li><a href="/" class="${isActive('/')}">Home</a></li>
         <li><a href="/pages/symptom-check.html" class="${isActive('symptom-check')}">Symptom Checker</a></li>
         <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
+        <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Self-Care &amp; Medicines</a></li>
         <li><a href="/pages/login.html" class="${isActive('login')}">Login</a></li>
         <li><a href="/pages/register.html" class="btn btn-primary btn-sm ${isActive('register')}" style="color: white;">Get Started</a></li>
       `;
@@ -88,6 +89,7 @@ const Auth = {
         <li><a href="/pages/patient-dashboard.html" class="${isActive('patient-dashboard')}">Dashboard</a></li>
         <li><a href="/pages/symptom-check.html" class="btn btn-primary btn-sm ${isActive('symptom-check')}" style="color: white;">🩺 Check Symptoms</a></li>
         <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
+        <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Self-Care Guide</a></li>
         <li><a href="/pages/consultations.html" class="${isActive('consultations')}">My Consultations</a></li>
         <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile</a></li>
         <li>
@@ -102,6 +104,7 @@ const Auth = {
       navLinks.innerHTML = `
         <li><a href="/pages/doctor-dashboard.html" class="${isActive('doctor-dashboard') || isActive('doctor-consultation')}">Doctor Dashboard</a></li>
         <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Doctor Directory</a></li>
+        <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Medicine Catalog</a></li>
         <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile &amp; Availability</a></li>
         <li>
           <button id="notification-btn" class="notification-bell" onclick="Notifications.toggleDropdown()" title="Notifications">
@@ -115,6 +118,7 @@ const Auth = {
       navLinks.innerHTML = `
         <li><a href="/pages/admin.html" class="${isActive('admin')}">Admin Portal</a></li>
         <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Doctor Registry</a></li>
+        <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Medicine Catalog</a></li>
         <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile</a></li>
         <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm" title="Log out">Logout (${UI.escapeHtml(user.name)})</button></li>
       `;
