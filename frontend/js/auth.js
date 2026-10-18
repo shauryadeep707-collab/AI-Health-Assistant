@@ -76,8 +76,9 @@ const Auth = {
       navLinks.innerHTML = `
         <li><a href="/" class="${isActive('/')}">Home</a></li>
         <li><a href="/pages/symptom-check.html" class="${isActive('symptom-check')}">Symptom Checker</a></li>
+        <li><a href="/pages/symptom-check.html?symptom=skin">✨ Facial Care</a></li>
+        <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Self-Care &amp; Meds</a></li>
         <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
-        <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Self-Care &amp; Medicines</a></li>
         <li><a href="/pages/login.html" class="${isActive('login')}">Login</a></li>
         <li><a href="/pages/register.html" class="btn btn-primary btn-sm ${isActive('register')}" style="color: white;">Get Started</a></li>
       `;
@@ -88,8 +89,9 @@ const Auth = {
       navLinks.innerHTML = `
         <li><a href="/pages/patient-dashboard.html" class="${isActive('patient-dashboard')}">Dashboard</a></li>
         <li><a href="/pages/symptom-check.html" class="btn btn-primary btn-sm ${isActive('symptom-check')}" style="color: white;">🩺 Check Symptoms</a></li>
-        <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
+        <li><a href="/pages/symptom-check.html?symptom=skin">✨ Facial Care</a></li>
         <li><a href="/pages/self-care.html" class="${isActive('self-care')}">Self-Care Guide</a></li>
+        <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
         <li><a href="/pages/consultations.html" class="${isActive('consultations')}">My Consultations</a></li>
         <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile</a></li>
         <li>

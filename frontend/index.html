@@ -28,8 +28,9 @@
       <ul id="nav-links" class="navbar-nav">
         <li><a href="/">Home</a></li>
         <li><a href="/pages/symptom-check.html">Symptom Checker</a></li>
+        <li><a href="/pages/symptom-check.html?symptom=skin">✨ Facial Care</a></li>
+        <li><a href="/pages/self-care.html">Self-Care &amp; Meds</a></li>
         <li><a href="/pages/doctors.html">Find Doctors</a></li>
-        <li><a href="/pages/self-care.html">Self-Care &amp; Medicines</a></li>
         <li><a href="/pages/login.html">Login</a></li>
         <li><a href="/pages/register.html" class="btn btn-primary btn-sm" style="color: white;">Get Started</a></li>
       </ul>
@@ -41,43 +42,45 @@
     <div class="container">
       <div class="trust-badges">
         <span class="trust-badge">🛡️ Verified Specialists</span>
-        <span class="trust-badge">🤖 Conversational AI Triage</span>
-        <span class="trust-badge">⚡ Instant Auto-Routing</span>
-        <span class="trust-badge">📶 100% Offline Emergency PWA</span>
+        <span class="trust-badge">🤖 Smart AI Triage</span>
+        <span class="trust-badge">✨ Facial &amp; Skin Care AI</span>
+        <span class="trust-badge">💊 77+ Local Meds &amp; Direct Buy</span>
       </div>
 
       <h1 class="hero-title">
-        Conversational AI Triage &amp; <span>Local Doctor Connect</span>
+        Smart Health Triage, Facial Care &amp; <span>Local Doctor Connect</span>
       </h1>
       <p class="hero-subtitle">
-        Experiencing fever, cough, chest congestion, or headache? Describe your symptoms in plain words.
-        Our clinical intelligence evaluates risk, summarizes your health dialogue, and automatically connects you with verified nearby doctors.
+        Check your symptoms or facial skin concerns in simple words. Get instant clinical guidance, medicine side effects, direct pharmacy buy links, and connect with verified local doctors.
       </p>
       
       <div class="flex gap-4 justify-between" style="justify-content: center; flex-wrap: wrap;">
         <a href="/pages/symptom-check.html" class="btn btn-primary btn-lg">
-          🩺 Start Free Symptom Check
+          🩺 Check Symptoms Now
         </a>
-        <a href="/pages/doctors.html" class="btn btn-outline btn-lg">
-          👨‍⚕️ Find Nearby Doctors on Map
+        <a href="/pages/symptom-check.html?symptom=skin" class="btn btn-outline btn-lg" style="background: white; border-color: var(--primary); color: var(--primary);">
+          ✨ Facial &amp; Skin Checkup
         </a>
         <a href="/pages/self-care.html" class="btn btn-secondary btn-lg">
           💊 Self-Care &amp; Medicine Guide
+        </a>
+        <a href="/pages/doctors.html" class="btn btn-outline btn-lg">
+          👨‍⚕️ Find Doctors on Map
         </a>
       </div>
 
       <!-- Quick Symptom Selector -->
       <div class="symptom-quick-select">
         <div class="text-xs text-muted font-semibold uppercase tracking-wider text-center">
-          Or quickly check a common symptom:
+          Or quickly tap a common concern:
         </div>
         <div class="symptom-quick-chips">
           <a href="/pages/symptom-check.html?symptom=fever" class="symptom-quick-chip">🌡️ Fever &amp; Chills</a>
+          <a href="/pages/symptom-check.html?symptom=skin" class="symptom-quick-chip">✨ Acne &amp; Dark Spots</a>
           <a href="/pages/symptom-check.html?symptom=cough" class="symptom-quick-chip">🗣️ Cough &amp; Cold</a>
           <a href="/pages/symptom-check.html?symptom=headache" class="symptom-quick-chip">🧠 Headache &amp; Migraine</a>
           <a href="/pages/symptom-check.html?symptom=stomach" class="symptom-quick-chip">🤢 Stomach Pain</a>
-          <a href="/pages/symptom-check.html?symptom=sore_throat" class="symptom-quick-chip">🧣 Sore Throat</a>
-          <a href="/pages/symptom-check.html?symptom=skin" class="symptom-quick-chip">🩹 Skin Rash</a>
+          <a href="/pages/self-care.html" class="symptom-quick-chip">💊 Buy Medicines Online</a>
         </div>
       </div>
     </div>
@@ -99,6 +102,19 @@
         </div>
       </a>
 
+      <a href="/pages/symptom-check.html?symptom=skin" class="portal-card">
+        <div>
+          <div class="portal-icon" style="background: #ecfeff; color: #0891b2;">✨</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Facial &amp; Skin Health AI</h3>
+          <p class="text-sm text-muted">
+            Check acne, dark spots, and dullness. AI detects underlying deficiencies (D3, B12, Zinc) and recommends serums with buy links.
+          </p>
+        </div>
+        <div class="text-sm text-primary font-semibold mt-4">
+          Start Facial Checkup &rarr;
+        </div>
+      </a>
+
       <a href="/pages/self-care.html" class="portal-card">
         <div>
           <div class="portal-icon" style="background: #e0f2fe; color: #0284c7;">💊</div>
@@ -112,29 +128,16 @@
         </div>
       </a>
 
-      <a href="/pages/doctor-dashboard.html" class="portal-card">
+      <a href="/pages/doctors.html" class="portal-card">
         <div>
           <div class="portal-icon" style="background: #ecfdf5; color: #059669;">👨‍⚕️</div>
-          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Doctor Portal &amp; Queue</h3>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Find Doctors on Map</h3>
           <p class="text-sm text-muted">
-            Review incoming patient FIFO requests, inspect AI-generated dialogue summaries, and submit clinical advice &amp; prescriptions.
+            Locate verified doctors and clinics in Dehradun on the interactive map. Check distance, experience, and request consultation.
           </p>
         </div>
         <div class="text-sm text-primary font-semibold mt-4">
-          Open Doctor Queue &rarr;
-        </div>
-      </a>
-
-      <a href="/pages/doctors.html" class="portal-card">
-        <div>
-          <div class="portal-icon" style="background: #fef2f2; color: #dc2626;">🚨</div>
-          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Emergency &amp; On-Call</h3>
-          <p class="text-sm text-muted">
-            Instant red-flag override for chest pain or breathing crises. Contact on-call verified doctors or trigger national emergency (112/108).
-          </p>
-        </div>
-        <div class="text-sm font-semibold mt-4" style="color: var(--error);">
-          Emergency Directory &rarr;
+          Find Nearby Doctors &rarr;
         </div>
       </a>
     </div>

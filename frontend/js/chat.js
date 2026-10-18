@@ -61,8 +61,8 @@ const Chat = {
           chips: ['Painful to swallow', 'Scratchy throat with cold', 'Throat irritation for 2 days', 'Mild soreness']
         },
         skin: {
-          msg: "Hello! I am your AI Health Assistant. You selected Skin Rash. Where is the rash located, is it itchy or burning, and when did it first appear?",
-          chips: ['Red itchy rash on arms/legs', 'Mild rash started today', 'Rash with slight burning', 'Dry scaling skin patch']
+          msg: "Hello! I am your AI Health Assistant. Tell me about your skin or face concern (e.g. acne, dark spots, dullness, dark circles, or rash). I will analyze underlying deficiencies (D3, B12, Zinc), recommend blood tests, serums to apply, and direct buy links.",
+          chips: ['Facial acne & oily skin', 'Dark spots & dullness', 'Dark circles under eyes', 'Dry peeling skin barrier']
         }
       };
 
@@ -71,8 +71,8 @@ const Chat = {
         this.appendAIMessage(item.msg, item.chips);
       } else {
         this.appendAIMessage(
-          "Hello! I am your AI Health Assistant. Please describe your symptoms in normal words (e.g. 'I have a mild fever and runny nose since yesterday').",
-          ['I have a mild fever', 'I have a sore throat & cough', 'I have a headache', 'I have a stomach ache']
+          "Hello! I am your AI Health Assistant. Please describe your symptoms or facial concerns in normal words (e.g. 'I have a fever' or 'I have dark spots and acne on my face').",
+          ['I have a mild fever', 'Facial acne & dark spots', 'I have a sore throat & cough', 'I have a headache']
         );
       }
     } else {
