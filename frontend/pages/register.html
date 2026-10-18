@@ -28,6 +28,13 @@
 
   <main class="page-wrapper">
     <div class="container" style="max-width: 600px;">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs" style="justify-content: center;">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Create Account</span>
+      </div>
+
       <div class="card">
         <h2 class="text-center mb-2">Create an Account</h2>
         <p class="text-center text-sm text-muted mb-6">Select your role to get started</p>
@@ -361,6 +368,10 @@
       }
     });
 
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.getCurrentUser();
+      Auth.setupNavbar(user);
+    });
   </script>
 </body>
 </html>

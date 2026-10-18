@@ -36,48 +36,115 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
+      <div class="trust-badges">
+        <span class="trust-badge">🛡️ Verified Specialists</span>
+        <span class="trust-badge">🤖 Conversational AI Triage</span>
+        <span class="trust-badge">⚡ Instant Auto-Routing</span>
+        <span class="trust-badge">📶 100% Offline Emergency PWA</span>
+      </div>
+
       <h1 class="hero-title">
         Conversational AI Triage &amp; <span>Local Doctor Connect</span>
       </h1>
       <p class="hero-subtitle">
-        Experiencing common symptoms like fever, cough, cold, or headache? Describe them in plain words.
-        Our intelligent assistant evaluates risk, provides safe home guidance, or instantly connects you with nearby available doctors.
+        Experiencing fever, cough, chest congestion, or headache? Describe your symptoms in plain words.
+        Our clinical intelligence evaluates risk, summarizes your health dialogue, and automatically connects you with verified nearby doctors.
       </p>
+      
       <div class="flex gap-4 justify-between" style="justify-content: center; flex-wrap: wrap;">
         <a href="/pages/symptom-check.html" class="btn btn-primary btn-lg">
           🩺 Start Free Symptom Check
         </a>
         <a href="/pages/doctors.html" class="btn btn-outline btn-lg">
-          👨‍⚕️ Find Nearby Doctors
+          👨‍⚕️ Find Nearby Doctors on Map
         </a>
       </div>
+
+      <!-- Quick Symptom Selector -->
+      <div class="symptom-quick-select">
+        <div class="text-xs text-muted font-semibold uppercase tracking-wider text-center">
+          Or quickly check a common symptom:
+        </div>
+        <div class="symptom-quick-chips">
+          <a href="/pages/symptom-check.html?symptom=fever" class="symptom-quick-chip">🌡️ Fever &amp; Chills</a>
+          <a href="/pages/symptom-check.html?symptom=cough" class="symptom-quick-chip">🗣️ Cough &amp; Cold</a>
+          <a href="/pages/symptom-check.html?symptom=headache" class="symptom-quick-chip">🧠 Headache &amp; Migraine</a>
+          <a href="/pages/symptom-check.html?symptom=stomach" class="symptom-quick-chip">🤢 Stomach Pain</a>
+          <a href="/pages/symptom-check.html?symptom=sore_throat" class="symptom-quick-chip">🧣 Sore Throat</a>
+          <a href="/pages/symptom-check.html?symptom=skin" class="symptom-quick-chip">🩹 Skin Rash</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connected Portals Gateway -->
+  <section class="container" style="margin-top: -2rem; margin-bottom: 3rem; position: relative; z-index: 10;">
+    <div class="grid-3">
+      <a href="/pages/patient-dashboard.html" class="portal-card">
+        <div>
+          <div class="portal-icon">👤</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Patient Health Hub</h3>
+          <p class="text-sm text-muted">
+            Access your personalized dashboard, past assessment results, dialogue summaries, and track doctor consultation advice.
+          </p>
+        </div>
+        <div class="text-sm text-primary font-semibold mt-4">
+          Open Patient Dashboard &rarr;
+        </div>
+      </a>
+
+      <a href="/pages/doctor-dashboard.html" class="portal-card">
+        <div>
+          <div class="portal-icon" style="background: #e0f2fe; color: #0284c7;">👨‍⚕️</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Doctor Portal &amp; Queue</h3>
+          <p class="text-sm text-muted">
+            Review incoming patient FIFO requests, inspect AI-generated dialogue summaries, and submit clinical advice &amp; prescriptions.
+          </p>
+        </div>
+        <div class="text-sm text-primary font-semibold mt-4">
+          Open Doctor Queue &rarr;
+        </div>
+      </a>
+
+      <a href="/pages/doctors.html" class="portal-card">
+        <div>
+          <div class="portal-icon" style="background: #fef2f2; color: #dc2626;">🚨</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--gray-900);">Emergency &amp; On-Call</h3>
+          <p class="text-sm text-muted">
+            Instant red-flag override for chest pain or breathing crises. Contact on-call verified doctors or trigger national emergency (112/108).
+          </p>
+        </div>
+        <div class="text-sm font-semibold mt-4" style="color: var(--error);">
+          Emergency Directory &rarr;
+        </div>
+      </a>
     </div>
   </section>
 
   <!-- How It Works (3 Steps) -->
   <section class="steps-section">
     <div class="container">
-      <h2>How It Works</h2>
+      <h2>How AI Health Assistant Works</h2>
       <div class="grid-3">
         <div class="card step-card">
           <div class="step-number">1</div>
           <h3 class="step-title">Describe Symptoms</h3>
           <p class="step-description">
-            Type your concerns naturally in English, Hindi, or Hinglish. The AI asks smart, conversational follow-ups.
+            Type naturally in plain English, Hindi, or Hinglish. Our conversational engine listens and asks targeted, clinical follow-ups.
           </p>
         </div>
         <div class="card step-card">
           <div class="step-number">2</div>
-          <h3 class="step-title">Risk Assessment</h3>
+          <h3 class="step-title">Automated Talk Summary</h3>
           <p class="step-description">
-            Hard safety rules plus AI scoring classify symptoms into Low, Medium, or Urgent risk levels.
+            The dialogue is instantly synthesized into a structured clinical summary detailing chief complaint, severity, temperature, and medications.
           </p>
         </div>
         <div class="card step-card">
           <div class="step-number">3</div>
-          <h3 class="step-title">Doctor Connect &amp; Care</h3>
+          <h3 class="step-title">Auto-Routing to Specialist</h3>
           <p class="step-description">
-            Low risk gets safe OTC guidance; Medium risk connects you directly to available local doctors with an AI summary.
+            No patient clicks needed: your case and summary are automatically routed to the best-matching verified doctor's queue.
           </p>
         </div>
       </div>
@@ -87,41 +154,41 @@
   <!-- Key Features Section -->
   <section class="features-section">
     <div class="container">
-      <h2 class="text-center mb-8">Comprehensive Healthcare Support</h2>
+      <h2 class="text-center mb-8">Integrated Healthcare Architecture</h2>
       <div class="grid-2">
         <div class="feature-card">
           <div class="feature-icon">🚨</div>
           <div>
-            <h4 class="font-bold">Instant Emergency Override</h4>
+            <h4 class="font-bold">Instant Emergency Red-Flag Override</h4>
             <p class="text-sm text-muted mt-1">
-              Red-flag symptoms (chest pain, breathing trouble, severe bleeding) trigger instant 112/108 routing, fully functional even offline.
+              Critical symptoms (e.g. crushing chest pain, severe dyspnea) bypass questionnaire wait times, trigger direct 112/108 routing, and alert doctors even offline.
             </p>
           </div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📍</div>
           <div>
-            <h4 class="font-bold">Geolocation &amp; Interactive Map</h4>
+            <h4 class="font-bold">Geolocation &amp; Real-time Map</h4>
             <p class="text-sm text-muted mt-1">
-              Locates verified, practicing physicians around Dehradun using Haversine calculation and OpenStreetMap.
+              Locates verified, practicing physicians around Dehradun and Uttarakhand using Haversine great-circle calculation and interactive Leaflet maps.
             </p>
           </div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📋</div>
           <div>
-            <h4 class="font-bold">Doctor Case Briefing (FIFO Queue)</h4>
+            <h4 class="font-bold">Automated Clinical Dialogue Briefing</h4>
             <p class="text-sm text-muted mt-1">
-              Doctors receive concise, under-120-word clinical summaries, saving consultation time and prioritizing care.
+              Doctors receive structured triage briefs with chief complaints, progression, and complete dialogue transcripts, eliminating redundant patient questioning.
             </p>
           </div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📶</div>
           <div>
-            <h4 class="font-bold">PWA &amp; Offline IndexedDB Outbox</h4>
+            <h4 class="font-bold">Offline PWA &amp; Background Sync</h4>
             <p class="text-sm text-muted mt-1">
-              Works seamlessly without internet. Messages and consultation requests queue locally and sync automatically when online.
+              Works seamlessly without active internet connectivity. Messages and emergency requests queue locally in IndexedDB and synchronize automatically upon reconnection.
             </p>
           </div>
         </div>
@@ -129,15 +196,70 @@
     </div>
   </section>
 
-  <!-- Footer with Mandatory Medical Disclaimer -->
-  <footer class="footer">
+  <!-- Comprehensive Connected Footer -->
+  <footer class="footer-main">
     <div class="container">
-      <p>&copy; 2026 AI Health Assistant &bull; BCA (AI &amp; Data Science) Final-Year Project</p>
-      <div class="mt-2 text-xs">
-        Built with Flask, Vanilla JavaScript, SQLite, Leaflet &amp; OpenStreetMap
+      <div class="grid-4" style="gap: 2rem;">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="/assets/logo.svg" alt="Logo" width="28" height="28">
+            <strong style="color: white; font-size: 1.1rem;">AI Health Assistant</strong>
+          </div>
+          <p class="text-xs" style="color: var(--gray-400); line-height: 1.6;">
+            Next-generation clinical triage &amp; doctor consultation platform. Empowering patients with instant guidance and connecting local healthcare specialists.
+          </p>
+          <div class="mt-4 text-xs" style="color: #38bdf8;">
+            📍 Dehradun, Uttarakhand &bull; PWA Ready
+          </div>
+        </div>
+
+        <div>
+          <h5>Patient Portals</h5>
+          <ul class="footer-links">
+            <li><a href="/pages/symptom-check.html">🩺 Free Symptom Checker</a></li>
+            <li><a href="/pages/patient-dashboard.html">👤 Patient Dashboard</a></li>
+            <li><a href="/pages/consultations.html">📋 My Consultations</a></li>
+            <li><a href="/pages/doctors.html">📍 Find Nearby Doctors</a></li>
+            <li><a href="/pages/profile.html">⚙️ Health Profile &amp; History</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>Doctor &amp; Admin</h5>
+          <ul class="footer-links">
+            <li><a href="/pages/doctor-dashboard.html">👨‍⚕️ Doctor Dashboard &amp; Queue</a></li>
+            <li><a href="/pages/doctors.html">🏥 Medical Specialist Directory</a></li>
+            <li><a href="/pages/admin.html">🛡️ Admin Verification Portal</a></li>
+            <li><a href="/pages/login.html">🔐 Practitioner Sign In</a></li>
+            <li><a href="/pages/register.html">📝 Doctor Registration</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: #f87171;">🚨 Emergency Hotlines</h5>
+          <ul class="footer-links">
+            <li><a href="tel:112" style="color: #fca5a5; font-weight: 600;">📞 112 – National Emergency</a></li>
+            <li><a href="tel:108" style="color: #fca5a5; font-weight: 600;">🚑 108 – Free Ambulance Service</a></li>
+            <li><a href="tel:104" style="color: #cbd5e1;">🏥 104 – State Health Helpline</a></li>
+            <li><a href="tel:1090" style="color: #cbd5e1;">🛡️ 1090 – Women Safety Line</a></li>
+          </ul>
+          <div class="mt-3 text-xs" style="color: var(--gray-400);">
+            Available 24/7 across Uttarakhand &amp; India.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 AI Health Assistant &bull; BCA (AI &amp; Data Science) Final-Year Project.
+        </div>
+        <div>
+          Built with Flask, Vanilla JavaScript, SQLite, Leaflet &amp; OpenStreetMap
+        </div>
       </div>
     </div>
   </footer>
+
   <div class="footer-disclaimer">
     ⚠️ <strong>Medical Disclaimer:</strong> This application provides preliminary health information and guidance based on algorithmic triage. It does NOT provide a formal medical diagnosis or replace consultation with a qualified medical professional. In case of an emergency, immediately call <strong>112</strong> or <strong>108</strong>.
   </div>

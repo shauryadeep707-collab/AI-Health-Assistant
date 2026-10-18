@@ -26,6 +26,13 @@
 
   <main class="page-wrapper">
     <div class="container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Doctor Consultation Dashboard</span>
+      </div>
+
       <!-- Top Bar: Availability Toggle -->
       <div class="card mb-6 flex justify-between items-center" style="flex-wrap: wrap; gap: 1rem;">
         <div>
@@ -42,7 +49,7 @@
       </div>
 
       <!-- Stats Grid -->
-      <div class="stats-grid">
+      <div class="stats-grid mb-6">
         <div class="stat-card">
           <div id="stat-pending" class="stat-value" style="color: var(--warning);">0</div>
           <div class="stat-label">Pending Requests (FIFO)</div>
@@ -55,6 +62,19 @@
           <div id="stat-completed" class="stat-value" style="color: var(--success);">0</div>
           <div class="stat-label">Completed Consultations</div>
         </div>
+      </div>
+
+      <!-- Connected Doctor Shortcuts -->
+      <div class="flex gap-3 mb-6" style="flex-wrap: wrap;">
+        <a href="/pages/doctors.html" class="btn btn-secondary btn-sm">
+          📍 View Doctor Directory &amp; Map
+        </a>
+        <a href="/pages/profile.html" class="btn btn-secondary btn-sm">
+          ⚙️ Edit Clinic Profile &amp; Qualifications
+        </a>
+        <a href="/pages/symptom-check.html" class="btn btn-outline btn-sm">
+          🩺 Open Symptom Checker
+        </a>
       </div>
 
       <!-- Consultation Request FIFO Queue -->

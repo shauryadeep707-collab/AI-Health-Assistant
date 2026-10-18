@@ -13,8 +13,7 @@ const Doctors = {
   assessmentId: null,
 
   async init() {
-    const user = await Auth.requireAuth(['patient']);
-    if (!user) return;
+    const user = await Auth.getCurrentUser();
     Auth.setupNavbar(user);
 
     const params = new URLSearchParams(window.location.search);
@@ -198,6 +197,16 @@ const Doctors = {
   },
 
   openRequestModal(doctorId) {
+    if (!Auth.currentUser) {
+      UI.toast('Please log in as a patient to request a consultation', 'info');
+      window.location.href = `/pages/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+      return;
+    }
+    if (Auth.currentUser.role !== 'patient') {
+      UI.toast('Only registered patients can submit consultation requests to doctors.', 'warning');
+      return;
+    }
+
     this.selectedDoctor = this.doctors.find(d => d.id === doctorId);
     if (!this.selectedDoctor) return;
 
@@ -226,9 +235,15 @@ const Doctors = {
     }
 
     if (!this.assessmentId) {
-      UI.toast('Please complete a symptom check assessment first', 'warning');
-      window.location.href = '/pages/symptom-check.html';
-      return;
+      // Auto-create assessment session so consultation is immediately connected
+      const newAssRes = await API.post('/api/assessments', { client_id: UI.uuid() });
+      if (newAssRes.ok && newAssRes.data) {
+        this.assessmentId = newAssRes.data.id;
+      } else {
+        UI.toast('Please complete a symptom check assessment first', 'warning');
+        window.location.href = `/pages/symptom-check.html?doctor_id=${this.selectedDoctor.id}`;
+        return;
+      }
     }
 
     const clientId = UI.uuid();

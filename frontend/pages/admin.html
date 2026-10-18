@@ -21,6 +21,13 @@
 
   <main class="page-wrapper">
     <div class="container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Admin Control Center</span>
+      </div>
+
       <div class="card mb-6">
         <h2>Administrator Control Center</h2>
         <p class="text-sm text-muted">Review doctor licensing approvals, monitor system volume, and verify clinical profiles</p>
@@ -47,11 +54,13 @@
       </div>
 
       <!-- Tab Navigation -->
-      <div class="flex gap-2 mb-4">
+      <div class="flex gap-2 mb-4" style="flex-wrap: wrap;">
         <button id="tab-btn-patients" class="btn btn-primary btn-sm" onclick="switchTab('patients')">👥 Registered Patients</button>
         <button id="tab-btn-doctors" class="btn btn-secondary btn-sm" onclick="switchTab('doctors')">🩺 Doctor Verifications</button>
         <button id="tab-btn-all" class="btn btn-secondary btn-sm" onclick="switchTab('all')">📋 All User Accounts</button>
         <button id="tab-btn-medicines" class="btn btn-secondary btn-sm" onclick="switchTab('medicines')">💊 OTC Medicines (Supabase)</button>
+        <a href="/pages/doctors.html" class="btn btn-outline btn-sm">🗺️ Doctor Directory</a>
+        <a href="/pages/symptom-check.html" class="btn btn-outline btn-sm">🩺 Test Triage</a>
         <button class="btn btn-secondary btn-sm" style="margin-left:auto;" onclick="loadAdminData()">🔄 Refresh</button>
       </div>
 

@@ -64,46 +64,59 @@ const Auth = {
     const navLinks = document.getElementById('nav-links');
     if (!navLinks) return;
 
+    const currentPath = (window.location.pathname || '').toLowerCase();
+    const isActive = (target) => {
+      if (target === '/' || target === '/index.html') {
+        return (currentPath === '/' || currentPath.endsWith('/index.html') || currentPath === '') ? 'active' : '';
+      }
+      return currentPath.includes(target.toLowerCase()) ? 'active' : '';
+    };
+
     if (!user) {
       navLinks.innerHTML = `
-        <li><a href="/">Home</a></li>
-        <li><a href="/pages/login.html">Login</a></li>
-        <li><a href="/pages/register.html" class="btn btn-primary btn-sm" style="color: white;">Get Started</a></li>
+        <li><a href="/" class="${isActive('/')}">Home</a></li>
+        <li><a href="/pages/symptom-check.html" class="${isActive('symptom-check')}">Symptom Checker</a></li>
+        <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
+        <li><a href="/pages/login.html" class="${isActive('login')}">Login</a></li>
+        <li><a href="/pages/register.html" class="btn btn-primary btn-sm ${isActive('register')}" style="color: white;">Get Started</a></li>
       `;
       return;
     }
 
     if (user.role === 'patient') {
       navLinks.innerHTML = `
-        <li><a href="/pages/patient-dashboard.html">Dashboard</a></li>
-        <li><a href="/pages/symptom-check.html" class="btn btn-primary btn-sm" style="color: white;">Check Symptoms</a></li>
-        <li><a href="/pages/doctors.html">Find Doctors</a></li>
-        <li><a href="/pages/consultations.html">My Consultations</a></li>
-        <li><a href="/pages/profile.html">Profile</a></li>
+        <li><a href="/pages/patient-dashboard.html" class="${isActive('patient-dashboard')}">Dashboard</a></li>
+        <li><a href="/pages/symptom-check.html" class="btn btn-primary btn-sm ${isActive('symptom-check')}" style="color: white;">🩺 Check Symptoms</a></li>
+        <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Find Doctors</a></li>
+        <li><a href="/pages/consultations.html" class="${isActive('consultations')}">My Consultations</a></li>
+        <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile</a></li>
         <li>
-          <button id="notification-btn" class="notification-bell" onclick="Notifications.toggleDropdown()">
+          <button id="notification-btn" class="notification-bell" onclick="Notifications.toggleDropdown()" title="Notifications">
             🔔<span id="unread-count" class="notification-badge" data-count="0"></span>
           </button>
           <div id="notification-dropdown" class="notification-dropdown"></div>
         </li>
-        <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Logout (${UI.escapeHtml(user.name)})</button></li>
+        <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm" title="Log out">Logout (${UI.escapeHtml(user.name)})</button></li>
       `;
     } else if (user.role === 'doctor') {
       navLinks.innerHTML = `
-        <li><a href="/pages/doctor-dashboard.html">Doctor Dashboard</a></li>
-        <li><a href="/pages/profile.html">Profile & Availability</a></li>
+        <li><a href="/pages/doctor-dashboard.html" class="${isActive('doctor-dashboard') || isActive('doctor-consultation')}">Doctor Dashboard</a></li>
+        <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Doctor Directory</a></li>
+        <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile &amp; Availability</a></li>
         <li>
-          <button id="notification-btn" class="notification-bell" onclick="Notifications.toggleDropdown()">
+          <button id="notification-btn" class="notification-bell" onclick="Notifications.toggleDropdown()" title="Notifications">
             🔔<span id="unread-count" class="notification-badge" data-count="0"></span>
           </button>
           <div id="notification-dropdown" class="notification-dropdown"></div>
         </li>
-        <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Logout (Dr. ${UI.escapeHtml(user.name)})</button></li>
+        <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm" title="Log out">Logout (Dr. ${UI.escapeHtml(user.name)})</button></li>
       `;
     } else if (user.role === 'admin') {
       navLinks.innerHTML = `
-        <li><a href="/pages/admin.html">Admin Portal</a></li>
-        <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Logout (${UI.escapeHtml(user.name)})</button></li>
+        <li><a href="/pages/admin.html" class="${isActive('admin')}">Admin Portal</a></li>
+        <li><a href="/pages/doctors.html" class="${isActive('doctors')}">Doctor Registry</a></li>
+        <li><a href="/pages/profile.html" class="${isActive('profile')}">Profile</a></li>
+        <li><button onclick="Auth.logout()" class="btn btn-secondary btn-sm" title="Log out">Logout (${UI.escapeHtml(user.name)})</button></li>
       `;
     }
 

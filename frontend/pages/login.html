@@ -28,6 +28,13 @@
 
   <main class="page-wrapper flex items-center justify-between" style="justify-content: center;">
     <div class="container" style="max-width: 440px;">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs" style="justify-content: center;">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Sign In</span>
+      </div>
+
       <div class="card">
         <h2 class="text-center mb-2">Welcome Back</h2>
         <p class="text-center text-sm text-muted mb-6">Log in to access your health consultations and assessments</p>
@@ -64,6 +71,11 @@
   <script src="/js/auth.js"></script>
   <script src="/js/notifications.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.getCurrentUser();
+      Auth.setupNavbar(user);
+    });
+
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value.trim();

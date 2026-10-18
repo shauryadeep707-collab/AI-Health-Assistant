@@ -26,6 +26,13 @@
 
   <main class="page-wrapper">
     <div class="container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Patient Dashboard</span>
+      </div>
+
       <!-- Welcome Header -->
       <div class="card mb-6 flex justify-between items-center" style="flex-wrap: wrap; gap: 1rem;">
         <div>
@@ -40,6 +47,46 @@
             👨‍⚕️ Find Doctors
           </a>
         </div>
+      </div>
+
+      <!-- Connected Quick Action Shortcuts -->
+      <div class="grid-4 mb-6" style="gap: 1rem;">
+        <a href="/pages/symptom-check.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">🩺</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Check Symptoms</strong>
+              <div class="text-xs text-muted">AI conversational triage</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/doctors.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">👨‍⚕️</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Find Doctors</strong>
+              <div class="text-xs text-muted">Locate nearby on map</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/consultations.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">📋</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">My Consultations</strong>
+              <div class="text-xs text-muted">Track advice &amp; cases</div>
+            </div>
+          </div>
+        </a>
+        <a href="/pages/profile.html" class="portal-card" style="padding: 1rem;">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 1.5rem;">⚙️</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--gray-900);">Health Profile</strong>
+              <div class="text-xs text-muted">History &amp; allergies</div>
+            </div>
+          </div>
+        </a>
       </div>
 
       <!-- Past Assessments & Consultations Grid -->

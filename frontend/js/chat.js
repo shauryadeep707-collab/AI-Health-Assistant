@@ -32,13 +32,49 @@ const Chat = {
     const res = await API.post('/api/assessments', { client_id: clientId });
     if (res.ok && res.data) {
       this.assessmentId = res.data.id;
+      // Get initial symptom param if any
+      const params = new URLSearchParams(window.location.search);
+      const symptom = params.get('symptom');
+
       // Replace URL without reload
       window.history.replaceState({}, '', `/pages/symptom-check.html?id=${this.assessmentId}`);
-      // Show greeting
-      this.appendAIMessage(
-        "Hello! I am your AI Health Assistant. Please describe your symptoms in normal words (e.g. 'I have a mild fever and runny nose since yesterday').",
-        ['I have a mild fever', 'I have a sore throat & cough', 'I have a headache', 'I have a stomach ache']
-      );
+      
+      const symptomPrompts = {
+        fever: {
+          msg: "Hello! I am your AI Health Assistant. You selected Fever & Chills. How long have you had this fever, and what is your measured body temperature?",
+          chips: ['Fever started today', 'Fever for 2-3 days', 'Temperature is above 101°F', 'Mild fever with chills']
+        },
+        cough: {
+          msg: "Hello! I am your AI Health Assistant. You selected Cough & Cold. Is it a dry cough or with phlegm/mucus, and do you have any chest congestion?",
+          chips: ['Dry cough for 2 days', 'Wet cough with mucus', 'Cough with throat pain', 'Mild cough and runny nose']
+        },
+        headache: {
+          msg: "Hello! I am your AI Health Assistant. You selected Headache & Migraine. Where is the headache located (forehead, one side, back of head) and how severe is it?",
+          chips: ['Mild throbbing headache', 'One-sided severe headache', 'Forehead sinus pressure', 'Headache with dizziness']
+        },
+        stomach: {
+          msg: "Hello! I am your AI Health Assistant. You selected Stomach Pain. What kind of pain is it (sharp cramps, dull ache, burning acidity), and do you have nausea or vomiting?",
+          chips: ['Burning acidity / gastric pain', 'Cramps after eating', 'Stomach ache with nausea', 'Mild abdominal discomfort']
+        },
+        sore_throat: {
+          msg: "Hello! I am your AI Health Assistant. You selected Sore Throat. Is it painful to swallow, and do you also have a fever or swollen glands?",
+          chips: ['Painful to swallow', 'Scratchy throat with cold', 'Throat irritation for 2 days', 'Mild soreness']
+        },
+        skin: {
+          msg: "Hello! I am your AI Health Assistant. You selected Skin Rash. Where is the rash located, is it itchy or burning, and when did it first appear?",
+          chips: ['Red itchy rash on arms/legs', 'Mild rash started today', 'Rash with slight burning', 'Dry scaling skin patch']
+        }
+      };
+
+      if (symptom && symptomPrompts[symptom]) {
+        const item = symptomPrompts[symptom];
+        this.appendAIMessage(item.msg, item.chips);
+      } else {
+        this.appendAIMessage(
+          "Hello! I am your AI Health Assistant. Please describe your symptoms in normal words (e.g. 'I have a mild fever and runny nose since yesterday').",
+          ['I have a mild fever', 'I have a sore throat & cough', 'I have a headache', 'I have a stomach ache']
+        );
+      }
     } else {
       UI.toast('Failed to initialize symptom assessment session', 'error');
     }

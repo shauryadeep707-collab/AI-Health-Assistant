@@ -54,16 +54,32 @@ const Consultations = {
     if (!container) return;
 
     if (this.consultations.length === 0) {
-      UI.showEmpty(container, '👨‍⚕️', 'No consultation requests found', 'When your risk assessment is Medium, you can request a consultation with a local doctor.');
+      container.innerHTML = `
+        <div class="empty-state card text-center p-8">
+          <div class="empty-state-icon" style="font-size: 3rem; margin-bottom: 0.5rem;">👨‍⚕️</div>
+          <div class="empty-state-text" style="font-size: 1.2rem; font-weight: 700; color: var(--gray-800);">No Consultations Found</div>
+          <p class="text-sm text-muted mt-1" style="max-width: 450px; margin: 0 auto;">
+            When you complete a symptom checkup, your case is automatically routed here. You can also directly consult any verified specialist.
+          </p>
+          <div class="flex gap-3 justify-center mt-5" style="flex-wrap: wrap;">
+            <a href="/pages/symptom-check.html" class="btn btn-primary btn-sm">
+              🩺 Start Free Symptom Check
+            </a>
+            <a href="/pages/doctors.html" class="btn btn-secondary btn-sm">
+              👨‍⚕️ Find Nearby Specialists
+            </a>
+          </div>
+        </div>
+      `;
       return;
     }
 
     container.innerHTML = this.consultations.map(c => `
-      <div class="card mb-4">
+      <div class="card mb-4" style="border-left: 4px solid ${c.status === 'completed' ? 'var(--success)' : (c.status === 'pending' ? 'var(--warning)' : 'var(--primary)')};">
         <div class="card-header">
           <div>
             <h4 class="card-title">${UI.escapeHtml(c.doctor_name || 'Doctor')}</h4>
-            <span class="text-sm text-primary">${UI.escapeHtml(c.specialization || 'General Physician')} &bull; ${UI.escapeHtml(c.clinic_name || '')}</span>
+            <span class="text-sm text-primary font-semibold">${UI.escapeHtml(c.specialization || 'General Physician')} &bull; ${UI.escapeHtml(c.clinic_name || 'Clinic')}</span>
           </div>
           <div>
             ${UI.statusBadge(c.status)}
@@ -77,21 +93,24 @@ const Consultations = {
         ${c.doctor_advice ? `
           <div class="p-4 mt-3" style="background: var(--risk-low-bg); border-left: 4px solid var(--success); border-radius: 8px;">
             <strong style="color: var(--success); font-size: 0.95rem;">👨‍⚕️ Doctor's Professional Advice:</strong>
-            <p style="margin-top: 0.5rem; color: var(--gray-800); white-space: pre-wrap;">${UI.escapeHtml(c.doctor_advice)}</p>
+            <p style="margin-top: 0.5rem; color: var(--gray-800); white-space: pre-wrap; line-height: 1.6;">${UI.escapeHtml(c.doctor_advice)}</p>
           </div>
         ` : (c.status === 'pending' ? `
           <div class="p-3 mt-2" style="background: var(--risk-medium-bg); border-radius: 8px; font-size: 0.875rem; color: #92400e;">
-            ⏳ Your request is in the doctor's queue. You will receive an in-app notification when the doctor responds.
+            ⏳ Your request is currently in the doctor's priority queue. You will receive an instant notification when the doctor reviews your case.
           </div>
         ` : (c.status === 'declined' ? `
           <div class="p-3 mt-2" style="background: var(--risk-urgent-bg); border-radius: 8px; font-size: 0.875rem; color: var(--error);">
-            ❌ Doctor was unavailable. Please select another nearby doctor.
+            ❌ Doctor was off-duty or unavailable. Please consult another nearby specialist below.
           </div>
         ` : ''))}
 
-        <div class="mt-4 flex gap-2">
+        <div class="mt-4 flex gap-2" style="flex-wrap: wrap;">
           <a href="/pages/result.html?id=${c.assessment_id}" class="btn btn-secondary btn-sm">
-            View AI Assessment
+            View AI Triage Assessment &rarr;
+          </a>
+          <a href="/pages/doctors.html" class="btn btn-outline btn-sm">
+            Find More Doctors
           </a>
         </div>
       </div>
