@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Facial Health & Skincare Studio – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Offline status banner -->
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Data is saved locally and will sync when internet connection resumes.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="HealthAI Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()" aria-label="Toggle Navigation">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <a href="/pages/patient-dashboard.html">Dashboard</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">AI Facial Health &amp; Skincare Studio</span>
+      </div>
+
+      <!-- Hero Section with Ambient Gradient & Animation -->
+      <section class="hero-gradient-studio">
+        <div class="flex justify-between items-center flex-wrap gap-4" style="position: relative; z-index: 2;">
+          <div>
+            <div class="flex gap-2 mb-3">
+              <span class="trust-badge" style="background: rgba(255,255,255,0.18); color: white; border: none;">
+                ✨ AI Facial Triage
+              </span>
+              <span class="trust-badge" style="background: rgba(255,255,255,0.18); color: white; border: none;">
+                🔬 Deficiency Detection
+              </span>
+              <span class="trust-badge" style="background: rgba(255,255,255,0.18); color: white; border: none;">
+                🛒 Direct 1-Click Buy
+              </span>
+            </div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2;">
+              AI Facial Health &amp; Skincare Studio
+            </h1>
+            <p style="font-size: 1.05rem; opacity: 0.9; max-width: 680px; margin: 0; line-height: 1.5;">
+              Identify underlying vitamin deficiencies, discover targeted clinical serums, schedule blood tests, and get direct 1-click buy links from licensed Indian pharmacies.
+            </p>
+          </div>
+          <div class="anim-float text-center" style="font-size: 3.5rem;">
+            ✨💆‍♀️
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 1: Interactive Skin Concern Selector -->
+      <div class="card mb-6">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title" style="font-size: 1.15rem;">1. Select Your Facial Concerns</h3>
+            <p class="text-xs text-muted mt-1">Tap one or more concerns below to prime your AI clinical evaluation:</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="FacialStudio.resetSelections()">
+            Reset
+          </button>
+        </div>
+
+        <div class="flex gap-2 flex-wrap mb-4">
+          <button type="button" class="skin-chip-btn" data-concern="acne breakouts and oily skin" onclick="FacialStudio.toggleChip(this)">
+            ⚡ Acne &amp; Breakouts
+          </button>
+          <button type="button" class="skin-chip-btn" data-concern="dark spots melasma and acne marks" onclick="FacialStudio.toggleChip(this)">
+            🌑 Dark Spots &amp; Melasma
+          </button>
+          <button type="button" class="skin-chip-btn" data-concern="dull skin and lack of natural glow" onclick="FacialStudio.toggleChip(this)">
+            🌫️ Dullness &amp; Loss of Glow
+          </button>
+          <button type="button" class="skin-chip-btn" data-concern="dark circles and under eye puffiness" onclick="FacialStudio.toggleChip(this)">
+            🐼 Dark Circles &amp; Puffiness
+          </button>
+          <button type="button" class="skin-chip-btn" data-concern="damaged skin barrier peeling and redness" onclick="FacialStudio.toggleChip(this)">
+            🩹 Damaged Barrier &amp; Peeling
+          </button>
+          <button type="button" class="skin-chip-btn" data-concern="dry and dehydrated tight skin" onclick="FacialStudio.toggleChip(this)">
+            💧 Dryness &amp; Dehydration
+          </button>
+        </div>
+
+        <!-- Custom description text input with AI autocomplete -->
+        <div style="position: relative;">
+          <label for="facial-custom-input" class="text-xs font-semibold text-muted uppercase tracking-wider mb-2 block">
+            Or describe your face / skin symptoms in your own words:
+          </label>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="facial-custom-input" 
+              class="form-control" 
+              placeholder="e.g. 'I have acne on my cheeks, dark spots on forehead, and my skin feels dull'..."
+              autocomplete="off"
+            >
+            <button 
+              id="scan-analyze-btn" 
+              class="btn btn-primary" 
+              style="padding: 0 1.5rem; white-space: nowrap; font-weight: 700;"
+              onclick="FacialStudio.runScan()"
+            >
+              ✨ Run AI Facial Scan
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Animated Scanning Radar Container (Hidden by default) -->
+      <div id="scanning-indicator" class="card mb-6" style="display: none;">
+        <div class="scanner-container">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+            <div class="radar-circle">
+              <div class="radar-sweep-hand"></div>
+              <span style="font-size: 1.8rem;">🔬</span>
+            </div>
+            <div>
+              <strong style="font-size: 1.1rem; color: #0f172a;">AI Clinical Analysis in Progress...</strong>
+              <div id="scan-step-text" class="text-xs text-muted mt-1">Analyzing symptoms &amp; sebum profile...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Section (Populated dynamically) -->
+      <div id="facial-results-container" style="display: none;">
+        <!-- Injected Result Cards -->
+      </div>
+
+      <!-- Local Database Storage Assurance Banner -->
+      <div class="card mt-6" style="background: #f8fafc; border-left: 4px solid var(--primary);">
+        <div class="flex justify-between items-center flex-wrap gap-2">
+          <div class="text-xs text-muted">
+            💾 <strong>Local System Storage:</strong> All 77 medicines, facial serums &amp; diagnostic test records run directly from your laptop's local SQLite database (0 MB consumed on Supabase / Cloud SQL).
+          </div>
+          <a href="/pages/self-care.html" class="text-xs text-primary font-semibold">
+            Browse All 77 Healthcare Products &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Disclaimer -->
+  <footer class="footer-disclaimer">
+    ⚠️ <strong>Medical Disclaimer:</strong> This AI Facial Analysis provides cosmetic &amp; nutritional self-care recommendations. It is not a replacement for a clinical in-person dermatology examination. For persistent cystic acne, unexplained suspicious lesions, or acute rashes, consult a licensed dermatologist.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+  <script src="/js/autocomplete.js"></script>
+
+  <!-- Facial Studio Controller -->
+  <script>
+    const FacialStudio = {
+      selectedChips: new Set(),
+
+      init() {
+        Auth.requireAuth().then(user => {
+          if (user) Auth.setupNavbar(user);
+        });
+
+        const input = document.getElementById('facial-custom-input');
+        if (input && window.AIAutocomplete) {
+          AIAutocomplete.attach(input, {
+            onSelect: (val) => {
+              this.runScan();
+            }
+          });
+        }
+
+        // Check if query param exists
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('q') || params.get('concern');
+        if (q) {
+          input.value = q;
+          this.runScan();
+        }
+      },
+
+      toggleChip(btn) {
+        const concern = btn.getAttribute('data-concern');
+        if (this.selectedChips.has(concern)) {
+          this.selectedChips.delete(concern);
+          btn.classList.remove('active');
+        } else {
+          this.selectedChips.add(concern);
+          btn.classList.add('active');
+        }
+      },
+
+      resetSelections() {
+        this.selectedChips.clear();
+        document.querySelectorAll('.skin-chip-btn').forEach(btn => btn.classList.remove('active'));
+        const input = document.getElementById('facial-custom-input');
+        if (input) input.value = '';
+        document.getElementById('facial-results-container').style.display = 'none';
+      },
+
+      async runScan() {
+        const input = document.getElementById('facial-custom-input');
+        const customText = input ? input.value.trim() : '';
+
+        const allConcerns = Array.from(this.selectedChips);
+        if (customText) allConcerns.push(customText);
+
+        const query = allConcerns.join(', ').trim();
+        if (!query) {
+          UI.toast('Please select at least one concern or type your symptoms', 'warning');
+          return;
+        }
+
+        // Show scanner animation
+        const scanner = document.getElementById('scanning-indicator');
+        const resultsBox = document.getElementById('facial-results-container');
+        const stepText = document.getElementById('scan-step-text');
+
+        scanner.style.display = 'block';
+        resultsBox.style.display = 'none';
+
+        // Animate progression steps
+        setTimeout(() => {
+          if (stepText) stepText.textContent = 'Evaluating underlying nutritional deficiencies (Vitamin D3, B12, Zinc)...';
+        }, 500);
+
+        setTimeout(() => {
+          if (stepText) stepText.textContent = 'Formulating targeted active serums & daily routine...';
+        }, 1000);
+
+        // Call backend API
+        const res = await API.get(`/api/facial/checkup?concerns=${encodeURIComponent(query)}`);
+
+        setTimeout(() => {
+          scanner.style.display = 'none';
+          if (res.ok) {
+            this.renderResults(res);
+          } else {
+            UI.toast(res.error || 'Failed to complete facial analysis', 'error');
+          }
+        }, 1400);
+      },
+
+      renderResults(data) {
+        const container = document.getElementById('facial-results-container');
+        if (!container) return;
+
+        const deficiencies = data.deficiencies || [];
+        const labTests = data.recommended_lab_tests || [];
+        const serums = data.recommended_serums || [];
+        const amRoutine = (data.daily_skincare_routine && data.daily_skincare_routine.morning_am) || [];
+        const pmRoutine = (data.daily_skincare_routine && data.daily_skincare_routine.evening_pm) || [];
+
+        container.innerHTML = `
+          <div class="anim-fade-in">
+            <!-- Header Summary Card -->
+            <div class="card mb-6" style="border-left: 4px solid #10b981; background: #ffffff;">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <div>
+                  <span class="badge" style="background: #ecfdf5; color: #059669; font-weight: 700; margin-bottom: 4px;">
+                    ✓ AI Facial Diagnostic Assessment Complete
+                  </span>
+                  <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 4px 0;">
+                    Your Personalized Skin Health &amp; Deficiency Blueprint
+                  </h3>
+                  <div class="flex gap-2 flex-wrap mt-2">
+                    ${(data.concerns || []).map(c => `
+                      <span class="hp-tag" style="background: #e0f2fe; color: #0369a1; font-weight: 600;">
+                        🏷️ ${UI.escapeHtml(c.replace('_', ' ').toUpperCase())}
+                      </span>
+                    `).join('')}
+                  </div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="window.print()">
+                  🖨️ Print / Save Routine
+                </button>
+              </div>
+            </div>
+
+            <!-- Two-Column Grid: Deficiencies & Blood Tests -->
+            <div class="grid-2 mb-6">
+              <!-- Deficiencies Identified -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title" style="font-size: 1.05rem;">🔬 Underlying Nutrient Deficiencies</h3>
+                  <span class="badge" style="background: #fffbeb; color: #b45309; font-weight: 700;">Biochemical Root Cause</span>
+                </div>
+                <p class="text-xs text-muted mb-3">Skin conditions often reflect systemic micro-nutrient gaps. The following deficiencies were flagged:</p>
+                <div class="flex flex-col gap-3">
+                  ${deficiencies.map(def => `
+                    <div class="p-3" style="background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                      <div class="flex justify-between items-center">
+                        <strong style="color: #0f172a; font-size: 0.95rem;">${UI.escapeHtml(def.deficiency)}</strong>
+                        <span class="badge badge-warning" style="font-size: 0.72rem;">Impact: ${UI.escapeHtml(def.impact_on_skin)}</span>
+                      </div>
+                      <div class="text-xs text-muted mt-1">
+                        <strong>Clinical Correction:</strong> ${UI.escapeHtml(def.diet_and_supplement)}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Recommended Diagnostic Blood Tests -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title" style="font-size: 1.05rem;">🧪 Recommended Blood Tests</h3>
+                  <span class="badge" style="background: #f0fdf4; color: #15803d; font-weight: 700;">Home Sample Collection</span>
+                </div>
+                <p class="text-xs text-muted mb-3">Confirm your biochemical levels with certified diagnostic pathology testing:</p>
+                <div class="flex flex-col gap-3">
+                  ${labTests.map(test => {
+                    const buy = test.buy_links || {};
+                    return `
+                      <div class="p-3" style="background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <div class="flex justify-between items-center">
+                          <strong style="color: #0f172a; font-size: 0.92rem;">${UI.escapeHtml(test.name)}</strong>
+                          <span style="font-weight: 700; color: #0284c7; font-size: 0.85rem;">${UI.escapeHtml(test.price_estimate || '₹499')}</span>
+                        </div>
+                        <div class="text-xs text-muted mt-1 mb-2">
+                          ${UI.escapeHtml(test.dosage_guide || test.description || 'Fasting blood draw for serum deficiency.')}
+                        </div>
+                        <div class="flex gap-2">
+                          <a href="${buy.tata_1mg || 'https://www.1mg.com/labs'}" target="_blank" rel="noopener" class="btn btn-primary btn-sm flex-1 text-center" style="font-size: 0.75rem; padding: 5px 8px;">
+                            🛒 Book on Tata 1mg Labs
+                          </a>
+                          <a href="${buy.apollo || 'https://www.apollopharmacy.in'}" target="_blank" rel="noopener" class="btn btn-outline btn-sm flex-1 text-center" style="font-size: 0.75rem; padding: 5px 8px;">
+                            Apollo 24/7 Home Draw
+                          </a>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Daily AM / PM Regimen Card -->
+            <div class="card mb-6" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
+              <div class="card-header">
+                <h3 class="card-title" style="font-size: 1.1rem;">🗓️ Daily AM &amp; PM Skincare Application Protocol</h3>
+                <span class="badge" style="background: #e0f2fe; color: #0369a1; font-weight: 700;">Daily Routine</span>
+              </div>
+              <div class="grid-2">
+                <!-- AM Routine -->
+                <div class="p-3" style="background: #fffdf5; border-radius: 10px; border: 1px solid #fef3c7;">
+                  <h4 style="margin: 0 0 8px; color: #b45309; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                    ☀️ Morning Routine (AM)
+                  </h4>
+                  <ol style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: #334155; line-height: 1.6;">
+                    ${amRoutine.map(step => `<li>${UI.escapeHtml(step)}</li>`).join('')}
+                  </ol>
+                </div>
+
+                <!-- PM Routine -->
+                <div class="p-3" style="background: #f5f3ff; border-radius: 10px; border: 1px solid #ddd6fe;">
+                  <h4 style="margin: 0 0 8px; color: #6d28d9; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                    🌙 Evening Routine (PM)
+                  </h4>
+                  <ol style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: #334155; line-height: 1.6;">
+                    ${pmRoutine.map(step => `<li>${UI.escapeHtml(step)}</li>`).join('')}
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recommended Serums & Formulations Grid -->
+            <div class="card mb-6">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title" style="font-size: 1.15rem;">💧 Recommended Active Serums &amp; Direct Buy Links</h3>
+                  <p class="text-xs text-muted mt-1">Purchase clinically formulated active serums directly online from verified pharmacy partners:</p>
+                </div>
+                <span class="badge" style="background: #ecfeff; color: #0891b2; font-weight: 700;">100% Genuine Brands</span>
+              </div>
+
+              <div class="grid-3" style="gap: 1.25rem;">
+                ${serums.map(serum => {
+                  const buy = serum.buy_links || {};
+                  return `
+                    <div class="interactive-card flex flex-col justify-between">
+                      <div>
+                        <div class="flex justify-between items-center mb-2">
+                          <span class="badge" style="background: #e0f2fe; color: #0369a1; font-weight: 700;">${UI.escapeHtml(serum.category || 'Serum')}</span>
+                          <span style="font-weight: 800; color: #059669; font-size: 0.95rem;">${UI.escapeHtml(serum.price_estimate || '₹350')}</span>
+                        </div>
+                        <h4 style="margin: 0 0 4px; font-size: 1rem; font-weight: 700; color: #0f172a;">${UI.escapeHtml(serum.name)}</h4>
+                        <div class="text-xs font-semibold text-primary mb-2">${UI.escapeHtml(serum.active_ingredients || '')}</div>
+                        <p class="text-xs text-muted mb-3" style="line-height: 1.5;">
+                          ${UI.escapeHtml(serum.description || '')}
+                        </p>
+                        ${serum.side_effects && serum.side_effects.common ? `
+                          <div class="text-xs mb-3" style="color: #d97706; background: #fffbeb; padding: 4px 8px; border-radius: 6px;">
+                            ⚠️ Note: ${UI.escapeHtml(serum.side_effects.common.slice(0, 2).join(', '))}
+                          </div>
+                        ` : ''}
+                      </div>
+
+                      <div class="flex flex-col gap-2 mt-2">
+                        <a href="${buy.tata_1mg || 'https://www.1mg.com'}" target="_blank" rel="noopener" class="btn btn-primary btn-sm w-full text-center" style="font-size: 0.78rem;">
+                          🛒 Buy on Tata 1mg
+                        </a>
+                        <div class="flex gap-2">
+                          <a href="${buy.apollo || 'https://www.apollopharmacy.in'}" target="_blank" rel="noopener" class="btn btn-outline btn-sm flex-1 text-center" style="font-size: 0.72rem; padding: 4px 6px;">
+                            Apollo
+                          </a>
+                          <a href="${buy.netmeds || 'https://www.netmeds.com'}" target="_blank" rel="noopener" class="btn btn-outline btn-sm flex-1 text-center" style="font-size: 0.72rem; padding: 4px 6px;">
+                            Netmeds
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.style.display = 'block';
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      FacialStudio.init();
+    });
+  </script>
+</body>
+</html>

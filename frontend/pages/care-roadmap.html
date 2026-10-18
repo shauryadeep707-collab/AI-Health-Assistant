@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalized Care Roadmap & Recovery – AI Health Assistant</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Offline status banner -->
+  <div id="offline-banner" class="offline-banner">
+    ⚠️ You are offline. Data is saved locally and will sync when internet connection resumes.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="/assets/logo.svg" alt="HealthAI Logo" width="30" height="30">
+        <span>AI Health Assistant</span>
+      </a>
+      <button class="menu-toggle" onclick="UI.toggleMenu()" aria-label="Toggle Navigation">☰</button>
+      <ul id="nav-links" class="navbar-nav"></ul>
+    </div>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="separator">&rsaquo;</span>
+        <a href="/pages/patient-dashboard.html">Dashboard</a>
+        <span class="separator">&rsaquo;</span>
+        <span class="current">Personalized Care Roadmap</span>
+      </div>
+
+      <!-- Top Interactive Readiness & Progress Header -->
+      <div class="card mb-6" style="background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%); border: 1px solid #ccfbf1;">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div style="flex: 1; min-width: 260px;">
+            <div class="flex gap-2 items-center mb-2">
+              <span class="badge" style="background: #0891b2; color: white; font-weight: 700;">
+                🗺️ Active Recovery Protocol
+              </span>
+              <span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 700;">
+                Personalized AI Care Plan
+              </span>
+            </div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">
+              Your Health &amp; Recovery Roadmap
+            </h2>
+            <p class="text-sm text-muted" style="margin: 0 0 1rem; line-height: 1.5;">
+              Follow your clinical step-by-step milestones. Tap the checkmark on each card as you complete your daily doses, tests, and care routines to dynamically boost your Health Score!
+            </p>
+
+            <!-- Overall Progress Bar with Dynamic Counter -->
+            <div>
+              <div class="flex justify-between items-center text-xs font-semibold mb-1">
+                <span style="color: #334155;">Recovery Completion:</span>
+                <span id="roadmap-pct-text" style="color: #0891b2; font-weight: 800; font-size: 0.95rem;">50% (4 / 8 Steps)</span>
+              </div>
+              <div style="height: 12px; background: #e2e8f0; border-radius: 9999px; overflow: hidden;">
+                <div id="roadmap-progress-fill" style="height: 100%; width: 50%; background: linear-gradient(90deg, #10b981, #0891b2); border-radius: 9999px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Circular SVG Animated Health Readiness Gauge -->
+          <div class="health-score-circle-container">
+            <svg class="health-score-svg" viewBox="0 0 36 36">
+              <defs>
+                <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#10b981" />
+                  <stop offset="100%" stop-color="#0891b2" />
+                </linearGradient>
+              </defs>
+              <path class="health-score-circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <path id="score-circle-bar" class="health-score-circle-val" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <div class="health-score-text">
+              <div id="score-counter-num" class="health-score-number">78%</div>
+              <div class="health-score-label">Health Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout: Steps List + Side Actions -->
+      <div class="grid-3" style="grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+        <!-- Left: Interactive Milestone Cards -->
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 0;">
+              Clinical Care Milestones
+            </h3>
+            <span class="text-xs text-muted">Tap circle to mark complete</span>
+          </div>
+
+          <div id="roadmap-steps-list">
+            <!-- Step 1 -->
+            <div class="roadmap-step-card completed" id="step-card-1">
+              <button class="step-check-btn checked" onclick="CareRoadmap.toggleStep(1)" title="Toggle Step 1">
+                ✓
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #0f172a; font-size: 0.95rem;">1. AI Conversational Symptom Checkup</strong>
+                  <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 0.72rem;">Done</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0 0 6px;">
+                  Initial symptoms and facial skin concerns triaged with clinical AI and recorded.
+                </p>
+                <a href="/pages/symptom-check.html" class="text-xs text-primary font-semibold">Review Triage &rarr;</a>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="roadmap-step-card completed" id="step-card-2">
+              <button class="step-check-btn checked" onclick="CareRoadmap.toggleStep(2)" title="Toggle Step 2">
+                ✓
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #0f172a; font-size: 0.95rem;">2. Emergency &amp; Red-Flag Rule Out</strong>
+                  <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 0.72rem;">Cleared</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0;">
+                  Screened negative for chest tightness, radiating pain, shortness of breath, and neurological red flags.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="roadmap-step-card completed" id="step-card-3">
+              <button class="step-check-btn checked" onclick="CareRoadmap.toggleStep(3)" title="Toggle Step 3">
+                ✓
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #0f172a; font-size: 0.95rem;">3. Supportive OTC Relief &amp; Hydration Protocol</strong>
+                  <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 0.72rem;">Active</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0 0 6px;">
+                  Taking Paracetamol 500mg SOS, ORS electrolytes, and maintaining 2.5L daily water intake.
+                </p>
+                <a href="/pages/self-care.html" class="text-xs text-primary font-semibold">Inspect Side Effects &amp; Dosage &rarr;</a>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="roadmap-step-card completed" id="step-card-4">
+              <button class="step-check-btn checked" onclick="CareRoadmap.toggleStep(4)" title="Toggle Step 4">
+                ✓
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #0f172a; font-size: 0.95rem;">4. Facial Skincare &amp; Active Serums Routine</strong>
+                  <span class="badge" style="background: #ecfeff; color: #0891b2; font-size: 0.72rem;">Morning + Night</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0 0 6px;">
+                  10% Niacinamide + Zinc applied for acne marks, Broad Spectrum SPF 50 daily, Ceramide barrier cream.
+                </p>
+                <a href="/pages/facial-care.html" class="text-xs text-primary font-semibold">Open Facial Studio &rarr;</a>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="roadmap-step-card active" id="step-card-5">
+              <button class="step-check-btn" onclick="CareRoadmap.toggleStep(5)" title="Toggle Step 5">
+                5
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #0891b2; font-size: 0.95rem;">5. Diagnostic Deficiency Blood Test (D3, B12, Zinc)</strong>
+                  <span class="badge" style="background: #fef3c7; color: #b45309; font-size: 0.72rem;">Ready to Book</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0 0 6px;">
+                  Schedule home sample collection to confirm exact biochemical vitamin and mineral levels.
+                </p>
+                <a href="https://www.1mg.com/labs" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 4px 10px;">
+                  Book Apollo / 1mg Home Draw &rarr;
+                </a>
+              </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="roadmap-step-card" id="step-card-6">
+              <button class="step-check-btn" onclick="CareRoadmap.toggleStep(6)" title="Toggle Step 6">
+                6
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #334155; font-size: 0.95rem;">6. Lab Report Analysis &amp; AI Dosage Calibration</strong>
+                  <span class="badge" style="background: #f1f5f9; color: #64748b; font-size: 0.72rem;">Pending Lab</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0;">
+                  Upload report PDF once received to automatically calibrate Vitamin D3 and Zinc supplementation.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="roadmap-step-card" id="step-card-7">
+              <button class="step-check-btn" onclick="CareRoadmap.toggleStep(7)" title="Toggle Step 7">
+                7
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #334155; font-size: 0.95rem;">7. Specialist Doctor Consultation Review</strong>
+                  <span class="badge" style="background: #f1f5f9; color: #64748b; font-size: 0.72rem;">Upcoming</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0 0 6px;">
+                  Consultation with verified local specialist (Dr. Rajesh Sharma / Dr. Priya Verma) for final prescription validation.
+                </p>
+                <a href="/pages/doctors.html" class="text-xs text-primary font-semibold">Find Nearby Doctors &rarr;</a>
+              </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div class="roadmap-step-card" id="step-card-8">
+              <button class="step-check-btn" onclick="CareRoadmap.toggleStep(8)" title="Toggle Step 8">
+                8
+              </button>
+              <div style="flex: 1;">
+                <div class="flex justify-between items-center mb-1">
+                  <strong style="color: #334155; font-size: 0.95rem;">8. Complete 14-Day Recovery Cycle &amp; Vitality Check</strong>
+                  <span class="badge" style="background: #f1f5f9; color: #64748b; font-size: 0.72rem;">Final Goal</span>
+                </div>
+                <p class="text-xs text-muted" style="margin: 0;">
+                  Symptom-free baseline, clear skin barrier, verified vitamin balance, and 100% Health Readiness.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Supportive Action Cards -->
+        <div>
+          <!-- Quick Actions Tile -->
+          <div class="card mb-4">
+            <h4 class="card-title" style="font-size: 0.98rem; margin-bottom: 0.75rem;">⚡ Quick Care Shortcuts</h4>
+            <div class="flex flex-col gap-2">
+              <a href="/pages/facial-care.html" class="btn btn-primary btn-sm w-full text-center">
+                ✨ Open Facial Studio
+              </a>
+              <a href="/pages/symptom-check.html" class="btn btn-outline btn-sm w-full text-center">
+                🩺 Start New AI Checkup
+              </a>
+              <a href="/pages/self-care.html" class="btn btn-secondary btn-sm w-full text-center">
+                💊 Browse 77+ Meds &amp; Buy
+              </a>
+              <a href="/pages/doctors.html" class="btn btn-outline btn-sm w-full text-center">
+                👨‍⚕️ Find Doctors on Map
+              </a>
+            </div>
+          </div>
+
+          <!-- Deficiency Target Biomarkers Card -->
+          <div class="card mb-4">
+            <h4 class="card-title" style="font-size: 0.98rem; margin-bottom: 0.5rem;">🔬 Tracked Biomarkers</h4>
+            
+            <div class="mb-3">
+              <div class="flex justify-between text-xs mb-1">
+                <span>Vitamin D3 (Target: 50+ ng/mL)</span>
+                <span style="color: #dc2626; font-weight: 700;">Low (18 ng/mL) 🔴</span>
+              </div>
+              <div style="height: 6px; background: #f1f5f9; border-radius: 9999px; overflow: hidden;">
+                <div style="width: 36%; height: 100%; background: #dc2626; border-radius: 9999px;"></div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="flex justify-between text-xs mb-1">
+                <span>Serum Zinc (Target: 90+ mcg/dL)</span>
+                <span style="color: #d97706; font-weight: 700;">Borderline (65 mcg/dL) 🟡</span>
+              </div>
+              <div style="height: 6px; background: #f1f5f9; border-radius: 9999px; overflow: hidden;">
+                <div style="width: 65%; height: 100%; background: #d97706; border-radius: 9999px;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span>Daily Hydration (Target: 2.5L)</span>
+                <span style="color: #16a34a; font-weight: 700;">Optimal (2.3L) 🟢</span>
+              </div>
+              <div style="height: 6px; background: #f1f5f9; border-radius: 9999px; overflow: hidden;">
+                <div style="width: 90%; height: 100%; background: #16a34a; border-radius: 9999px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verified Doctor Consult Recommendation -->
+          <div class="card" style="border-left: 4px solid var(--primary); background: #f8fafc;">
+            <div class="flex items-center gap-3 mb-2">
+              <span style="font-size: 1.8rem;">👨‍⚕️</span>
+              <div>
+                <strong style="font-size: 0.95rem; color: #0f172a;">Dr. Rajesh Sharma</strong>
+                <div class="text-xs text-muted">Internal Medicine &bull; Max Hospital</div>
+              </div>
+            </div>
+            <p class="text-xs text-muted mb-3">
+              Matched for viral fever triage &amp; routine guidance. Consult online or visit in Dehradun.
+            </p>
+            <a href="/pages/consultations.html" class="btn btn-primary btn-sm w-full text-center">
+              Request Doctor Consultation &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-disclaimer">
+    ⚠️ <strong>Disclaimer:</strong> This care roadmap is an AI-guided recovery assistant and does not substitute professional medical diagnosis. Always consult a certified physician for prescription alterations.
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/offline.js"></script>
+
+  <script>
+    const CareRoadmap = {
+      totalSteps: 8,
+      completedSteps: new Set([1, 2, 3, 4]),
+
+      init() {
+        Auth.requireAuth().then(user => {
+          if (user) Auth.setupNavbar(user);
+        });
+
+        // Load saved state from localStorage if available
+        const saved = localStorage.getItem('care_roadmap_steps');
+        if (saved) {
+          try {
+            const arr = JSON.parse(saved);
+            this.completedSteps = new Set(arr);
+          } catch(e) {}
+        }
+
+        this.updateUI();
+      },
+
+      toggleStep(stepNum) {
+        if (this.completedSteps.has(stepNum)) {
+          this.completedSteps.delete(stepNum);
+        } else {
+          this.completedSteps.add(stepNum);
+        }
+
+        // Save
+        localStorage.setItem('care_roadmap_steps', JSON.stringify(Array.from(this.completedSteps)));
+        this.updateUI();
+      },
+
+      updateUI() {
+        const count = this.completedSteps.size;
+        const pct = Math.round((count / this.totalSteps) * 100);
+
+        // Update progress bar
+        const fill = document.getElementById('roadmap-progress-fill');
+        const text = document.getElementById('roadmap-pct-text');
+        if (fill) fill.style.width = `${pct}%`;
+        if (text) text.textContent = `${pct}% (${count} / ${this.totalSteps} Steps)`;
+
+        // Update score gauge
+        const healthScore = Math.min(100, 50 + Math.round((count / this.totalSteps) * 45));
+        const circleBar = document.getElementById('score-circle-bar');
+        const scoreCounter = document.getElementById('score-counter-num');
+        if (circleBar) circleBar.setAttribute('stroke-dasharray', `${healthScore}, 100`);
+        if (scoreCounter) scoreCounter.textContent = `${healthScore}%`;
+
+        // Update each card
+        for (let i = 1; i <= this.totalSteps; i++) {
+          const card = document.getElementById(`step-card-${i}`);
+          if (!card) continue;
+          const btn = card.querySelector('.step-check-btn');
+
+          if (this.completedSteps.has(i)) {
+            card.classList.add('completed');
+            card.classList.remove('active');
+            if (btn) {
+              btn.classList.add('checked');
+              btn.textContent = '✓';
+            }
+          } else {
+            card.classList.remove('completed');
+            if (btn) {
+              btn.classList.remove('checked');
+              btn.textContent = i;
+            }
+          }
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      CareRoadmap.init();
+    });
+  </script>
+</body>
+</html>
