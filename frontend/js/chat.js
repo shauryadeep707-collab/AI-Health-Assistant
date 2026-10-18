@@ -112,6 +112,17 @@ const Chat = {
     const input = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send');
 
+    // Attach AI Autocomplete & Spelling Auto-Correction
+    if (input && typeof AIAutocomplete !== 'undefined') {
+      AIAutocomplete.attach(input, {
+        popDirection: 'up',
+        onSelect: (selectedText) => {
+          // Keep focus so user can hit enter or send
+          input.focus();
+        }
+      });
+    }
+
     if (input) {
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {

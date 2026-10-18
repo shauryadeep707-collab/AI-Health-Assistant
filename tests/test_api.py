@@ -462,6 +462,51 @@ def test_system_storage_architecture_info(client):
     assert 'total_consultations_conducted' in arch['cloud_database']
 
 
+def test_ai_suggest_typo_correction(client):
+    """Test AI spelling auto-correction endpoint detects clinical and common typos."""
+    # Test 'fevr' -> 'fever'
+    res = client.get('/api/ai/suggest?q=fevr')
+    assert res.status_code == 200
+    data = res.get_json()
+    assert data['ok'] is True
+    assert data['has_correction'] is True
+    assert data['corrected'] == 'fever'
+
+    # Test 'paractamol' -> 'paracetamol'
+    res2 = client.get('/api/ai/suggest?q=paractamol')
+    assert res2.status_code == 200
+    data2 = res2.get_json()
+    assert data2['ok'] is True
+    assert data2['has_correction'] is True
+    assert data2['corrected'] == 'paracetamol'
+
+    # Test 'dark spotes' -> 'dark spots'
+    res3 = client.get('/api/ai/suggest?q=dark+spotes')
+    assert res3.status_code == 200
+    data3 = res3.get_json()
+    assert data3['ok'] is True
+    assert data3['has_correction'] is True
+    assert data3['corrected'] == 'dark spots'
+
+
+def test_ai_suggest_completions(client):
+    """Test AI autocomplete phrase suggestions for symptoms and healthcare queries."""
+    res = client.get('/api/ai/suggest?q=dark+sp')
+    assert res.status_code == 200
+    data = res.get_json()
+    assert data['ok'] is True
+    assert len(data['completions']) >= 1
+    assert any('dark spots' in c.lower() for c in data['completions'])
+
+    # Test POST body endpoint
+    post_res = client.post('/api/ai/suggest', json={'query': 'chest p'})
+    assert post_res.status_code == 200
+    post_data = post_res.get_json()
+    assert post_data['ok'] is True
+    assert any('chest pain' in c.lower() for c in post_data['completions'])
+
+
+
 
 
 

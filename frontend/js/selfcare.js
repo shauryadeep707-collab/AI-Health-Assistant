@@ -43,6 +43,17 @@ const SelfCare = {
   bindEvents() {
     const searchInput = document.getElementById('selfcare-search-input');
     if (searchInput) {
+      // Attach AI Autocomplete & Spelling Auto-Correction
+      if (typeof AIAutocomplete !== 'undefined') {
+        AIAutocomplete.attach(searchInput, {
+          popDirection: 'down',
+          onSelect: (selectedText) => {
+            this.handleSearchInput(selectedText);
+            this.askSideEffects(selectedText);
+          }
+        });
+      }
+
       searchInput.addEventListener('input', (e) => {
         clearTimeout(this.searchDebounceTimer);
         const query = e.target.value.trim();

@@ -1889,3 +1889,109 @@ input, select, textarea { font-family: inherit; font-size: var(--font-size-base)
   color: var(--gray-500);
 }
 
+/* === AI Autocomplete & Spelling Auto-Correction Styles === */
+.ai-autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.ai-autocomplete-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 8px); /* Pop up above input in chat */
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1050;
+  display: none;
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+/* When attached in search bars, pop down */
+.ai-autocomplete-dropdown.pop-down {
+  bottom: auto;
+  top: calc(100% + 6px);
+}
+
+.ai-autocorrect-pill {
+  background: #eff6ff;
+  border-bottom: 1px solid #bfdbfe;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: #1e40af;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ai-autocorrect-apply-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.ai-autocorrect-apply-btn:hover {
+  background: #1d4ed8;
+}
+
+.ai-autocomplete-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.ai-autocomplete-item {
+  padding: 9px 14px;
+  font-size: 0.88rem;
+  color: var(--gray-800);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background var(--transition-fast);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ai-autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.ai-autocomplete-item:hover,
+.ai-autocomplete-item.active {
+  background: #f0f9ff;
+  color: #0369a1;
+}
+
+.ai-autocomplete-item-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-autocomplete-item-text strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.ai-autocomplete-badge {
+  font-size: 0.7rem;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+

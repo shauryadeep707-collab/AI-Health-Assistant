@@ -57,7 +57,8 @@ def create_app():
             # Exempt auth endpoints that need to work before the user has a token
             exempt = [
                 '/api/auth/login', '/api/auth/register', '/api/auth/csrf',
-                '/api/medicines/ask', '/api/facial/checkup', '/api/system/storage-info'
+                '/api/medicines/ask', '/api/facial/checkup', '/api/system/storage-info',
+                '/api/ai/suggest'
             ]
             if request.path in exempt:
                 return

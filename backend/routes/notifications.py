@@ -178,6 +178,29 @@ def system_storage_info():
     })
 
 
+@notifications_bp.route('/api/ai/suggest', methods=['GET', 'POST'])
+def ai_suggest_and_autocorrect():
+    """
+    AI Auto-Correction & Autocomplete Suggestions Endpoint.
+    Accepts GET query param 'q' or POST JSON { 'q': '...' }.
+    Returns:
+      - original: query text
+      - corrected: spell-checked text
+      - has_correction: True if typos were detected and corrected
+      - fixes: list of exact typo replacements
+      - autocompletions: list of smart phrase completion suggestions
+    """
+    if request.method == 'GET':
+        q = (request.args.get('q') or request.args.get('query') or '').strip()
+    else:
+        body = request.get_json(silent=True) or {}
+        q = (body.get('q') or body.get('query') or '').strip()
+
+    from backend.services.autocomplete_service import get_clinical_suggestions
+    result = get_clinical_suggestions(q)
+    return jsonify(result)
+
+
 @notifications_bp.route('/api/medicines/<category>', methods=['GET'])
 def fetch_medicines(category):
     """Fetch controlled OTC medicine info for specific symptom category."""
